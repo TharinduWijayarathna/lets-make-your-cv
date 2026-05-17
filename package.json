@@ -1,0 +1,17 @@
+{
+  "name": "build-your-cv",
+  "version": "1.0.0",
+  "description": "CV builder with Node.js and SQLite",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "express": "^5.1.0"
+  }
+}
