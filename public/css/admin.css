@@ -1,5 +1,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* display:flex on .admin-login overrides the hidden attribute without this */
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
   background: #e8e5df;

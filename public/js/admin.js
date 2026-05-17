@@ -101,17 +101,28 @@ async function loadStats() {
   const res = await adminFetch(`/api/admin/stats?days=${days}`);
   if (!res.ok) {
     if (res.status === 401) {
+      showStatsError('Session expired. Sign in again.');
       showDashboard(false);
-      return;
+      return false;
     }
-    throw new Error('Failed to load stats');
+    const payload = await res.json().catch(() => ({}));
+    showStatsError(payload.error || 'Could not load analytics.');
+    return false;
   }
   renderStats(await res.json());
+  return true;
 }
 
 function showDashboard(show) {
-  loginView.hidden = show;
-  dashboardView.hidden = !show;
+  if (loginView) loginView.hidden = show;
+  if (dashboardView) dashboardView.hidden = !show;
+}
+
+function showStatsError(message) {
+  const chart = document.getElementById('daily-chart');
+  if (chart) {
+    chart.innerHTML = `<p class="admin-error">${escapeHtml(message)}</p>`;
+  }
 }
 
 loginForm?.addEventListener('submit', async (e) => {
@@ -139,7 +150,12 @@ loginForm?.addEventListener('submit', async (e) => {
     return;
   }
   showDashboard(true);
-  await loadStats();
+  try {
+    await loadStats();
+  } catch (err) {
+    console.error(err);
+    showStatsError('Could not load analytics. Try Refresh.');
+  }
 });
 
 document.getElementById('btn-logout')?.addEventListener('click', async () => {
@@ -151,12 +167,17 @@ document.getElementById('btn-refresh')?.addEventListener('click', () => loadStat
 rangeSelect?.addEventListener('change', () => loadStats().catch(console.error));
 
 (async function init() {
-  const res = await adminFetch('/api/admin/me');
-  const { admin } = await res.json();
-  if (admin) {
-    showDashboard(true);
-    await loadStats();
-  } else {
+  try {
+    const res = await adminFetch('/api/admin/me');
+    const { admin } = await res.json();
+    if (admin) {
+      showDashboard(true);
+      await loadStats();
+    } else {
+      showDashboard(false);
+    }
+  } catch (err) {
+    console.error(err);
     showDashboard(false);
   }
 })();
