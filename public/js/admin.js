@@ -122,9 +122,20 @@ loginForm?.addEventListener('submit', async (e) => {
     method: 'POST',
     body: JSON.stringify(body),
   });
-  const payload = await res.json().catch(() => ({}));
+  let payload = {};
+  try {
+    payload = await res.json();
+  } catch {
+    if (res.status === 404) {
+      showError(
+        loginError,
+        'Admin API not found. Stop the server and run npm start again so it loads the latest code.'
+      );
+      return;
+    }
+  }
   if (!res.ok) {
-    showError(loginError, payload.error || 'Sign in failed');
+    showError(loginError, payload.error || `Sign in failed (${res.status})`);
     return;
   }
   showDashboard(true);
