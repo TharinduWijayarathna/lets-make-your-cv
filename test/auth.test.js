@@ -8,7 +8,7 @@ const {
   hashPassword,
   verifyPassword,
   publicUser,
-} = require('../auth');
+} = require('../src/auth');
 
 describe('auth validation', () => {
   it('normalizeEmail trims and lowercases', () => {

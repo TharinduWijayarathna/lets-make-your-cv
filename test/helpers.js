@@ -1,5 +1,5 @@
-const { initDb, closeDb } = require('../db');
-const { createApp } = require('../app');
+const { initDb, closeDb } = require('../src/db');
+const { createApp } = require('../src/app');
 const request = require('supertest');
 
 let sharedApp = null;

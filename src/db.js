@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const analytics = require('./analytics');
 
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = path.join(__dirname, '..', 'data');
 const DEFAULT_DB_PATH = path.join(DATA_DIR, 'cv.db');
 
 const VALID_TEMPLATES = ['classic', 'nordic', 'editorial'];

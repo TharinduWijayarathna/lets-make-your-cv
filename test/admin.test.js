@@ -1,8 +1,8 @@
 const { describe, it, before, after, beforeEach } = require('node:test');
 const assert = require('node:assert/strict');
-const { initDb, closeDb } = require('../db');
-const { createApp } = require('../app');
-const { recordPageView, getAdminStats } = require('../analytics');
+const { initDb, closeDb } = require('../src/db');
+const { createApp } = require('../src/app');
+const { recordPageView, getAdminStats } = require('../src/analytics');
 const request = require('supertest');
 
 describe('admin & analytics', () => {

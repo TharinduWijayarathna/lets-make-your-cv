@@ -1,6 +1,6 @@
 const { describe, it, before, after, beforeEach } = require('node:test');
 const assert = require('node:assert/strict');
-const { hashPassword } = require('../auth');
+const { hashPassword } = require('../src/auth');
 const {
   initDb,
   closeDb,
@@ -11,7 +11,7 @@ const {
   normalizeCvData,
   EMPTY_CV,
   VALID_TEMPLATES,
-} = require('../db');
+} = require('../src/db');
 
 describe('database layer', () => {
   before(() => {

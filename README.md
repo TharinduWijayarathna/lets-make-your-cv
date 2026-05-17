@@ -1,8 +1,19 @@
-# Build Your CV
+# Let's Make Your CV
 
 Free online CV builder — sign up, edit your resume, pick a layout, save to your account, export as PDF.
 
 **Stack:** Node.js, Express, SQLite, vanilla HTML/CSS/JS.
+
+## Project layout
+
+```
+server.js          # entry point
+src/               # backend (Express app, auth, db, analytics)
+public/            # static site, editor, and client JS
+scripts/           # build tools (template CSS)
+test/              # API and unit tests
+data/              # SQLite database (created at runtime)
+```
 
 ## Run locally
 
