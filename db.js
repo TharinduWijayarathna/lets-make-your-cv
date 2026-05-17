@@ -1,6 +1,7 @@
 const Database = require('better-sqlite3');
 const fs = require('fs');
 const path = require('path');
+const analytics = require('./analytics');
 
 const DATA_DIR = path.join(__dirname, 'data');
 const DEFAULT_DB_PATH = path.join(DATA_DIR, 'cv.db');
@@ -73,6 +74,9 @@ function initDb(options = {}) {
   if (legacy) {
     db.exec('DROP TABLE IF EXISTS cv');
   }
+
+  analytics.setDb(db);
+  analytics.initAnalyticsSchema(db);
 }
 
 function normalizeCvData(data) {

@@ -18,6 +18,8 @@ const {
   getCvForUser,
   saveCvForUser,
 } = require('./db');
+const { createPageViewTracker, getAdminStats } = require('./analytics');
+const { verifyAdminLogin, requireAdmin, getAdminCredentials } = require('./admin-auth');
 
 function createApp(options = {}) {
   const app = express();
@@ -28,6 +30,11 @@ function createApp(options = {}) {
   }
 
   app.use(express.json({ limit: '1mb' }));
+
+  if (options.trackPages !== false) {
+    app.use(createPageViewTracker());
+  }
+
   app.use(
     session({
       name: 'bycv.sid',
@@ -150,6 +157,43 @@ function createApp(options = {}) {
     } catch (err) {
       console.error('PUT /api/cv:', err);
       res.status(500).json({ error: 'Failed to save CV data' });
+    }
+  });
+
+  app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body || {};
+    const check = verifyAdminLogin(username, password);
+    if (!check.ok) {
+      return res.status(check.error.includes('not configured') ? 503 : 401).json({ error: check.error });
+    }
+    delete req.session.userId;
+    req.session.isAdmin = true;
+    req.session.save((err) => {
+      if (err) return res.status(500).json({ error: 'Could not sign in' });
+      res.json({ ok: true, username: getAdminCredentials().username });
+    });
+  });
+
+  app.post('/api/admin/logout', (req, res) => {
+    delete req.session.isAdmin;
+    req.session.save((err) => {
+      if (err) return res.status(500).json({ error: 'Could not sign out' });
+      res.json({ ok: true });
+    });
+  });
+
+  app.get('/api/admin/me', (req, res) => {
+    if (!req.session?.isAdmin) return res.json({ admin: null });
+    res.json({ admin: { username: getAdminCredentials().username } });
+  });
+
+  app.get('/api/admin/stats', requireAdmin, (req, res) => {
+    try {
+      const days = Number(req.query.days) || 30;
+      res.json(getAdminStats(days));
+    } catch (err) {
+      console.error('GET /api/admin/stats:', err);
+      res.status(500).json({ error: 'Failed to load stats' });
     }
   });
 

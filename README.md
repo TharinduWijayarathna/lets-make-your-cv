@@ -23,4 +23,6 @@ npm test       # tests
 
 Copy `.env.example` to `.env` and set `SESSION_SECRET`. Use HTTPS and persist the `data/` folder.
 
-**AdSense:** Set `ADSENSE_CLIENT`, `ADSENSE_SLOT_LEFT`, and `ADSENSE_SLOT_RIGHT` in `.env` (optional).
+**AdSense:** `ADSENSE_CLIENT`, `ADSENSE_SLOT_LEFT`, `ADSENSE_SLOT_RIGHT` (optional).
+
+**Admin:** `/admin/` — set `ADMIN_USERNAME` and `ADMIN_PASSWORD` in `.env`.
