@@ -12,16 +12,24 @@
 </head>
 <body class="tpl-classic">
 
-<div class="toolbar no-print">
-  <a href="/" class="toolbar-home" title="Back to home">← Home</a>
-  <span class="toolbar-user" id="toolbar-user"></span>
-  <span class="template-label">Template</span>
-  <select id="template-select" aria-label="CV template"></select>
-  <button type="button" class="btn-edit" onclick="openModal()">✏ Edit CV</button>
-  <button type="button" class="btn-print" onclick="window.print()">⎙ Print / Save PDF</button>
-  <button type="button" class="btn-logout" id="btn-logout">Sign out</button>
-  <span class="toolbar-note" id="save-status">Loading CV…</span>
-</div>
+<header class="toolbar no-print">
+  <div class="toolbar-start">
+    <a href="/" class="toolbar-home" title="Back to home">← Home</a>
+  </div>
+  <div class="toolbar-center">
+    <span class="template-label">Template</span>
+    <select id="template-select" aria-label="CV template"></select>
+  </div>
+  <div class="toolbar-end">
+    <button type="button" class="btn-edit" onclick="openModal()">✏ Edit CV</button>
+    <button type="button" class="btn-print" onclick="window.print()">⎙ Print / Save PDF</button>
+    <div class="toolbar-account">
+      <span class="toolbar-user" id="toolbar-user"></span>
+      <button type="button" class="btn-logout" id="btn-logout">Sign out</button>
+    </div>
+    <span class="toolbar-error" id="save-status" hidden></span>
+  </div>
+</header>
 
 <div id="cv-mount" class="tpl-classic"></div>
 

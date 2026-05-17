@@ -64,8 +64,13 @@ function skillDots(level) {
 function setSaveStatus(message, isError) {
   const el = $('save-status');
   if (!el) return;
+  if (!isError) {
+    el.textContent = '';
+    el.hidden = true;
+    return;
+  }
   el.textContent = message;
-  el.style.color = isError ? '#c0392b' : '#888';
+  el.hidden = false;
 }
 
 async function preloadTemplates() {
@@ -119,7 +124,7 @@ async function changeTemplate(name) {
 }
 
 async function loadCV() {
-  setSaveStatus('Loading CV…');
+  setSaveStatus('');
   try {
     const res = await apiFetch('/api/cv');
     if (!res.ok) {
@@ -136,7 +141,6 @@ async function loadCV() {
     await mountTemplate(cvData.template);
     renderCV();
     populateFormFields();
-    setSaveStatus('CV loaded');
   } catch (err) {
     if (err.message === 'Unauthorized') return;
     console.error('loadCV failed:', err);
@@ -145,14 +149,12 @@ async function loadCV() {
 }
 
 async function saveCV() {
-  setSaveStatus('Saving…');
   const res = await apiFetch('/api/cv', {
     method: 'PUT',
     body: JSON.stringify({ data: cvData }),
   });
   if (!res.ok) throw new Error('Failed to save');
-  const { updatedAt } = await res.json();
-  setSaveStatus(updatedAt ? `Saved · ${updatedAt}` : 'Saved to your account');
+  setSaveStatus('');
 }
 
 function renderCV() {

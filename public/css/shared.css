@@ -29,17 +29,83 @@ body.tpl-editorial { background: #c8c0b0; font-family: 'Outfit', sans-serif; }
 
 .toolbar {
   display: flex !important;
-  gap: 12px;
-  margin-bottom: 20px;
   align-items: center;
-  flex-wrap: wrap;
-  max-width: 210mm;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: nowrap;
   width: 100%;
+  max-width: min(100%, 920px);
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  background: rgba(250, 249, 247, 0.95);
+  border: 1px solid #d4cfc7;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.toolbar-start,
+.toolbar-center,
+.toolbar-end {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.toolbar-start {
+  flex-shrink: 0;
+}
+
+.toolbar-center {
+  flex: 1;
   justify-content: center;
 }
 
+.toolbar-end {
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+.toolbar-account {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 12px;
+  margin-left: 4px;
+  border-left: 1px solid #e0ddd8;
+}
+
+.toolbar-end .toolbar-account {
+  margin-left: 8px;
+}
+
+.toolbar-user {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-logout {
+  background: #fff;
+  color: #555;
+  border: 1px solid #d4cfc7;
+  font-size: 11px;
+  padding: 7px 12px;
+}
+
+.btn-logout:hover {
+  color: #1a1a1a;
+  border-color: #c8b99a;
+  background: #faf9f7;
+}
+
 /* Template CSS must not hide app chrome (leaked print rules) */
-body > .toolbar.no-print {
+body > .toolbar.no-print,
+body > header.toolbar.no-print {
   display: flex !important;
 }
 
@@ -100,7 +166,37 @@ body > .modal-overlay.no-print.active {
 body.tpl-nordic .btn-edit { background: #c0392b; color: #fff; }
 body.tpl-editorial .btn-edit { background: #d4840a; color: #fff; }
 
-.toolbar-note { font-size: 11px; color: #888; }
+.toolbar-error {
+  font-size: 11px;
+  color: #c0392b;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toolbar-error[hidden] {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .toolbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .toolbar-center {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .toolbar-end {
+    flex: 1 1 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
 
 .modal-overlay {
   display: none;
