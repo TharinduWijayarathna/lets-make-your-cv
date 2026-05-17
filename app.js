@@ -153,6 +153,19 @@ function createApp(options = {}) {
     }
   });
 
+  app.get('/js/ads-config.js', (_req, res) => {
+    const config = {
+      client: (process.env.ADSENSE_CLIENT || '').trim(),
+      slots: {
+        left: (process.env.ADSENSE_SLOT_LEFT || '').trim(),
+        right: (process.env.ADSENSE_SLOT_RIGHT || '').trim(),
+      },
+    };
+    res.set('Cache-Control', 'no-store');
+    res.type('application/javascript');
+    res.send(`window.BYCV_ADSENSE=${JSON.stringify(config)};\n`);
+  });
+
   if (options.serveStatic !== false) {
     app.use(express.static(path.join(__dirname, 'public')));
   }

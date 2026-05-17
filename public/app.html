@@ -8,10 +8,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="/css/shared.css"/>
+  <link rel="stylesheet" href="/css/ads.css"/>
   <link rel="stylesheet" id="template-css" href="/css/classic.css"/>
 </head>
-<body class="tpl-classic">
+<body class="tpl-classic with-side-ads">
 
+<div class="site-shell no-print">
+  <aside class="ad-rail ad-rail-left" aria-label="Advertisement">
+    <div class="ad-rail-inner">
+      <span class="ad-label">Advertisement</span>
+      <ins class="adsbygoogle ad-unit" style="display:inline-block;width:160px;height:600px" data-ad-format="vertical"></ins>
+    </div>
+  </aside>
+
+  <div class="site-main">
 <header class="toolbar no-print">
   <div class="toolbar-start">
     <a href="/" class="toolbar-home" title="Back to home">← Home</a>
@@ -32,6 +42,16 @@
 </header>
 
 <div id="cv-mount" class="tpl-classic"></div>
+
+  </div>
+
+  <aside class="ad-rail ad-rail-right" aria-label="Advertisement">
+    <div class="ad-rail-inner">
+      <span class="ad-label">Advertisement</span>
+      <ins class="adsbygoogle ad-unit" style="display:inline-block;width:160px;height:600px" data-ad-format="vertical"></ins>
+    </div>
+  </aside>
+</div>
 
 <div class="modal-overlay no-print" id="modal-overlay">
   <div class="modal">
@@ -111,6 +131,8 @@
   </div>
 </div>
 
+<script src="/js/ads-config.js"></script>
+<script src="/js/ads.js" defer></script>
 <script src="/js/auth-client.js"></script>
 <script src="/js/app.js"></script>
 </body>

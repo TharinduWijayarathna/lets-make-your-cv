@@ -8,6 +8,7 @@ Free online CV builder — sign up, edit your resume, pick a layout, save to you
 
 ```bash
 npm install
+cp .env.example .env   # SESSION_SECRET; optional AdSense vars
 npm start
 ```
 
@@ -21,3 +22,5 @@ npm test       # tests
 ## Production
 
 Copy `.env.example` to `.env` and set `SESSION_SECRET`. Use HTTPS and persist the `data/` folder.
+
+**AdSense:** Set `ADSENSE_CLIENT`, `ADSENSE_SLOT_LEFT`, and `ADSENSE_SLOT_RIGHT` in `.env` (optional).
