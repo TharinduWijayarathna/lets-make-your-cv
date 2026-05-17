@@ -5,7 +5,10 @@ const path = require('path');
 const DATA_DIR = path.join(__dirname, 'data');
 const DB_PATH = path.join(DATA_DIR, 'cv.db');
 
+const VALID_TEMPLATES = ['classic', 'nordic', 'editorial'];
+
 const DEFAULT_CV = {
+  template: 'classic',
   personal: {
     name: 'Alex Morgan',
     title: 'Full Stack Developer',
@@ -107,19 +110,53 @@ function initDb() {
   }
 }
 
+function normalizeCvData(data) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    return structuredClone(DEFAULT_CV);
+  }
+
+  return {
+    ...DEFAULT_CV,
+    ...data,
+    template: VALID_TEMPLATES.includes(data.template) ? data.template : 'classic',
+    personal: { ...DEFAULT_CV.personal, ...(data.personal || {}) },
+    summary: typeof data.summary === 'string' ? data.summary : DEFAULT_CV.summary,
+    techTags: typeof data.techTags === 'string' ? data.techTags : DEFAULT_CV.techTags,
+    languages: typeof data.languages === 'string' ? data.languages : DEFAULT_CV.languages,
+    experience: Array.isArray(data.experience) ? data.experience : [],
+    projects: Array.isArray(data.projects) ? data.projects : [],
+    education: Array.isArray(data.education) ? data.education : [],
+    skillBars: Array.isArray(data.skillBars) ? data.skillBars : [],
+    certifications: Array.isArray(data.certifications) ? data.certifications : [],
+  };
+}
+
+function parseStoredCv(json) {
+  try {
+    return normalizeCvData(JSON.parse(json));
+  } catch (err) {
+    console.error('Invalid CV JSON in database, resetting to default:', err.message);
+    const data = structuredClone(DEFAULT_CV);
+    db.prepare('UPDATE cv SET data = ?, updated_at = datetime(\'now\') WHERE id = 1').run(
+      JSON.stringify(data)
+    );
+    return data;
+  }
+}
+
 function getCv() {
   const row = db.prepare('SELECT data, updated_at FROM cv WHERE id = 1').get();
   if (!row) {
-    return { data: DEFAULT_CV, updatedAt: null };
+    return { data: structuredClone(DEFAULT_CV), updatedAt: null };
   }
   return {
-    data: JSON.parse(row.data),
+    data: parseStoredCv(row.data),
     updatedAt: row.updated_at,
   };
 }
 
 function saveCv(data) {
-  const json = JSON.stringify(data);
+  const json = JSON.stringify(normalizeCvData(data));
   db.prepare(`
     INSERT INTO cv (id, data, updated_at)
     VALUES (1, ?, datetime('now'))
@@ -130,4 +167,4 @@ function saveCv(data) {
   return getCv();
 }
 
-module.exports = { initDb, getCv, saveCv, DEFAULT_CV };
+module.exports = { initDb, getCv, saveCv, DEFAULT_CV, VALID_TEMPLATES };

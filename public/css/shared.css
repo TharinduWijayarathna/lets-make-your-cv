@@ -1,0 +1,260 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1a1a;
+  transition: background 0.2s;
+}
+
+body.tpl-classic { background: #e8e5df; }
+body.tpl-nordic { background: #dedad4; font-family: 'Barlow', sans-serif; }
+body.tpl-editorial { background: #c8c0b0; font-family: 'Outfit', sans-serif; }
+
+#cv-mount {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#cv-mount *,
+#cv-mount *::before,
+#cv-mount *::after {
+  box-sizing: border-box;
+}
+
+.toolbar {
+  display: flex !important;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 210mm;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Template CSS must not hide app chrome (leaked print rules) */
+body > .toolbar.no-print {
+  display: flex !important;
+}
+
+body > .modal-overlay.no-print {
+  display: none;
+}
+
+body > .modal-overlay.no-print.active {
+  display: flex !important;
+}
+
+.toolbar button,
+.toolbar select {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.toolbar select {
+  background: #fff;
+  border: 1px solid #d4cfc7;
+  color: #1a1a1a;
+  min-width: 160px;
+}
+
+.toolbar-home {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  text-decoration: none;
+  padding: 9px 12px;
+  border-radius: 4px;
+  border: 1px solid #d4cfc7;
+  background: #fff;
+}
+
+.toolbar-home:hover {
+  color: #1a1a1a;
+  border-color: #c8b99a;
+}
+
+.template-label {
+  font-size: 11px;
+  color: #666;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.btn-print { background: #1c1c1e; color: #f5f1ea; }
+.btn-print:hover { background: #333; }
+.btn-edit { background: #c8b99a; color: #1a1a1a; }
+.btn-edit:hover { background: #b5a484; }
+body.tpl-nordic .btn-edit { background: #c0392b; color: #fff; }
+body.tpl-editorial .btn-edit { background: #d4840a; color: #fff; }
+
+.toolbar-note { font-size: 11px; color: #888; }
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: #faf9f7;
+  border-radius: 8px;
+  width: 660px;
+  max-width: 96vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 36px 36px 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal h2 {
+  font-family: 'EB Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.modal-subtitle { font-size: 11px; color: #888; margin-bottom: 24px; }
+
+.modal-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0ddd8;
+  flex-wrap: wrap;
+}
+
+.modal-tab {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #888;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.modal-tab.active { color: #1a1a1a; border-bottom-color: #c8b99a; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.field-group { margin-bottom: 16px; }
+.field-group label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.field-group input,
+.field-group textarea,
+.field-group select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 9px 12px;
+  border: 1px solid #d4cfc7;
+  border-radius: 4px;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+}
+
+.field-group textarea { resize: vertical; min-height: 70px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.dynamic-entry {
+  background: #f2f0ec;
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.dynamic-entry .remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.remove-btn:hover { color: #e05252; }
+
+.add-btn {
+  font-size: 11px;
+  font-weight: 500;
+  color: #c8b99a;
+  background: none;
+  border: 1.5px dashed #c8b99a;
+  border-radius: 4px;
+  padding: 7px 14px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+  border-top: 1px solid #e0ddd8;
+  padding-top: 18px;
+}
+
+.btn-cancel {
+  font-size: 12px;
+  padding: 9px 20px;
+  border: 1px solid #d4cfc7;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  color: #555;
+}
+
+.btn-apply {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 9px 24px;
+  background: #1c1c1e;
+  color: #f5f1ea;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@media print {
+  body { background: none !important; padding: 0; }
+  .no-print { display: none !important; }
+  #cv-mount .cv-page {
+    box-shadow: none !important;
+    width: 210mm;
+    min-height: 297mm;
+  }
+}

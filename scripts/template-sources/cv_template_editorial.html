@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CV – Editorial Bold</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --amber:#d4840a;
+  --amber-l:#f5a623;
+  --ink:#0e0e0e;
+  --paper:#faf8f3;
+  --mid:#4a4540;
+  --muted:#8a8078;
+  --rule:#e0dbd2;
+  --col-l:#1a1714;
+}
+
+body{font-family:'Outfit',sans-serif;background:#c8c0b0;display:flex;flex-direction:column;align-items:center;padding:40px 20px;min-height:100vh}
+
+.toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.toolbar button{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;padding:9px 20px;border:none;border-radius:3px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase}
+.btn-edit{background:var(--amber);color:#fff}
+.btn-print{background:var(--ink);color:#fff}
+
+.cv-page{width:210mm;min-height:297mm;background:var(--paper);box-shadow:0 8px 50px rgba(0,0,0,.22);display:flex;flex-direction:column}
+
+/* HERO HEADER */
+.cv-hero{
+  background:var(--col-l);
+  padding:48px 46px 38px;
+  position:relative;
+  overflow:hidden;
+}
+.cv-hero::before{
+  content:'';
+  position:absolute;
+  top:-60px; right:-60px;
+  width:260px; height:260px;
+  border-radius:50%;
+  border:1px solid rgba(212,132,10,.15);
+}
+.cv-hero::after{
+  content:'';
+  position:absolute;
+  top:-30px; right:-30px;
+  width:160px; height:160px;
+  border-radius:50%;
+  border:1px solid rgba(212,132,10,.25);
+}
+
+.hero-eyebrow{
+  font-size:9px;font-weight:600;
+  letter-spacing:.32em;text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:14px;
+}
+
+.hero-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:62px;font-weight:300;
+  color:#f5f0e8;
+  line-height:.95;
+  letter-spacing:-.02em;
+}
+
+.hero-name em{font-style:italic;color:var(--amber-l)}
+
+.hero-tagline{
+  font-size:11px;font-weight:300;
+  color:#7a7060;
+  margin-top:20px;
+  max-width:380px;
+  line-height:1.7;
+}
+
+.hero-meta{
+  display:flex;
+  gap:30px;
+  margin-top:26px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.hero-meta-item{font-size:9.5px;color:#7a7060;line-height:1.6}
+.hero-meta-item strong{display:block;font-size:10px;font-weight:600;color:#c8bfaa;letter-spacing:.04em}
+
+/* MAIN BODY */
+.cv-body{
+  display:grid;
+  grid-template-columns:1fr 3px 138mm;
+  flex:1;
+}
+
+/* LEFT NARROW */
+.cv-left{padding:34px 28px 40px 46px}
+
+.sec-head{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:14px;
+  position:relative;
+  padding-bottom:8px;
+}
+.sec-head::after{content:'';position:absolute;bottom:0;left:0;width:24px;height:2px;background:var(--amber)}
+
+.section{margin-bottom:28px}
+
+/* Skills left */
+.skill-item-l{margin-bottom:10px}
+.skill-name-l{font-size:10px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.bar-bg{height:2px;background:var(--rule);border-radius:1px}
+.bar-fill{height:2px;background:linear-gradient(90deg,var(--amber),var(--amber-l));border-radius:1px}
+
+/* Tags */
+.tag-cloud{display:flex;flex-wrap:wrap;gap:4px}
+.tag-c{font-size:8.5px;background:#ede9e0;color:var(--mid);padding:3px 7px;border-radius:20px;font-weight:400}
+
+/* Lang */
+.lang-item{display:flex;justify-content:space-between;font-size:10px;color:var(--mid);margin-bottom:6px}
+.lang-lvl{font-size:9px;color:var(--muted)}
+
+/* Certs left */
+.cert-item-l{margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid var(--rule)}
+.cert-item-l:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.cert-name-l{font-size:10px;font-weight:500;color:var(--ink);line-height:1.4}
+.cert-iss-l{font-size:9px;color:var(--muted);margin-top:1px}
+
+/* DIVIDER */
+.cv-divider{background:var(--rule)}
+
+/* RIGHT MAIN */
+.cv-right{padding:34px 46px 40px 30px}
+
+/* Experience */
+.exp-item{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--rule)}
+.exp-item:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+.exp-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px}
+.exp-role{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--ink)}
+.exp-date-badge{font-size:8.5px;font-weight:600;color:var(--amber);background:#fdf3e0;border:1px solid #f0d090;padding:2px 8px;border-radius:20px;white-space:nowrap;margin-top:3px;letter-spacing:.04em}
+.exp-co{font-size:10px;color:var(--amber);font-weight:500;margin-bottom:8px;letter-spacing:.04em}
+.exp-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.exp-list li{font-size:10.5px;color:var(--mid);line-height:1.65;font-weight:300;padding-left:14px;position:relative}
+.exp-list li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:1px;background:var(--amber)}
+
+/* Projects */
+.proj-item{background:#f3efe6;border-left:3px solid var(--amber);padding:12px 14px;margin-bottom:10px;border-radius:0 4px 4px 0}
+.proj-item:last-child{margin-bottom:0}
+.proj-name{font-size:11.5px;font-weight:600;color:var(--ink)}
+.proj-tech{font-size:8.5px;color:var(--amber);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin:3px 0 5px}
+.proj-desc{font-size:10px;color:var(--mid);line-height:1.65;font-weight:300}
+
+/* Education */
+.edu-item{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--rule)}
+.edu-item:last-child{border-bottom:none}
+.edu-deg{font-size:12px;font-weight:600;color:var(--ink)}
+.edu-sch{font-size:10px;color:var(--amber);font-weight:500;margin-top:2px}
+.edu-yr-r{font-size:9.5px;color:var(--muted);text-align:right;white-space:nowrap;margin-top:2px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:6px;width:700px;max-width:96vw;max-height:90vh;overflow-y:auto;padding:36px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:4px}
+.modal-sub{font-size:11px;color:#888;margin-bottom:22px}
+.tabs{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid #eee;flex-wrap:wrap}
+.tab{font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;padding:7px 12px;border:none;background:none;cursor:pointer;color:#999;border-bottom:2px solid transparent;margin-bottom:-1px;letter-spacing:.08em;text-transform:uppercase}
+.tab.active{color:var(--ink);border-bottom-color:var(--amber)}
+.tp{display:none}.tp.active{display:block}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#999;margin-bottom:5px}
+.fg input,.fg textarea{width:100%;font-family:'Outfit',sans-serif;font-size:12px;padding:9px 12px;border:1px solid #e0dbd2;border-radius:3px;background:#fff;color:#111;outline:none}
+.fg input:focus,.fg textarea:focus{border-color:var(--amber)}
+.fg textarea{resize:vertical;min-height:70px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.de{background:#f8f6f0;border-radius:4px;padding:14px 16px;margin-bottom:12px;position:relative}
+.rm{position:absolute;top:10px;right:12px;background:none;border:none;font-size:16px;cursor:pointer;color:#bbb}
+.rm:hover{color:#e05252}
+.add-b{font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;color:var(--amber);background:none;border:1.5px dashed var(--amber);border-radius:3px;padding:7px 14px;cursor:pointer;width:100%;letter-spacing:.06em;text-transform:uppercase}
+.ma{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;border-top:1px solid #eee;padding-top:18px}
+.bc{font-family:'Outfit',sans-serif;font-size:12px;padding:9px 18px;border:1px solid #e0dbd2;border-radius:3px;background:none;cursor:pointer;color:#555}
+.ba{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;padding:9px 24px;background:var(--col-l);color:#f5f0e8;border:none;border-radius:3px;cursor:pointer;letter-spacing:.04em}
+
+@media print{body{background:none;padding:0}.cv-page{box-shadow:none}.no-print{display:none}}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button class="btn-edit" onclick="openModal()">✏ Edit CV</button>
+  <button class="btn-print" onclick="window.print()">⎙ Print / PDF</button>
+</div>
+
+<div class="cv-page">
+
+  <!-- HERO -->
+  <div class="cv-hero">
+    <div class="hero-eyebrow">Curriculum Vitae</div>
+    <div class="hero-name" id="cv-name-wrap">Sam <em>Okafor</em></div>
+    <div class="hero-tagline" id="cv-tagline">Lead Frontend Engineer · Design Systems · React · TypeScript</div>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Email</strong><span id="cv-email">sam.okafor@email.com</span></div>
+      <div class="hero-meta-item"><strong>Phone</strong><span id="cv-phone">+1 (415) 800-0042</span></div>
+      <div class="hero-meta-item"><strong>Location</strong><span id="cv-location">New York, NY</span></div>
+      <div class="hero-meta-item"><strong>GitHub</strong><span id="cv-github">github.com/samokafor</span></div>
+      <div class="hero-meta-item"><strong>Portfolio</strong><span id="cv-portfolio">samokafor.io</span></div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="cv-body">
+
+    <!-- LEFT -->
+    <div class="cv-left">
+
+      <div class="section">
+        <div class="sec-head">Core Skills</div>
+        <div id="cv-skill-bars">
+          <div class="skill-item-l"><div class="skill-name-l">React / Next.js</div><div class="bar-bg"><div class="bar-fill" style="width:95%"></div></div></div>
+          <div class="skill-item-l"><div class="skill-name-l">TypeScript</div><div class="bar-bg"><div class="bar-fill" style="width:92%"></div></div></div>
+          <div class="skill-item-l"><div class="skill-name-l">Design Systems</div><div class="bar-bg"><div class="bar-fill" style="width:90%"></div></div></div>
+          <div class="skill-item-l"><div class="skill-name-l">CSS / Animation</div><div class="bar-bg"><div class="bar-fill" style="width:88%"></div></div></div>
+          <div class="skill-item-l"><div class="skill-name-l">Node.js / APIs</div><div class="bar-bg"><div class="bar-fill" style="width:75%"></div></div></div>
+          <div class="skill-item-l"><div class="skill-name-l">Performance Opt.</div><div class="bar-bg"><div class="bar-fill" style="width:85%"></div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head">Technologies</div>
+        <div class="tag-cloud" id="cv-tech-tags">
+          <span class="tag-c">React</span><span class="tag-c">Next.js</span><span class="tag-c">TypeScript</span>
+          <span class="tag-c">GraphQL</span><span class="tag-c">Storybook</span><span class="tag-c">Figma</span>
+          <span class="tag-c">Tailwind</span><span class="tag-c">Vitest</span><span class="tag-c">Playwright</span>
+          <span class="tag-c">Vite</span><span class="tag-c">Nx</span><span class="tag-c">Git</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head">Languages</div>
+        <div id="cv-languages">
+          <div class="lang-item"><span>English</span><span class="lang-lvl">Native</span></div>
+          <div class="lang-item"><span>French</span><span class="lang-lvl">Fluent</span></div>
+          <div class="lang-item"><span>Yoruba</span><span class="lang-lvl">Native</span></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head">Certifications</div>
+        <div id="cv-certifications">
+          <div class="cert-item-l"><div class="cert-name-l">Meta Front-End Developer</div><div class="cert-iss-l">Meta · 2023</div></div>
+          <div class="cert-item-l"><div class="cert-name-l">Google UX Design</div><div class="cert-iss-l">Google · 2022</div></div>
+          <div class="cert-item-l"><div class="cert-name-l">AWS Cloud Practitioner</div><div class="cert-iss-l">AWS · 2021</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cv-divider"></div>
+
+    <!-- RIGHT -->
+    <div class="cv-right">
+
+      <div class="section">
+        <div class="sec-head">Profile</div>
+        <p style="font-size:10.5px;line-height:1.8;color:var(--mid);font-weight:300" id="cv-summary">Lead Frontend Engineer with 7 years crafting production design systems and consumer-grade interfaces at scale. I bridge the gap between design and engineering — fluent in Figma and equally comfortable in a component library or a webpack config. I care deeply about accessibility, performance, and the craft of building things that feel delightful to use.</p>
+      </div>
+
+      <div class="section">
+        <div class="sec-head">Experience</div>
+        <div id="cv-experience">
+          <div class="exp-item">
+            <div class="exp-top"><span class="exp-role">Lead Frontend Engineer</span><span class="exp-date-badge">2022 – Present</span></div>
+            <div class="exp-co">ATLAS DESIGN CO. · NEW YORK</div>
+            <ul class="exp-list">
+              <li>Architected a React component library (120+ components) used across 5 product lines, improving cross-team delivery speed by 40%.</li>
+              <li>Drove Core Web Vitals to green across flagship product: LCP 1.4s, INP &lt;120ms, CLS 0.</li>
+              <li>Established accessibility-first engineering culture; achieved WCAG 2.1 AA across all surfaces.</li>
+            </ul>
+          </div>
+          <div class="exp-item">
+            <div class="exp-top"><span class="exp-role">Senior Frontend Engineer</span><span class="exp-date-badge">2020 – 2022</span></div>
+            <div class="exp-co">PRISM MEDIA · REMOTE</div>
+            <ul class="exp-list">
+              <li>Led migration of 200K LOC codebase from Create React App to Vite + Nx, slashing build time from 8 min to 45 sec.</li>
+              <li>Introduced Storybook-driven development; reduced UI bug rate by 35% within two quarters.</li>
+            </ul>
+          </div>
+          <div class="exp-item">
+            <div class="exp-top"><span class="exp-role">Frontend Developer</span><span class="exp-date-badge">2017 – 2020</span></div>
+            <div class="exp-co">PIXEL FORGE STUDIO · NEW YORK</div>
+            <ul class="exp-list">
+              <li>Built interactive data-visualisation dashboards for Fortune 500 clients using D3.js and React.</li>
+              <li>Implemented i18n across 12 languages for a SaaS platform with 80K+ active users.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head">Projects</div>
+        <div id="cv-projects">
+          <div class="proj-item"><div class="proj-name">Radix Tokens CLI</div><div class="proj-tech">Node.js · TypeScript · Figma API</div><div class="proj-desc">CLI tool that syncs design tokens from Figma to CSS/JS/SCSS automatically on PR, adopted by 600+ developers.</div></div>
+          <div class="proj-item"><div class="proj-name">A11y Audit Dashboard</div><div class="proj-tech">React · Playwright · axe-core</div><div class="proj-desc">Automated accessibility audit runner with trend tracking and Slack alerts, open-sourced with 1.2K GitHub stars.</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head">Education</div>
+        <div id="cv-education">
+          <div class="edu-item">
+            <div><div class="edu-deg">B.Sc. Computer Science & Design</div><div class="edu-sch">NYU Tandon School of Engineering</div></div>
+            <div class="edu-yr-r">2013 – 2017<br/>Magna Cum Laude</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay no-print" id="modal-overlay">
+<div class="modal">
+  <h2>Edit CV</h2>
+  <p class="modal-sub">Update your details and click Apply.</p>
+  <div class="tabs">
+    <button class="tab active" onclick="st('tp-p',this)">Personal</button>
+    <button class="tab" onclick="st('tp-s',this)">Summary</button>
+    <button class="tab" onclick="st('tp-e',this)">Experience</button>
+    <button class="tab" onclick="st('tp-pr',this)">Projects</button>
+    <button class="tab" onclick="st('tp-ed',this)">Education</button>
+    <button class="tab" onclick="st('tp-sk',this)">Skills</button>
+    <button class="tab" onclick="st('tp-c',this)">Certs</button>
+  </div>
+
+  <div class="tp active" id="tp-p">
+    <div class="fr"><div class="fg"><label>First Name</label><input id="f-fn" value="Sam"/></div><div class="fg"><label>Last Name (will be italic)</label><input id="f-ln" value="Okafor"/></div></div>
+    <div class="fg"><label>Role / Tagline</label><input id="f-tagline" value="Lead Frontend Engineer · Design Systems · React · TypeScript"/></div>
+    <div class="fr"><div class="fg"><label>Email</label><input id="f-email" value="sam.okafor@email.com"/></div><div class="fg"><label>Phone</label><input id="f-phone" value="+1 (415) 800-0042"/></div></div>
+    <div class="fr"><div class="fg"><label>Location</label><input id="f-location" value="New York, NY"/></div><div class="fg"><label>GitHub</label><input id="f-github" value="github.com/samokafor"/></div></div>
+    <div class="fg"><label>Portfolio</label><input id="f-portfolio" value="samokafor.io"/></div>
+  </div>
+  <div class="tp" id="tp-s"><div class="fg"><label>Profile Summary</label><textarea id="f-summary" rows="7">Lead Frontend Engineer with 7 years crafting production design systems and consumer-grade interfaces at scale. I bridge the gap between design and engineering — fluent in Figma and equally comfortable in a component library or a webpack config. I care deeply about accessibility, performance, and the craft of building things that feel delightful to use.</textarea></div></div>
+  <div class="tp" id="tp-e"><div id="f-exp-entries"></div><button class="add-b" onclick="addExp()">+ Add Experience</button></div>
+  <div class="tp" id="tp-pr"><div id="f-proj-entries"></div><button class="add-b" onclick="addProj()">+ Add Project</button></div>
+  <div class="tp" id="tp-ed"><div id="f-edu-entries"></div><button class="add-b" onclick="addEdu()">+ Add Education</button></div>
+  <div class="tp" id="tp-sk">
+    <div class="fg"><label>Technologies (comma-separated)</label><textarea id="f-tags" rows="3">React, Next.js, TypeScript, GraphQL, Storybook, Figma, Tailwind, Vitest, Playwright, Vite, Nx, Git</textarea></div>
+    <div class="fg"><label>Languages (one per line: Language | Level)</label><textarea id="f-langs" rows="3">English | Native
+French | Fluent
+Yoruba | Native</textarea></div>
+  </div>
+  <div class="tp" id="tp-c"><div id="f-cert-entries"></div><button class="add-b" onclick="addCert()">+ Add Certification</button></div>
+  <div class="ma"><button class="bc" onclick="closeModal()">Cancel</button><button class="ba" onclick="apply()">Apply Changes</button></div>
+</div>
+</div>
+
+<script>
+let exp=[
+  {role:'Lead Frontend Engineer',co:'ATLAS DESIGN CO. · NEW YORK',from:'2022',to:'Present',pts:'Architected a React component library (120+ components) used across 5 product lines, improving cross-team delivery speed by 40%.\nDrove Core Web Vitals to green across flagship product: LCP 1.4s, INP <120ms, CLS 0.\nEstablished accessibility-first engineering culture; achieved WCAG 2.1 AA across all surfaces.'},
+  {role:'Senior Frontend Engineer',co:'PRISM MEDIA · REMOTE',from:'2020',to:'2022',pts:'Led migration of 200K LOC codebase from Create React App to Vite + Nx, slashing build time from 8 min to 45 sec.\nIntroduced Storybook-driven development; reduced UI bug rate by 35% within two quarters.'},
+  {role:'Frontend Developer',co:'PIXEL FORGE STUDIO · NEW YORK',from:'2017',to:'2020',pts:'Built interactive data-visualisation dashboards for Fortune 500 clients using D3.js and React.\nImplemented i18n across 12 languages for a SaaS platform with 80K+ active users.'}
+];
+let proj=[
+  {name:'Radix Tokens CLI',tech:'Node.js · TypeScript · Figma API',desc:'CLI tool that syncs design tokens from Figma to CSS/JS/SCSS automatically on PR, adopted by 600+ developers.'},
+  {name:'A11y Audit Dashboard',tech:'React · Playwright · axe-core',desc:'Automated accessibility audit runner with trend tracking and Slack alerts, open-sourced with 1.2K GitHub stars.'}
+];
+let edu=[{deg:'B.Sc. Computer Science & Design',sch:'NYU Tandon School of Engineering',yr:'2013 – 2017 · Magna Cum Laude'}];
+let certs=[{name:'Meta Front-End Developer',iss:'Meta · 2023'},{name:'Google UX Design',iss:'Google · 2022'},{name:'AWS Cloud Practitioner',iss:'AWS · 2021'}];
+
+function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function gv(id){const el=document.getElementById(id);return el?el.value:''}
+function st(id,btn){document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active')}
+function openModal(){renderForms();document.getElementById('modal-overlay').classList.add('active')}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('active')}
+document.getElementById('modal-overlay').addEventListener('click',ev=>{if(ev.target===ev.currentTarget)closeModal()})
+
+function renderForms(){
+  document.getElementById('f-exp-entries').innerHTML=exp.map((x,i)=>`
+    <div class="de"><button class="rm" onclick="exp.splice(${i},1);renderForms()">×</button>
+    <div class="fr"><div class="fg"><label>Job Title</label><input id="ex${i}r" value="${e(x.role)}"/></div><div class="fg"><label>Company · Location</label><input id="ex${i}c" value="${e(x.co)}"/></div></div>
+    <div class="fr"><div class="fg"><label>From</label><input id="ex${i}f" value="${e(x.from)}"/></div><div class="fg"><label>To</label><input id="ex${i}t" value="${e(x.to)}"/></div></div>
+    <div class="fg"><label>Bullets (one per line)</label><textarea id="ex${i}p" rows="4">${e(x.pts)}</textarea></div></div>`).join('');
+  document.getElementById('f-proj-entries').innerHTML=proj.map((p,i)=>`
+    <div class="de"><button class="rm" onclick="proj.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Name</label><input id="pj${i}n" value="${e(p.name)}"/></div>
+    <div class="fg"><label>Tech</label><input id="pj${i}t" value="${e(p.tech)}"/></div>
+    <div class="fg"><label>Description</label><textarea id="pj${i}d" rows="3">${e(p.desc)}</textarea></div></div>`).join('');
+  document.getElementById('f-edu-entries').innerHTML=edu.map((x,i)=>`
+    <div class="de"><button class="rm" onclick="edu.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Degree</label><input id="ed${i}d" value="${e(x.deg)}"/></div>
+    <div class="fg"><label>School</label><input id="ed${i}s" value="${e(x.sch)}"/></div>
+    <div class="fg"><label>Year / Grade</label><input id="ed${i}y" value="${e(x.yr)}"/></div></div>`).join('');
+  document.getElementById('f-cert-entries').innerHTML=certs.map((c,i)=>`
+    <div class="de"><button class="rm" onclick="certs.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Name</label><input id="ct${i}n" value="${e(c.name)}"/></div>
+    <div class="fg"><label>Issuer & Year</label><input id="ct${i}i" value="${e(c.iss)}"/></div></div>`).join('');
+}
+function addExp(){exp.push({role:'',co:'',from:'',to:'',pts:''});renderForms()}
+function addProj(){proj.push({name:'',tech:'',desc:''});renderForms()}
+function addEdu(){edu.push({deg:'',sch:'',yr:''});renderForms()}
+function addCert(){certs.push({name:'',iss:''});renderForms()}
+
+function apply(){
+  exp.forEach((_,i)=>{exp[i].role=gv(`ex${i}r`);exp[i].co=gv(`ex${i}c`);exp[i].from=gv(`ex${i}f`);exp[i].to=gv(`ex${i}t`);exp[i].pts=gv(`ex${i}p`)});
+  proj.forEach((_,i)=>{proj[i].name=gv(`pj${i}n`);proj[i].tech=gv(`pj${i}t`);proj[i].desc=gv(`pj${i}d`)});
+  edu.forEach((_,i)=>{edu[i].deg=gv(`ed${i}d`);edu[i].sch=gv(`ed${i}s`);edu[i].yr=gv(`ed${i}y`)});
+  certs.forEach((_,i)=>{certs[i].name=gv(`ct${i}n`);certs[i].iss=gv(`ct${i}i`)});
+  const fn=gv('f-fn'),ln=gv('f-ln');
+  document.getElementById('cv-name-wrap').innerHTML=`${e(fn)} <em>${e(ln)}</em>`;
+  document.getElementById('cv-tagline').textContent=gv('f-tagline');
+  document.getElementById('cv-email').textContent=gv('f-email');
+  document.getElementById('cv-phone').textContent=gv('f-phone');
+  document.getElementById('cv-location').textContent=gv('f-location');
+  document.getElementById('cv-github').textContent=gv('f-github');
+  document.getElementById('cv-portfolio').textContent=gv('f-portfolio');
+  document.getElementById('cv-summary').textContent=gv('f-summary');
+  document.getElementById('cv-tech-tags').innerHTML=gv('f-tags').split(',').map(t=>t.trim()).filter(Boolean).map(t=>`<span class="tag-c">${e(t)}</span>`).join('');
+  const langs=gv('f-langs').split('\n').map(l=>l.trim()).filter(Boolean);
+  document.getElementById('cv-languages').innerHTML=langs.map(l=>{const[lang,lvl]=l.split('|').map(x=>x.trim());return`<div class="lang-item"><span>${e(lang)}</span><span class="lang-lvl">${e(lvl||'')}</span></div>`}).join('');
+  document.getElementById('cv-experience').innerHTML=exp.map(x=>`
+    <div class="exp-item">
+      <div class="exp-top"><span class="exp-role">${e(x.role)}</span><span class="exp-date-badge">${e(x.from)} – ${e(x.to)}</span></div>
+      <div class="exp-co">${e(x.co)}</div>
+      <ul class="exp-list">${x.pts.split('\n').filter(Boolean).map(b=>`<li>${e(b.replace(/^[•\-]\s*/,''))}</li>`).join('')}</ul>
+    </div>`).join('');
+  document.getElementById('cv-projects').innerHTML=proj.map(p=>`<div class="proj-item"><div class="proj-name">${e(p.name)}</div><div class="proj-tech">${e(p.tech)}</div><div class="proj-desc">${e(p.desc)}</div></div>`).join('');
+  document.getElementById('cv-education').innerHTML=edu.map(x=>`<div class="edu-item"><div><div class="edu-deg">${e(x.deg)}</div><div class="edu-sch">${e(x.sch)}</div></div><div class="edu-yr-r">${e(x.yr)}</div></div>`).join('');
+  document.getElementById('cv-certifications').innerHTML=certs.map(c=>`<div class="cert-item-l"><div class="cert-name-l">${e(c.name)}</div><div class="cert-iss-l">${e(c.iss)}</div></div>`).join('');
+  closeModal();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Software Developer CV</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* =====================
+       RESET & BASE
+    ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #e8e5df;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+      color: #1a1a1a;
+    }
+
+    /* =====================
+       A4 PAGE
+    ===================== */
+    .cv-page {
+      width: 210mm;
+      min-height: 297mm;
+      background: #faf9f7;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      display: grid;
+      grid-template-columns: 68mm 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* =====================
+       LEFT SIDEBAR
+    ===================== */
+    .sidebar {
+      background: #1c1c1e;
+      color: #f0ede8;
+      padding: 42px 26px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .sidebar-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #f5f1ea;
+      letter-spacing: 0.01em;
+    }
+
+    .sidebar-title {
+      font-size: 11px;
+      font-weight: 400;
+      color: #c8b99a;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .sidebar-photo-wrap {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #2e2e30;
+      border: 2.5px solid #c8b99a;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sidebar-photo-wrap .photo-placeholder {
+      font-size: 36px;
+      color: #555;
+    }
+
+    .sidebar-section-title {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #c8b99a;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #333;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .contact-list li {
+      font-size: 10.5px;
+      color: #c8c4bc;
+      line-height: 1.5;
+      word-break: break-all;
+    }
+
+    .contact-list li span.label {
+      display: block;
+      font-size: 8.5px;
+      color: #888;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .skill-item {}
+    .skill-name {
+      font-size: 10.5px;
+      color: #d4cfc7;
+      margin-bottom: 4px;
+    }
+    .skill-bar-bg {
+      height: 3px;
+      background: #2e2e30;
+      border-radius: 2px;
+    }
+    .skill-bar-fill {
+      height: 3px;
+      background: linear-gradient(90deg, #c8b99a, #e8d9bc);
+      border-radius: 2px;
+    }
+
+    .lang-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .lang-list li {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: #c4bfb8;
+    }
+    .lang-level {
+      font-size: 9.5px;
+      color: #888;
+    }
+
+    /* =====================
+       RIGHT MAIN CONTENT
+    ===================== */
+    .main {
+      padding: 42px 34px 40px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .section {}
+
+    .section-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1c1c1e;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #d4cfc7;
+    }
+
+    /* Summary */
+    .summary-text {
+      font-size: 11px;
+      line-height: 1.75;
+      color: #3a3a3a;
+      font-weight: 300;
+    }
+
+    /* Experience */
+    .exp-entry {
+      margin-bottom: 18px;
+    }
+    .exp-entry:last-child { margin-bottom: 0; }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 3px;
+    }
+
+    .exp-role {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .exp-date {
+      font-size: 9.5px;
+      color: #888;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .exp-company {
+      font-size: 10.5px;
+      color: #c8b99a;
+      font-weight: 500;
+      margin-bottom: 7px;
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .exp-bullets li {
+      font-size: 10.5px;
+      color: #3a3a3a;
+      line-height: 1.6;
+      padding-left: 12px;
+      position: relative;
+      font-weight: 300;
+    }
+
+    .exp-bullets li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: #c8b99a;
+      font-weight: 400;
+    }
+
+    /* Education */
+    .edu-entry {
+      margin-bottom: 14px;
+    }
+    .edu-entry:last-child { margin-bottom: 0; }
+
+    .edu-degree {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .edu-school {
+      font-size: 10.5px;
+      color: #c8b99a;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .edu-year {
+      font-size: 9.5px;
+      color: #888;
+      margin-top: 1px;
+    }
+
+    /* Certifications */
+    .cert-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cert-list li {
+      font-size: 10.5px;
+      color: #3a3a3a;
+      font-weight: 300;
+      display: flex;
+      justify-content: space-between;
+      line-height: 1.5;
+    }
+
+    .cert-list li span.cert-issuer {
+      font-size: 9.5px;
+      color: #888;
+    }
+
+    /* Projects */
+    .project-entry {
+      margin-bottom: 14px;
+    }
+    .project-entry:last-child { margin-bottom: 0; }
+
+    .project-name {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .project-tech {
+      font-size: 9.5px;
+      color: #c8b99a;
+      margin: 2px 0 5px;
+      font-weight: 500;
+    }
+    .project-desc {
+      font-size: 10.5px;
+      color: #3a3a3a;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* Tags for tech skills in sidebar */
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .tag {
+      font-size: 9px;
+      background: #2a2a2c;
+      color: #c8c4bc;
+      border: 1px solid #333;
+      border-radius: 2px;
+      padding: 3px 7px;
+      letter-spacing: 0.04em;
+    }
+
+    /* =====================
+       PRINT STYLES
+    ===================== */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      .cv-page {
+        box-shadow: none;
+        width: 210mm;
+        min-height: 297mm;
+      }
+      .no-print { display: none; }
+    }
+
+    /* =====================
+       TOOLBAR
+    ===================== */
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .toolbar button {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 9px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-print {
+      background: #1c1c1e;
+      color: #f5f1ea;
+    }
+    .btn-print:hover { background: #333; }
+
+    .btn-edit {
+      background: #c8b99a;
+      color: #1a1a1a;
+    }
+    .btn-edit:hover { background: #b5a484; }
+
+    .toolbar-note {
+      font-size: 11px;
+      color: #888;
+    }
+
+    /* =====================
+       EDIT MODAL
+    ===================== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: #faf9f7;
+      border-radius: 8px;
+      width: 660px;
+      max-width: 96vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 36px 36px 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .modal h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #1a1a1a;
+    }
+
+    .modal-subtitle {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 24px;
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e0ddd8;
+      padding-bottom: 0;
+    }
+
+    .modal-tab {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #888;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s;
+    }
+
+    .modal-tab.active {
+      color: #1a1a1a;
+      border-bottom-color: #c8b99a;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .field-group {
+      margin-bottom: 16px;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 5px;
+    }
+
+    .field-group input,
+    .field-group textarea {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      padding: 9px 12px;
+      border: 1px solid #d4cfc7;
+      border-radius: 4px;
+      background: #fff;
+      color: #1a1a1a;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .field-group input:focus,
+    .field-group textarea:focus {
+      border-color: #c8b99a;
+    }
+
+    .field-group textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .dynamic-entry {
+      background: #f2f0ec;
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .dynamic-entry .remove-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: #aaa;
+      line-height: 1;
+    }
+
+    .remove-btn:hover { color: #e05252; }
+
+    .add-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: #c8b99a;
+      background: none;
+      border: 1.5px dashed #c8b99a;
+      border-radius: 4px;
+      padding: 7px 14px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    .add-btn:hover { background: #f5f0e8; }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      border-top: 1px solid #e0ddd8;
+      padding-top: 18px;
+    }
+
+    .btn-cancel {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      padding: 9px 20px;
+      border: 1px solid #d4cfc7;
+      border-radius: 4px;
+      background: none;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .btn-apply {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 9px 24px;
+      background: #1c1c1e;
+      color: #f5f1ea;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-apply:hover { background: #333; }
+  </style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar no-print">
+  <button class="btn-edit" onclick="openModal()">✏ Edit CV</button>
+  <button class="btn-print" onclick="window.print()">⎙ Print / Save PDF</button>
+  <span class="toolbar-note" id="save-status">Loading CV…</span>
+</div>
+
+<!-- ===================== CV PAGE ===================== -->
+<div class="cv-page" id="cv-page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-photo-wrap">
+        <span class="photo-placeholder">👤</span>
+      </div>
+      <div class="sidebar-name" id="cv-name">Alex Morgan</div>
+      <div class="sidebar-title" id="cv-title">Full Stack Developer</div>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <div class="sidebar-section-title">Contact</div>
+      <ul class="contact-list" id="cv-contact">
+        <li><span class="label">Email</span><span id="cv-email">alex.morgan@email.com</span></li>
+        <li><span class="label">Phone</span><span id="cv-phone">+1 (555) 234-5678</span></li>
+        <li><span class="label">Location</span><span id="cv-location">San Francisco, CA</span></li>
+        <li><span class="label">LinkedIn</span><span id="cv-linkedin">linkedin.com/in/alexmorgan</span></li>
+        <li><span class="label">GitHub</span><span id="cv-github">github.com/alexmorgan</span></li>
+        <li><span class="label">Portfolio</span><span id="cv-portfolio">alexmorgan.dev</span></li>
+      </ul>
+    </div>
+
+    <!-- Technical Skills -->
+    <div>
+      <div class="sidebar-section-title">Technical Skills</div>
+      <div class="tags-wrap" id="cv-tech-tags">
+        <span class="tag">JavaScript</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Python</span>
+        <span class="tag">React</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">Next.js</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">MongoDB</span>
+        <span class="tag">Docker</span>
+        <span class="tag">AWS</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">GraphQL</span>
+        <span class="tag">Git</span>
+        <span class="tag">CI/CD</span>
+      </div>
+    </div>
+
+    <!-- Core Skills (Bars) -->
+    <div>
+      <div class="sidebar-section-title">Core Competencies</div>
+      <div class="skills-grid" id="cv-skills-bars">
+        <div class="skill-item">
+          <div class="skill-name">Frontend Development</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:92%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name">Backend Development</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name">Database Design</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name">DevOps & Cloud</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:72%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name">System Design</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:78%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Languages -->
+    <div>
+      <div class="sidebar-section-title">Languages</div>
+      <ul class="lang-list" id="cv-languages">
+        <li><span>English</span><span class="lang-level">Native</span></li>
+        <li><span>Spanish</span><span class="lang-level">Intermediate</span></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- Summary -->
+    <div class="section">
+      <div class="section-title">Professional Summary</div>
+      <p class="summary-text" id="cv-summary">
+        Results-driven Full Stack Developer with 5+ years of experience designing and building scalable web applications. Proficient in JavaScript, TypeScript, and Python with strong expertise in React, Node.js, and cloud infrastructure. Proven track record of delivering high-performance solutions that improve user experience and operational efficiency. Adept at collaborating in Agile teams and translating complex technical requirements into robust, maintainable code.
+      </p>
+    </div>
+
+    <!-- Experience -->
+    <div class="section">
+      <div class="section-title">Work Experience</div>
+      <div id="cv-experience">
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <div class="exp-role">Senior Full Stack Developer</div>
+            <div class="exp-date">Jan 2022 – Present</div>
+          </div>
+          <div class="exp-company">TechNova Solutions · San Francisco, CA</div>
+          <ul class="exp-bullets">
+            <li>Architected and delivered a customer-facing SaaS platform serving 50,000+ users, reducing page load time by 40% through code-splitting and caching strategies.</li>
+            <li>Led a team of 4 engineers to migrate a monolithic application to a microservices architecture using Docker and Kubernetes, improving deployment frequency by 3×.</li>
+            <li>Designed RESTful and GraphQL APIs integrated with third-party payment and analytics services, enabling $2M+ in monthly transactions.</li>
+            <li>Implemented CI/CD pipelines using GitHub Actions and AWS CodePipeline, reducing deployment time from 2 hours to 12 minutes.</li>
+          </ul>
+        </div>
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <div class="exp-role">Full Stack Developer</div>
+            <div class="exp-date">Jun 2020 – Dec 2021</div>
+          </div>
+          <div class="exp-company">Bright Digital Agency · Austin, TX</div>
+          <ul class="exp-bullets">
+            <li>Developed and maintained 10+ client web applications using React, Node.js, and PostgreSQL across industries including e-commerce, healthcare, and finance.</li>
+            <li>Optimised database queries and introduced Redis caching, resulting in a 60% reduction in API response times.</li>
+            <li>Collaborated closely with UI/UX designers to implement pixel-perfect, accessible interfaces meeting WCAG 2.1 AA standards.</li>
+          </ul>
+        </div>
+
+        <div class="exp-entry">
+          <div class="exp-header">
+            <div class="exp-role">Junior Web Developer</div>
+            <div class="exp-date">Aug 2019 – May 2020</div>
+          </div>
+          <div class="exp-company">StartupHub Inc. · Remote</div>
+          <ul class="exp-bullets">
+            <li>Built and iterated on MVP features for an early-stage SaaS product using Vue.js and Django REST Framework.</li>
+            <li>Wrote unit and integration tests achieving 85% code coverage, contributing to a 30% reduction in production bugs.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="section">
+      <div class="section-title">Key Projects</div>
+      <div id="cv-projects">
+        <div class="project-entry">
+          <div class="project-name">Real-Time Collaboration Tool</div>
+          <div class="project-tech">React · Node.js · Socket.io · MongoDB</div>
+          <div class="project-desc">Built a Figma-inspired real-time whiteboard application supporting 100+ concurrent users with operational transformation for conflict resolution and sub-100ms latency.</div>
+        </div>
+        <div class="project-entry">
+          <div class="project-name">AI-Powered Code Review Bot</div>
+          <div class="project-tech">Python · FastAPI · OpenAI API · GitHub Actions</div>
+          <div class="project-desc">Developed an automated code review GitHub bot that flags security vulnerabilities and style violations, adopted by 15+ open-source repositories.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div id="cv-education">
+        <div class="edu-entry">
+          <div class="edu-degree">B.Sc. Computer Science</div>
+          <div class="edu-school">University of California, Berkeley</div>
+          <div class="edu-year">2015 – 2019 · GPA: 3.8 / 4.0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Certifications -->
+    <div class="section">
+      <div class="section-title">Certifications</div>
+      <ul class="cert-list" id="cv-certifications">
+        <li><span>AWS Certified Solutions Architect – Associate</span><span class="cert-issuer">Amazon Web Services · 2023</span></li>
+        <li><span>Google Professional Cloud Developer</span><span class="cert-issuer">Google · 2022</span></li>
+        <li><span>MongoDB Certified Developer</span><span class="cert-issuer">MongoDB · 2021</span></li>
+      </ul>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===================== EDIT MODAL ===================== -->
+<div class="modal-overlay no-print" id="modal-overlay">
+  <div class="modal">
+    <h2>Edit CV</h2>
+    <p class="modal-subtitle">Update your information below. Changes apply to the CV preview.</p>
+
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('tab-personal', this)">Personal</button>
+      <button class="modal-tab" onclick="switchTab('tab-summary', this)">Summary</button>
+      <button class="modal-tab" onclick="switchTab('tab-experience', this)">Experience</button>
+      <button class="modal-tab" onclick="switchTab('tab-projects', this)">Projects</button>
+      <button class="modal-tab" onclick="switchTab('tab-education', this)">Education</button>
+      <button class="modal-tab" onclick="switchTab('tab-skills', this)">Skills</button>
+      <button class="modal-tab" onclick="switchTab('tab-certs', this)">Certifications</button>
+    </div>
+
+    <!-- TAB: Personal -->
+    <div class="tab-panel active" id="tab-personal">
+      <div class="field-row">
+        <div class="field-group">
+          <label>Full Name</label>
+          <input type="text" id="f-name" value="Alex Morgan"/>
+        </div>
+        <div class="field-group">
+          <label>Job Title</label>
+          <input type="text" id="f-title" value="Full Stack Developer"/>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label>Email</label>
+          <input type="email" id="f-email" value="alex.morgan@email.com"/>
+        </div>
+        <div class="field-group">
+          <label>Phone</label>
+          <input type="text" id="f-phone" value="+1 (555) 234-5678"/>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label>Location</label>
+          <input type="text" id="f-location" value="San Francisco, CA"/>
+        </div>
+        <div class="field-group">
+          <label>LinkedIn</label>
+          <input type="text" id="f-linkedin" value="linkedin.com/in/alexmorgan"/>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label>GitHub</label>
+          <input type="text" id="f-github" value="github.com/alexmorgan"/>
+        </div>
+        <div class="field-group">
+          <label>Portfolio / Website</label>
+          <input type="text" id="f-portfolio" value="alexmorgan.dev"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Summary -->
+    <div class="tab-panel" id="tab-summary">
+      <div class="field-group">
+        <label>Professional Summary</label>
+        <textarea id="f-summary" rows="6">Results-driven Full Stack Developer with 5+ years of experience designing and building scalable web applications. Proficient in JavaScript, TypeScript, and Python with strong expertise in React, Node.js, and cloud infrastructure. Proven track record of delivering high-performance solutions that improve user experience and operational efficiency. Adept at collaborating in Agile teams and translating complex technical requirements into robust, maintainable code.</textarea>
+      </div>
+    </div>
+
+    <!-- TAB: Experience -->
+    <div class="tab-panel" id="tab-experience">
+      <div id="f-experience-entries"></div>
+      <button class="add-btn" onclick="addExpEntry()">+ Add Experience</button>
+    </div>
+
+    <!-- TAB: Projects -->
+    <div class="tab-panel" id="tab-projects">
+      <div id="f-project-entries"></div>
+      <button class="add-btn" onclick="addProjectEntry()">+ Add Project</button>
+    </div>
+
+    <!-- TAB: Education -->
+    <div class="tab-panel" id="tab-education">
+      <div id="f-education-entries"></div>
+      <button class="add-btn" onclick="addEduEntry()">+ Add Education</button>
+    </div>
+
+    <!-- TAB: Skills -->
+    <div class="tab-panel" id="tab-skills">
+      <div class="field-group">
+        <label>Technical Skills (comma-separated)</label>
+        <textarea id="f-tech-tags" rows="3">JavaScript, TypeScript, Python, React, Node.js, Next.js, PostgreSQL, MongoDB, Docker, AWS, REST APIs, GraphQL, Git, CI/CD</textarea>
+      </div>
+      <div style="margin-top:18px">
+        <div class="sidebar-section-title" style="font-size:10px; color:#888; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:12px;">Core Competencies (name | level 0–100)</div>
+        <div id="f-skill-bars"></div>
+        <button class="add-btn" onclick="addSkillBar()">+ Add Competency</button>
+      </div>
+      <div style="margin-top:18px">
+        <div class="field-group">
+          <label>Languages (one per line: Language | Level)</label>
+          <textarea id="f-languages" rows="3">English | Native
+Spanish | Intermediate</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Certifications -->
+    <div class="tab-panel" id="tab-certs">
+      <div id="f-cert-entries"></div>
+      <button class="add-btn" onclick="addCertEntry()">+ Add Certification</button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-apply" onclick="applyChanges()">Apply Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==========================================
+//  DATA STATE (loaded from SQLite via API)
+// ==========================================
+let cvData = null;
+
+function setSaveStatus(message, isError) {
+  const el = document.getElementById('save-status');
+  if (!el) return;
+  el.textContent = message;
+  el.style.color = isError ? '#c0392b' : '#888';
+}
+
+async function loadCV() {
+  setSaveStatus('Loading CV…');
+  try {
+    const res = await fetch('/api/cv');
+    if (!res.ok) throw new Error('Failed to load');
+    const { data } = await res.json();
+    cvData = data;
+    renderCV();
+    populateFormFields();
+    setSaveStatus('CV loaded from database');
+  } catch (err) {
+    console.error(err);
+    setSaveStatus('Could not load CV — refresh to retry', true);
+  }
+}
+
+async function saveCV() {
+  setSaveStatus('Saving…');
+  try {
+    const res = await fetch('/api/cv', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data: cvData }),
+    });
+    if (!res.ok) throw new Error('Failed to save');
+    const { updatedAt } = await res.json();
+    setSaveStatus(updatedAt ? `Saved · ${updatedAt} UTC` : 'Saved to database');
+  } catch (err) {
+    console.error(err);
+    setSaveStatus('Save failed — try again', true);
+    throw err;
+  }
+}
+
+function populateFormFields() {
+  if (!cvData) return;
+  const p = cvData.personal || {};
+  document.getElementById('f-name').value = p.name || '';
+  document.getElementById('f-title').value = p.title || '';
+  document.getElementById('f-email').value = p.email || '';
+  document.getElementById('f-phone').value = p.phone || '';
+  document.getElementById('f-location').value = p.location || '';
+  document.getElementById('f-linkedin').value = p.linkedin || '';
+  document.getElementById('f-github').value = p.github || '';
+  document.getElementById('f-portfolio').value = p.portfolio || '';
+  document.getElementById('f-summary').value = cvData.summary || '';
+  document.getElementById('f-tech-tags').value = cvData.techTags || '';
+  document.getElementById('f-languages').value = cvData.languages || '';
+}
+
+function renderCV() {
+  if (!cvData) return;
+  const p = cvData.personal || {};
+
+  document.getElementById('cv-name').textContent = p.name || '';
+  document.getElementById('cv-title').textContent = p.title || '';
+  document.getElementById('cv-email').textContent = p.email || '';
+  document.getElementById('cv-phone').textContent = p.phone || '';
+  document.getElementById('cv-location').textContent = p.location || '';
+  document.getElementById('cv-linkedin').textContent = p.linkedin || '';
+  document.getElementById('cv-github').textContent = p.github || '';
+  document.getElementById('cv-portfolio').textContent = p.portfolio || '';
+  document.getElementById('cv-summary').textContent = cvData.summary || '';
+
+  const tags = (cvData.techTags || '').split(',').map(t => t.trim()).filter(Boolean);
+  document.getElementById('cv-tech-tags').innerHTML = tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+
+  const skillBars = cvData.skillBars || [];
+  document.getElementById('cv-skills-bars').innerHTML = skillBars.map(s =>
+    `<div class="skill-item"><div class="skill-name">${escapeHtml(s.name)}</div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:${Math.min(100, Math.max(0, s.level || 0))}%"></div></div></div>`
+  ).join('');
+
+  const langs = (cvData.languages || '').split('\n').map(l => l.trim()).filter(Boolean);
+  document.getElementById('cv-languages').innerHTML = langs.map(l => {
+    const parts = l.split('|').map(x => x.trim());
+    return `<li><span>${escapeHtml(parts[0] || '')}</span><span class="lang-level">${escapeHtml(parts[1] || '')}</span></li>`;
+  }).join('');
+
+  const experience = cvData.experience || [];
+  document.getElementById('cv-experience').innerHTML = experience.map(e => `
+    <div class="exp-entry">
+      <div class="exp-header">
+        <div class="exp-role">${escapeHtml(e.role)}</div>
+        <div class="exp-date">${escapeHtml(e.from)} – ${escapeHtml(e.to)}</div>
+      </div>
+      <div class="exp-company">${escapeHtml(e.company)}${e.location ? ' · ' + escapeHtml(e.location) : ''}</div>
+      <ul class="exp-bullets">
+        ${(e.bullets || '').split('\n').filter(Boolean).map(b => `<li>${escapeHtml(b.replace(/^[–\-•]\s*/, ''))}</li>`).join('')}
+      </ul>
+    </div>
+  `).join('');
+
+  const projects = cvData.projects || [];
+  document.getElementById('cv-projects').innerHTML = projects.map(proj => `
+    <div class="project-entry">
+      <div class="project-name">${escapeHtml(proj.name)}</div>
+      <div class="project-tech">${escapeHtml(proj.tech)}</div>
+      <div class="project-desc">${escapeHtml(proj.desc)}</div>
+    </div>
+  `).join('');
+
+  const education = cvData.education || [];
+  document.getElementById('cv-education').innerHTML = education.map(e => `
+    <div class="edu-entry">
+      <div class="edu-degree">${escapeHtml(e.degree)}</div>
+      <div class="edu-school">${escapeHtml(e.school)}</div>
+      <div class="edu-year">${escapeHtml(e.year)}</div>
+    </div>
+  `).join('');
+
+  const certifications = cvData.certifications || [];
+  document.getElementById('cv-certifications').innerHTML = certifications.map(c =>
+    `<li><span>${escapeHtml(c.name)}</span><span class="cert-issuer">${escapeHtml(c.issuer)}</span></li>`
+  ).join('');
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+document.addEventListener('DOMContentLoaded', loadCV);
+
+// ==========================================
+//  MODAL OPEN / CLOSE
+// ==========================================
+function openModal() {
+  if (!cvData) return;
+  populateModal();
+  document.getElementById('modal-overlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('active');
+}
+
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ==========================================
+//  TAB SWITCHING
+// ==========================================
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.modal-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ==========================================
+//  POPULATE MODAL FROM STATE
+// ==========================================
+function populateModal() {
+  populateFormFields();
+  const expContainer = document.getElementById('f-experience-entries');
+  expContainer.innerHTML = '';
+  (cvData.experience || []).forEach((e, i) => {
+    expContainer.innerHTML += expEntryHTML(e, i);
+  });
+  const projContainer = document.getElementById('f-project-entries');
+  projContainer.innerHTML = '';
+  (cvData.projects || []).forEach((p, i) => {
+    projContainer.innerHTML += projectEntryHTML(p, i);
+  });
+  const eduContainer = document.getElementById('f-education-entries');
+  eduContainer.innerHTML = '';
+  (cvData.education || []).forEach((e, i) => {
+    eduContainer.innerHTML += eduEntryHTML(e, i);
+  });
+  const sbContainer = document.getElementById('f-skill-bars');
+  sbContainer.innerHTML = '';
+  (cvData.skillBars || []).forEach((s, i) => {
+    sbContainer.innerHTML += skillBarHTML(s, i);
+  });
+  const certContainer = document.getElementById('f-cert-entries');
+  certContainer.innerHTML = '';
+  (cvData.certifications || []).forEach((c, i) => {
+    certContainer.innerHTML += certEntryHTML(c, i);
+  });
+}
+
+function expEntryHTML(e, i) {
+  return `<div class="dynamic-entry" id="exp-entry-${i}">
+    <button class="remove-btn" onclick="removeItem('experience', ${i})">×</button>
+    <div class="field-row">
+      <div class="field-group"><label>Job Title</label><input type="text" id="exp-${i}-role" value="${e.role}"/></div>
+      <div class="field-group"><label>Company</label><input type="text" id="exp-${i}-company" value="${e.company}"/></div>
+    </div>
+    <div class="field-row">
+      <div class="field-group"><label>Location</label><input type="text" id="exp-${i}-location" value="${e.location}"/></div>
+      <div class="field-row" style="gap:8px">
+        <div class="field-group"><label>From</label><input type="text" id="exp-${i}-from" value="${e.from}"/></div>
+        <div class="field-group"><label>To</label><input type="text" id="exp-${i}-to" value="${e.to}"/></div>
+      </div>
+    </div>
+    <div class="field-group"><label>Bullet Points (one per line)</label><textarea id="exp-${i}-bullets" rows="5">${e.bullets}</textarea></div>
+  </div>`;
+}
+
+function projectEntryHTML(p, i) {
+  return `<div class="dynamic-entry" id="proj-entry-${i}">
+    <button class="remove-btn" onclick="removeItem('projects', ${i})">×</button>
+    <div class="field-group"><label>Project Name</label><input type="text" id="proj-${i}-name" value="${p.name}"/></div>
+    <div class="field-group"><label>Technologies</label><input type="text" id="proj-${i}-tech" value="${p.tech}"/></div>
+    <div class="field-group"><label>Description</label><textarea id="proj-${i}-desc" rows="3">${p.desc}</textarea></div>
+  </div>`;
+}
+
+function eduEntryHTML(e, i) {
+  return `<div class="dynamic-entry" id="edu-entry-${i}">
+    <button class="remove-btn" onclick="removeItem('education', ${i})">×</button>
+    <div class="field-group"><label>Degree / Qualification</label><input type="text" id="edu-${i}-degree" value="${e.degree}"/></div>
+    <div class="field-group"><label>Institution</label><input type="text" id="edu-${i}-school" value="${e.school}"/></div>
+    <div class="field-group"><label>Year / GPA</label><input type="text" id="edu-${i}-year" value="${e.year}"/></div>
+  </div>`;
+}
+
+function skillBarHTML(s, i) {
+  return `<div class="dynamic-entry" id="sb-entry-${i}" style="padding:10px 14px; margin-bottom:8px">
+    <button class="remove-btn" onclick="removeItem('skillBars', ${i})">×</button>
+    <div class="field-row">
+      <div class="field-group"><label>Competency Name</label><input type="text" id="sb-${i}-name" value="${s.name}"/></div>
+      <div class="field-group"><label>Level (0–100)</label><input type="number" id="sb-${i}-level" value="${s.level}" min="0" max="100"/></div>
+    </div>
+  </div>`;
+}
+
+function certEntryHTML(c, i) {
+  return `<div class="dynamic-entry" id="cert-entry-${i}">
+    <button class="remove-btn" onclick="removeItem('certifications', ${i})">×</button>
+    <div class="field-group"><label>Certification Name</label><input type="text" id="cert-${i}-name" value="${c.name}"/></div>
+    <div class="field-group"><label>Issuer & Year</label><input type="text" id="cert-${i}-issuer" value="${c.issuer}"/></div>
+  </div>`;
+}
+
+// ==========================================
+//  ADD / REMOVE DYNAMIC ENTRIES
+// ==========================================
+function addExpEntry() {
+  cvData.experience.push({ role: '', company: '', location: '', from: '', to: '', bullets: '' });
+  populateModal(); switchToTab('tab-experience');
+}
+function addProjectEntry() {
+  cvData.projects.push({ name: '', tech: '', desc: '' });
+  populateModal(); switchToTab('tab-projects');
+}
+function addEduEntry() {
+  cvData.education.push({ degree: '', school: '', year: '' });
+  populateModal(); switchToTab('tab-education');
+}
+function addSkillBar() {
+  cvData.skillBars.push({ name: '', level: 80 });
+  populateModal(); switchToTab('tab-skills');
+}
+function addCertEntry() {
+  cvData.certifications.push({ name: '', issuer: '' });
+  populateModal(); switchToTab('tab-certs');
+}
+
+function removeItem(type, i) {
+  cvData[type].splice(i, 1);
+  populateModal();
+}
+
+function switchToTab(id) {
+  const tabs = document.querySelectorAll('.modal-tab');
+  const panels = document.querySelectorAll('.tab-panel');
+  panels.forEach(p => p.classList.remove('active'));
+  tabs.forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabMap = { 'tab-personal': 0, 'tab-summary': 1, 'tab-experience': 2, 'tab-projects': 3, 'tab-education': 4, 'tab-skills': 5, 'tab-certs': 6 };
+  tabs[tabMap[id]].classList.add('active');
+}
+
+// ==========================================
+//  READ MODAL & APPLY TO CV
+// ==========================================
+async function applyChanges() {
+  cvData.personal = {
+    name: document.getElementById('f-name').value,
+    title: document.getElementById('f-title').value,
+    email: document.getElementById('f-email').value,
+    phone: document.getElementById('f-phone').value,
+    location: document.getElementById('f-location').value,
+    linkedin: document.getElementById('f-linkedin').value,
+    github: document.getElementById('f-github').value,
+    portfolio: document.getElementById('f-portfolio').value,
+  };
+  cvData.summary = document.getElementById('f-summary').value;
+  cvData.techTags = document.getElementById('f-tech-tags').value;
+  cvData.languages = document.getElementById('f-languages').value;
+
+  cvData.skillBars = Array.from({ length: cvData.skillBars.length }, (_, i) => ({
+    name: (document.getElementById(`sb-${i}-name`) || { value: '' }).value,
+    level: parseInt((document.getElementById(`sb-${i}-level`) || { value: 80 }).value) || 80,
+  }));
+
+  cvData.experience = Array.from({ length: cvData.experience.length }, (_, i) => ({
+    role: (document.getElementById(`exp-${i}-role`) || { value: '' }).value,
+    company: (document.getElementById(`exp-${i}-company`) || { value: '' }).value,
+    location: (document.getElementById(`exp-${i}-location`) || { value: '' }).value,
+    from: (document.getElementById(`exp-${i}-from`) || { value: '' }).value,
+    to: (document.getElementById(`exp-${i}-to`) || { value: '' }).value,
+    bullets: (document.getElementById(`exp-${i}-bullets`) || { value: '' }).value,
+  }));
+
+  cvData.projects = Array.from({ length: cvData.projects.length }, (_, i) => ({
+    name: (document.getElementById(`proj-${i}-name`) || { value: '' }).value,
+    tech: (document.getElementById(`proj-${i}-tech`) || { value: '' }).value,
+    desc: (document.getElementById(`proj-${i}-desc`) || { value: '' }).value,
+  }));
+
+  cvData.education = Array.from({ length: cvData.education.length }, (_, i) => ({
+    degree: (document.getElementById(`edu-${i}-degree`) || { value: '' }).value,
+    school: (document.getElementById(`edu-${i}-school`) || { value: '' }).value,
+    year: (document.getElementById(`edu-${i}-year`) || { value: '' }).value,
+  }));
+
+  cvData.certifications = Array.from({ length: cvData.certifications.length }, (_, i) => ({
+    name: (document.getElementById(`cert-${i}-name`) || { value: '' }).value,
+    issuer: (document.getElementById(`cert-${i}-issuer`) || { value: '' }).value,
+  }));
+
+  renderCV();
+  closeModal();
+
+  try {
+    await saveCV();
+  } catch {
+    openModal();
+  }
+}
+</script>
+</body>
+</html>

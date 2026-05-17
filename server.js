@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 3000;
 initDb();
 
 app.use(express.json({ limit: '1mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/cv', (_req, res) => {
   try {
@@ -32,6 +31,8 @@ app.put('/api/cv', (req, res) => {
     res.status(500).json({ error: 'Failed to save CV data' });
   }
 });
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log(`CV builder running at http://localhost:${PORT}`);

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Build Your CV — Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/shared.css"/>
+  <link rel="stylesheet" id="template-css" href="/css/classic.css"/>
+</head>
+<body class="tpl-classic">
+
+<div class="toolbar no-print">
+  <a href="/" class="toolbar-home" title="Back to overview">← Overview</a>
+  <span class="template-label">Template</span>
+  <select id="template-select" aria-label="CV template"></select>
+  <button type="button" class="btn-edit" onclick="openModal()">✏ Edit CV</button>
+  <button type="button" class="btn-print" onclick="window.print()">⎙ Print / Save PDF</button>
+  <span class="toolbar-note" id="save-status">Loading CV…</span>
+</div>
+
+<div id="cv-mount" class="tpl-classic"></div>
+
+<div class="modal-overlay no-print" id="modal-overlay">
+  <div class="modal">
+    <h2>Edit CV</h2>
+    <p class="modal-subtitle">Same data for every template — switch layout anytime. Changes apply to the preview and save to the database.</p>
+
+    <div class="modal-tabs">
+      <button type="button" class="modal-tab active" onclick="switchTab('tab-personal', this)">Personal</button>
+      <button type="button" class="modal-tab" onclick="switchTab('tab-summary', this)">Summary</button>
+      <button type="button" class="modal-tab" onclick="switchTab('tab-experience', this)">Experience</button>
+      <button type="button" class="modal-tab" onclick="switchTab('tab-projects', this)">Projects</button>
+      <button type="button" class="modal-tab" onclick="switchTab('tab-education', this)">Education</button>
+      <button type="button" class="modal-tab" onclick="switchTab('tab-skills', this)">Skills</button>
+      <button type="button" class="modal-tab" onclick="switchTab('tab-certs', this)">Certifications</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-personal">
+      <div class="field-row">
+        <div class="field-group"><label>Full Name</label><input type="text" id="f-name"/></div>
+        <div class="field-group"><label>Job Title</label><input type="text" id="f-title"/></div>
+      </div>
+      <div class="field-row">
+        <div class="field-group"><label>Email</label><input type="email" id="f-email"/></div>
+        <div class="field-group"><label>Phone</label><input type="text" id="f-phone"/></div>
+      </div>
+      <div class="field-row">
+        <div class="field-group"><label>Location</label><input type="text" id="f-location"/></div>
+        <div class="field-group"><label>LinkedIn</label><input type="text" id="f-linkedin"/></div>
+      </div>
+      <div class="field-row">
+        <div class="field-group"><label>GitHub</label><input type="text" id="f-github"/></div>
+        <div class="field-group"><label>Portfolio / Website</label><input type="text" id="f-portfolio"/></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-summary">
+      <div class="field-group"><label>Professional Summary</label><textarea id="f-summary" rows="6"></textarea></div>
+    </div>
+
+    <div class="tab-panel" id="tab-experience">
+      <div id="f-experience-entries"></div>
+      <button type="button" class="add-btn" onclick="addExpEntry()">+ Add Experience</button>
+    </div>
+
+    <div class="tab-panel" id="tab-projects">
+      <div id="f-project-entries"></div>
+      <button type="button" class="add-btn" onclick="addProjectEntry()">+ Add Project</button>
+    </div>
+
+    <div class="tab-panel" id="tab-education">
+      <div id="f-education-entries"></div>
+      <button type="button" class="add-btn" onclick="addEduEntry()">+ Add Education</button>
+    </div>
+
+    <div class="tab-panel" id="tab-skills">
+      <div class="field-group"><label>Technical Skills (comma-separated)</label><textarea id="f-tech-tags" rows="3"></textarea></div>
+      <div style="margin-top:18px">
+        <p style="font-size:10px;color:#888;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;">Core competencies (name · level 0–100)</p>
+        <div id="f-skill-bars"></div>
+        <button type="button" class="add-btn" onclick="addSkillBar()">+ Add Competency</button>
+      </div>
+      <div style="margin-top:18px" class="field-group">
+        <label>Languages (one per line: Language | Level)</label>
+        <textarea id="f-languages" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-certs">
+      <div id="f-cert-entries"></div>
+      <button type="button" class="add-btn" onclick="addCertEntry()">+ Add Certification</button>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button type="button" class="btn-apply" onclick="applyChanges()">Apply Changes</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

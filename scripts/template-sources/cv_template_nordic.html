@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CV – Nordic Minimal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --red:#c0392b;
+  --dark:#111;
+  --mid:#444;
+  --light:#888;
+  --rule:#ddd;
+  --bg:#f8f7f5;
+  --white:#fff;
+}
+
+body{
+  font-family:'Barlow',sans-serif;
+  background:#dedad4;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 20px;
+  min-height:100vh;
+}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.toolbar button{font-family:'Barlow',sans-serif;font-size:11px;font-weight:600;padding:8px 18px;border:none;border-radius:2px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+.btn-edit{background:var(--red);color:#fff}
+.btn-print{background:var(--dark);color:#fff}
+
+/* A4 */
+.cv-page{
+  width:210mm;
+  min-height:297mm;
+  background:var(--white);
+  box-shadow:0 6px 40px rgba(0,0,0,.15);
+  display:grid;
+  grid-template-rows:auto 1fr;
+}
+
+/* HEADER BAND */
+.cv-header{
+  background:var(--dark);
+  color:#fff;
+  padding:36px 44px 32px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:end;
+  gap:20px;
+}
+
+.cv-header-name{
+  font-family:'Playfair Display',serif;
+  font-size:42px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-.01em;
+}
+
+.cv-header-role{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--red);
+  margin-top:10px;
+}
+
+.cv-header-contact{
+  text-align:right;
+  font-size:10px;
+  font-weight:300;
+  color:#aaa;
+  line-height:1.9;
+}
+.cv-header-contact a{color:#aaa;text-decoration:none}
+
+/* BODY: two columns */
+.cv-body{
+  display:grid;
+  grid-template-columns:1fr 2px 1fr;
+  gap:0;
+  padding:0;
+}
+
+.cv-col{padding:36px 44px 40px}
+.cv-col-divider{background:var(--rule);margin:36px 0}
+
+/* SECTION */
+.sec-label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--red);
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--rule)}
+
+.section{margin-bottom:30px}
+.section:last-child{margin-bottom:0}
+
+/* Summary */
+.summary-p{font-size:11px;line-height:1.8;color:var(--mid);font-weight:300}
+
+/* Experience */
+.exp-block{margin-bottom:20px}
+.exp-block:last-child{margin-bottom:0}
+.exp-meta{display:flex;justify-content:space-between;margin-bottom:2px;align-items:baseline}
+.exp-role{font-size:12px;font-weight:600;color:var(--dark)}
+.exp-date{font-size:9px;color:var(--light);font-weight:400;letter-spacing:.04em;white-space:nowrap}
+.exp-co{font-size:10px;color:var(--red);font-weight:500;margin-bottom:7px}
+.exp-pts{list-style:none;display:flex;flex-direction:column;gap:4px}
+.exp-pts li{font-size:10px;color:var(--mid);line-height:1.65;padding-left:10px;position:relative;font-weight:300}
+.exp-pts li::before{content:'▸';position:absolute;left:0;color:var(--red);font-size:7px;top:3px}
+
+/* Skills */
+.skill-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.skill-label{font-size:10.5px;color:var(--dark);font-weight:400}
+.dots{display:flex;gap:4px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--rule)}
+.dot.on{background:var(--red)}
+
+/* Education */
+.edu-block{margin-bottom:14px}
+.edu-block:last-child{margin-bottom:0}
+.edu-deg{font-size:11.5px;font-weight:600;color:var(--dark)}
+.edu-sch{font-size:10px;color:var(--red);font-weight:500;margin-top:2px}
+.edu-yr{font-size:9.5px;color:var(--light);margin-top:1px}
+
+/* Tags */
+.tag-wrap{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:9px;border:1px solid var(--rule);color:var(--mid);padding:3px 8px;border-radius:1px;font-weight:400;letter-spacing:.03em}
+
+/* Certs */
+.cert-row{display:flex;justify-content:space-between;font-size:10px;color:var(--mid);margin-bottom:7px;line-height:1.5;font-weight:300}
+.cert-iss{font-size:9px;color:var(--light)}
+
+/* Projects */
+.proj-block{margin-bottom:14px}
+.proj-block:last-child{margin-bottom:0}
+.proj-name{font-size:11px;font-weight:600;color:var(--dark)}
+.proj-tech{font-size:9px;color:var(--red);margin:2px 0 4px;font-weight:500;letter-spacing:.04em}
+.proj-desc{font-size:10px;color:var(--mid);line-height:1.65;font-weight:300}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:4px;width:680px;max-width:96vw;max-height:90vh;overflow-y:auto;padding:36px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h2{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:4px}
+.modal-sub{font-size:11px;color:#888;margin-bottom:22px}
+.tabs{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid #eee;flex-wrap:wrap}
+.tab{font-family:'Barlow',sans-serif;font-size:11px;font-weight:600;padding:7px 13px;border:none;background:none;cursor:pointer;color:#999;border-bottom:2px solid transparent;margin-bottom:-1px;text-transform:uppercase;letter-spacing:.06em}
+.tab.active{color:var(--dark);border-bottom-color:var(--red)}
+.tp{display:none}.tp.active{display:block}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-bottom:5px}
+.fg input,.fg textarea{width:100%;font-family:'Barlow',sans-serif;font-size:12px;padding:9px 12px;border:1px solid #ddd;border-radius:2px;background:#fff;color:#111;outline:none}
+.fg input:focus,.fg textarea:focus{border-color:var(--red)}
+.fg textarea{resize:vertical;min-height:70px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.de{background:#f7f6f4;border-radius:4px;padding:14px 16px;margin-bottom:12px;position:relative}
+.rm{position:absolute;top:10px;right:12px;background:none;border:none;font-size:16px;cursor:pointer;color:#bbb}
+.rm:hover{color:#e05252}
+.add-b{font-family:'Barlow',sans-serif;font-size:10px;font-weight:600;color:var(--red);background:none;border:1.5px dashed var(--red);border-radius:2px;padding:7px 14px;cursor:pointer;width:100%;letter-spacing:.06em;text-transform:uppercase}
+.ma{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;border-top:1px solid #eee;padding-top:18px}
+.bc{font-family:'Barlow',sans-serif;font-size:12px;padding:9px 18px;border:1px solid #ddd;border-radius:2px;background:none;cursor:pointer;color:#555}
+.ba{font-family:'Barlow',sans-serif;font-size:11px;font-weight:600;padding:9px 24px;background:var(--dark);color:#fff;border:none;border-radius:2px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+
+@media print{body{background:none;padding:0}.cv-page{box-shadow:none}.no-print{display:none}}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button class="btn-edit" onclick="openModal()">✏ Edit CV</button>
+  <button class="btn-print" onclick="window.print()">⎙ Print / PDF</button>
+</div>
+
+<div class="cv-page">
+  <!-- HEADER -->
+  <div class="cv-header">
+    <div>
+      <div class="cv-header-name" id="cv-name">Jordan Ellis</div>
+      <div class="cv-header-role" id="cv-title">Backend Engineer</div>
+    </div>
+    <div class="cv-header-contact">
+      <div id="cv-email">jordan.ellis@email.com</div>
+      <div id="cv-phone">+44 7700 900 123</div>
+      <div id="cv-location">London, UK</div>
+      <div id="cv-linkedin">linkedin.com/in/jordanellis</div>
+      <div id="cv-github">github.com/jordanellis</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="cv-body">
+    <!-- LEFT -->
+    <div class="cv-col">
+
+      <div class="section">
+        <div class="sec-label">Profile</div>
+        <p class="summary-p" id="cv-summary">Backend engineer with 6+ years building resilient distributed systems in Go and Python. Passionate about clean API design, observability, and infrastructure-as-code. Comfortable owning services from architecture through to production monitoring in fast-moving startup and scale-up environments.</p>
+      </div>
+
+      <div class="section">
+        <div class="sec-label">Experience</div>
+        <div id="cv-experience">
+          <div class="exp-block">
+            <div class="exp-meta"><span class="exp-role">Senior Backend Engineer</span><span class="exp-date">2022 – Present</span></div>
+            <div class="exp-co">Meridian Labs · London</div>
+            <ul class="exp-pts">
+              <li>Designed and shipped a high-throughput event-streaming pipeline handling 4M events/day using Kafka and Go.</li>
+              <li>Reduced P99 API latency by 55% by introducing connection pooling and query optimisation across PostgreSQL services.</li>
+              <li>Mentored 3 junior engineers; established team coding standards and PR review process.</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <div class="exp-meta"><span class="exp-role">Backend Engineer</span><span class="exp-date">2019 – 2022</span></div>
+            <div class="exp-co">Helix Payments · Remote</div>
+            <ul class="exp-pts">
+              <li>Built PCI-DSS compliant payment microservices processing £10M+ monthly using Python/FastAPI.</li>
+              <li>Implemented end-to-end distributed tracing with OpenTelemetry, cutting MTTR from 4 hours to 35 minutes.</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <div class="exp-meta"><span class="exp-role">Junior Software Engineer</span><span class="exp-date">2018 – 2019</span></div>
+            <div class="exp-co">CodeCraft Agency · Manchester</div>
+            <ul class="exp-pts">
+              <li>Maintained and extended Django REST APIs for 8 client projects.</li>
+              <li>Automated deployment pipelines with Ansible, saving 3 hrs/week of manual effort.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-label">Education</div>
+        <div id="cv-education">
+          <div class="edu-block">
+            <div class="edu-deg">MEng Computer Science</div>
+            <div class="edu-sch">University of Edinburgh</div>
+            <div class="edu-yr">2014 – 2018 · First Class Honours</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cv-col-divider"></div>
+
+    <!-- RIGHT -->
+    <div class="cv-col">
+
+      <div class="section">
+        <div class="sec-label">Technical Skills</div>
+        <div id="cv-skills-dots">
+          <div class="skill-row"><span class="skill-label">Go (Golang)</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="skill-row"><span class="skill-label">Python / FastAPI</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="skill-row"><span class="skill-label">PostgreSQL / Redis</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="skill-row"><span class="skill-label">Kafka / RabbitMQ</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="skill-row"><span class="skill-label">Kubernetes / Docker</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="skill-row"><span class="skill-label">Terraform / AWS</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-label">Technologies</div>
+        <div class="tag-wrap" id="cv-tech-tags">
+          <span class="tag">Go</span><span class="tag">Python</span><span class="tag">Rust</span>
+          <span class="tag">PostgreSQL</span><span class="tag">Redis</span><span class="tag">Kafka</span>
+          <span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span>
+          <span class="tag">AWS</span><span class="tag">GCP</span><span class="tag">OpenTelemetry</span>
+          <span class="tag">gRPC</span><span class="tag">REST</span><span class="tag">GraphQL</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-label">Key Projects</div>
+        <div id="cv-projects">
+          <div class="proj-block">
+            <div class="proj-name">Distributed Rate Limiter</div>
+            <div class="proj-tech">GO · REDIS · KUBERNETES</div>
+            <div class="proj-desc">Token-bucket rate limiter deployed as a sidecar proxy across 40 microservices, sustaining 200K req/s with &lt;2ms overhead.</div>
+          </div>
+          <div class="proj-block">
+            <div class="proj-name">OpenTelemetry Collector Config</div>
+            <div class="proj-tech">OPENTELEMETRY · GRAFANA · LOKI</div>
+            <div class="proj-desc">Open-source Helm chart for opinionated OTel collector configuration adopted by 300+ GitHub stars.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-label">Certifications</div>
+        <div id="cv-certifications">
+          <div class="cert-row"><span>CKA – Certified Kubernetes Administrator</span><span class="cert-iss">CNCF · 2023</span></div>
+          <div class="cert-row"><span>AWS Solutions Architect Associate</span><span class="cert-iss">AWS · 2022</span></div>
+          <div class="cert-row"><span>HashiCorp Terraform Associate</span><span class="cert-iss">HashiCorp · 2021</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay no-print" id="modal-overlay">
+<div class="modal">
+  <h2>Edit CV</h2>
+  <p class="modal-sub">Update your details and click Apply.</p>
+  <div class="tabs">
+    <button class="tab active" onclick="st('tp-p',this)">Personal</button>
+    <button class="tab" onclick="st('tp-s',this)">Summary</button>
+    <button class="tab" onclick="st('tp-e',this)">Experience</button>
+    <button class="tab" onclick="st('tp-pr',this)">Projects</button>
+    <button class="tab" onclick="st('tp-ed',this)">Education</button>
+    <button class="tab" onclick="st('tp-sk',this)">Skills</button>
+    <button class="tab" onclick="st('tp-c',this)">Certs</button>
+  </div>
+
+  <div class="tp active" id="tp-p">
+    <div class="fr"><div class="fg"><label>Full Name</label><input id="f-name" value="Jordan Ellis"/></div><div class="fg"><label>Job Title</label><input id="f-title" value="Backend Engineer"/></div></div>
+    <div class="fr"><div class="fg"><label>Email</label><input id="f-email" value="jordan.ellis@email.com"/></div><div class="fg"><label>Phone</label><input id="f-phone" value="+44 7700 900 123"/></div></div>
+    <div class="fr"><div class="fg"><label>Location</label><input id="f-location" value="London, UK"/></div><div class="fg"><label>LinkedIn</label><input id="f-linkedin" value="linkedin.com/in/jordanellis"/></div></div>
+    <div class="fg"><label>GitHub</label><input id="f-github" value="github.com/jordanellis"/></div>
+  </div>
+
+  <div class="tp" id="tp-s">
+    <div class="fg"><label>Profile Summary</label><textarea id="f-summary" rows="6">Backend engineer with 6+ years building resilient distributed systems in Go and Python. Passionate about clean API design, observability, and infrastructure-as-code. Comfortable owning services from architecture through to production monitoring in fast-moving startup and scale-up environments.</textarea></div>
+  </div>
+
+  <div class="tp" id="tp-e">
+    <div id="f-exp-entries"></div>
+    <button class="add-b" onclick="addExp()">+ Add Experience</button>
+  </div>
+
+  <div class="tp" id="tp-pr">
+    <div id="f-proj-entries"></div>
+    <button class="add-b" onclick="addProj()">+ Add Project</button>
+  </div>
+
+  <div class="tp" id="tp-ed">
+    <div id="f-edu-entries"></div>
+    <button class="add-b" onclick="addEdu()">+ Add Education</button>
+  </div>
+
+  <div class="tp" id="tp-sk">
+    <div class="fg"><label>Technologies (comma-separated)</label><textarea id="f-tags" rows="3">Go, Python, Rust, PostgreSQL, Redis, Kafka, Docker, Kubernetes, Terraform, AWS, GCP, OpenTelemetry, gRPC, REST, GraphQL</textarea></div>
+  </div>
+
+  <div class="tp" id="tp-c">
+    <div id="f-cert-entries"></div>
+    <button class="add-b" onclick="addCert()">+ Add Certification</button>
+  </div>
+
+  <div class="ma">
+    <button class="bc" onclick="closeModal()">Cancel</button>
+    <button class="ba" onclick="apply()">Apply Changes</button>
+  </div>
+</div>
+</div>
+
+<script>
+let exp=[
+  {role:'Senior Backend Engineer',co:'Meridian Labs · London',from:'2022',to:'Present',pts:'Designed and shipped a high-throughput event-streaming pipeline handling 4M events/day using Kafka and Go.\nReduced P99 API latency by 55% by introducing connection pooling and query optimisation across PostgreSQL services.\nMentored 3 junior engineers; established team coding standards and PR review process.'},
+  {role:'Backend Engineer',co:'Helix Payments · Remote',from:'2019',to:'2022',pts:'Built PCI-DSS compliant payment microservices processing £10M+ monthly using Python/FastAPI.\nImplemented end-to-end distributed tracing with OpenTelemetry, cutting MTTR from 4 hours to 35 minutes.'},
+  {role:'Junior Software Engineer',co:'CodeCraft Agency · Manchester',from:'2018',to:'2019',pts:'Maintained and extended Django REST APIs for 8 client projects.\nAutomated deployment pipelines with Ansible, saving 3 hrs/week of manual effort.'}
+];
+let proj=[
+  {name:'Distributed Rate Limiter',tech:'GO · REDIS · KUBERNETES',desc:'Token-bucket rate limiter deployed as a sidecar proxy across 40 microservices, sustaining 200K req/s with <2ms overhead.'},
+  {name:'OpenTelemetry Collector Config',tech:'OPENTELEMETRY · GRAFANA · LOKI',desc:'Open-source Helm chart for opinionated OTel collector configuration adopted by 300+ GitHub stars.'}
+];
+let edu=[{deg:'MEng Computer Science',sch:'University of Edinburgh',yr:'2014 – 2018 · First Class Honours'}];
+let certs=[
+  {name:'CKA – Certified Kubernetes Administrator',iss:'CNCF · 2023'},
+  {name:'AWS Solutions Architect Associate',iss:'AWS · 2022'},
+  {name:'HashiCorp Terraform Associate',iss:'HashiCorp · 2021'}
+];
+
+function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function gv(id){const el=document.getElementById(id);return el?el.value:''}
+function sv(id,v){const el=document.getElementById(id);if(el)el.value=v||''}
+function st(id,btn){document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active')}
+function openModal(){renderForms();document.getElementById('modal-overlay').classList.add('active')}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('active')}
+document.getElementById('modal-overlay').addEventListener('click',ev=>{if(ev.target===ev.currentTarget)closeModal()})
+
+function renderForms(){
+  document.getElementById('f-exp-entries').innerHTML=exp.map((x,i)=>`
+    <div class="de"><button class="rm" onclick="exp.splice(${i},1);renderForms()">×</button>
+    <div class="fr"><div class="fg"><label>Job Title</label><input id="ex${i}r" value="${e(x.role)}"/></div><div class="fg"><label>Company · Location</label><input id="ex${i}c" value="${e(x.co)}"/></div></div>
+    <div class="fr"><div class="fg"><label>From</label><input id="ex${i}f" value="${e(x.from)}"/></div><div class="fg"><label>To</label><input id="ex${i}t" value="${e(x.to)}"/></div></div>
+    <div class="fg"><label>Bullet Points (one per line)</label><textarea id="ex${i}p" rows="4">${e(x.pts)}</textarea></div>
+    </div>`).join('');
+  document.getElementById('f-proj-entries').innerHTML=proj.map((p,i)=>`
+    <div class="de"><button class="rm" onclick="proj.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Project Name</label><input id="pj${i}n" value="${e(p.name)}"/></div>
+    <div class="fg"><label>Technologies</label><input id="pj${i}t" value="${e(p.tech)}"/></div>
+    <div class="fg"><label>Description</label><textarea id="pj${i}d" rows="3">${e(p.desc)}</textarea></div>
+    </div>`).join('');
+  document.getElementById('f-edu-entries').innerHTML=edu.map((x,i)=>`
+    <div class="de"><button class="rm" onclick="edu.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Degree</label><input id="ed${i}d" value="${e(x.deg)}"/></div>
+    <div class="fg"><label>School</label><input id="ed${i}s" value="${e(x.sch)}"/></div>
+    <div class="fg"><label>Year / Grade</label><input id="ed${i}y" value="${e(x.yr)}"/></div>
+    </div>`).join('');
+  document.getElementById('f-cert-entries').innerHTML=certs.map((c,i)=>`
+    <div class="de"><button class="rm" onclick="certs.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Certification</label><input id="ct${i}n" value="${e(c.name)}"/></div>
+    <div class="fg"><label>Issuer & Year</label><input id="ct${i}i" value="${e(c.iss)}"/></div>
+    </div>`).join('');
+}
+function addExp(){exp.push({role:'',co:'',from:'',to:'',pts:''});renderForms()}
+function addProj(){proj.push({name:'',tech:'',desc:''});renderForms()}
+function addEdu(){edu.push({deg:'',sch:'',yr:''});renderForms()}
+function addCert(){certs.push({name:'',iss:''});renderForms()}
+
+function apply(){
+  exp.forEach((_,i)=>{exp[i].role=gv(`ex${i}r`);exp[i].co=gv(`ex${i}c`);exp[i].from=gv(`ex${i}f`);exp[i].to=gv(`ex${i}t`);exp[i].pts=gv(`ex${i}p`)});
+  proj.forEach((_,i)=>{proj[i].name=gv(`pj${i}n`);proj[i].tech=gv(`pj${i}t`);proj[i].desc=gv(`pj${i}d`)});
+  edu.forEach((_,i)=>{edu[i].deg=gv(`ed${i}d`);edu[i].sch=gv(`ed${i}s`);edu[i].yr=gv(`ed${i}y`)});
+  certs.forEach((_,i)=>{certs[i].name=gv(`ct${i}n`);certs[i].iss=gv(`ct${i}i`)});
+
+  document.getElementById('cv-name').textContent=gv('f-name');
+  document.getElementById('cv-title').textContent=gv('f-title');
+  document.getElementById('cv-email').textContent=gv('f-email');
+  document.getElementById('cv-phone').textContent=gv('f-phone');
+  document.getElementById('cv-location').textContent=gv('f-location');
+  document.getElementById('cv-linkedin').textContent=gv('f-linkedin');
+  document.getElementById('cv-github').textContent=gv('f-github');
+  document.getElementById('cv-summary').textContent=gv('f-summary');
+
+  document.getElementById('cv-tech-tags').innerHTML=gv('f-tags').split(',').map(t=>t.trim()).filter(Boolean).map(t=>`<span class="tag">${e(t)}</span>`).join('');
+
+  document.getElementById('cv-experience').innerHTML=exp.map(x=>`
+    <div class="exp-block">
+      <div class="exp-meta"><span class="exp-role">${e(x.role)}</span><span class="exp-date">${e(x.from)} – ${e(x.to)}</span></div>
+      <div class="exp-co">${e(x.co)}</div>
+      <ul class="exp-pts">${x.pts.split('\n').filter(Boolean).map(b=>`<li>${e(b.replace(/^[▸\-•]\s*/,''))}</li>`).join('')}</ul>
+    </div>`).join('');
+
+  document.getElementById('cv-projects').innerHTML=proj.map(p=>`
+    <div class="proj-block"><div class="proj-name">${e(p.name)}</div><div class="proj-tech">${e(p.tech)}</div><div class="proj-desc">${e(p.desc)}</div></div>`).join('');
+
+  document.getElementById('cv-education').innerHTML=edu.map(x=>`
+    <div class="edu-block"><div class="edu-deg">${e(x.deg)}</div><div class="edu-sch">${e(x.sch)}</div><div class="edu-yr">${e(x.yr)}</div></div>`).join('');
+
+  document.getElementById('cv-certifications').innerHTML=certs.map(c=>`
+    <div class="cert-row"><span>${e(c.name)}</span><span class="cert-iss">${e(c.iss)}</span></div>`).join('');
+
+  closeModal();
+}
+</script>
+</body>
+</html>
