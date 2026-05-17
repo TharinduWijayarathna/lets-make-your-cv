@@ -21,9 +21,17 @@ const {
 const { createPageViewTracker, getAdminStats } = require('./analytics');
 const { verifyAdminLogin, requireAdmin, getAdminCredentials } = require('./admin-auth');
 
+function resolveCookieSecure(isProd, options) {
+  if (options.cookieSecure !== undefined) return options.cookieSecure;
+  if (process.env.COOKIE_SECURE === 'true') return true;
+  if (process.env.COOKIE_SECURE === 'false') return false;
+  return false;
+}
+
 function createApp(options = {}) {
   const app = express();
   const isProd = options.production ?? process.env.NODE_ENV === 'production';
+  const cookieSecure = resolveCookieSecure(isProd, options);
 
   if (isProd) {
     app.set('trust proxy', 1);
@@ -43,7 +51,7 @@ function createApp(options = {}) {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        secure: isProd,
+        secure: cookieSecure,
         sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000,
       },
@@ -161,7 +169,8 @@ function createApp(options = {}) {
   });
 
   app.post('/api/admin/login', (req, res) => {
-    const { username, password } = req.body || {};
+    const username = String(req.body?.username || '').trim();
+    const password = String(req.body?.password || '');
     const check = verifyAdminLogin(username, password);
     if (!check.ok) {
       return res.status(check.error.includes('not configured') ? 503 : 401).json({ error: check.error });

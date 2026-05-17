@@ -9,7 +9,7 @@ function timingSafeEqualStr(a, b) {
 
 function getAdminCredentials() {
   const username = (process.env.ADMIN_USERNAME || 'admin').trim();
-  const password = process.env.ADMIN_PASSWORD || '';
+  const password = (process.env.ADMIN_PASSWORD || '').trim();
   return { username, password, enabled: password.length > 0 };
 }
 
@@ -18,7 +18,9 @@ function verifyAdminLogin(username, password) {
   if (!creds.enabled) {
     return { ok: false, error: 'Admin login is not configured (set ADMIN_PASSWORD in .env)' };
   }
-  if (!timingSafeEqualStr(username, creds.username) || !timingSafeEqualStr(password, creds.password)) {
+  const user = String(username || '').trim();
+  const pass = String(password || '');
+  if (!timingSafeEqualStr(user, creds.username) || !timingSafeEqualStr(pass, creds.password)) {
     return { ok: false, error: 'Invalid admin credentials' };
   }
   return { ok: true };
