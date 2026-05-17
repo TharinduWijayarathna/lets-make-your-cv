@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Build a polished, print-ready CV in your browser. Three professional templates, one editor, SQLite persistence." />
-  <title>Build Your CV — Professional CV builder</title>
+  <meta name="description" content="Free online CV builder. Create a professional resume in minutes with three beautiful templates. Sign up, edit, and download as PDF." />
+  <title>Build Your CV — Free online CV builder</title>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/landing.css" />
 </head>
@@ -12,31 +12,29 @@
 
 <header class="landing-header">
   <a href="/" class="landing-logo">Build Your CV</a>
-  <nav class="landing-nav" aria-label="Main">
-    <a href="#features">Features</a>
-    <a href="#templates">Templates</a>
-    <a href="#how-it-works">How it works</a>
-    <a href="/app.html" class="btn btn-primary">Open builder</a>
+  <nav class="landing-nav" id="landing-nav-auth" aria-label="Account">
+    <a href="/login.html">Sign in</a>
+    <a href="/register.html?next=/app.html" class="btn btn-primary">Get started free</a>
   </nav>
 </header>
 
 <main>
   <section class="hero">
     <div>
-      <p class="hero-eyebrow">Free · Local · Print-ready</p>
-      <h1>One CV. Three layouts. Zero fuss.</h1>
+      <p class="hero-eyebrow">100% free · Online · Print-ready</p>
+      <h1>Your professional CV, built with ease.</h1>
       <p class="hero-lead">
-        Edit your experience once, switch between Classic, Nordic, and Editorial templates instantly,
-        and export a crisp A4 PDF — all in the browser with automatic SQLite save.
+        A simple, free tool to create a polished resume in the browser. Sign up once,
+        fill structured sections, pick from three designer templates, and download a PDF whenever you need it.
       </p>
       <div class="hero-actions">
-        <a href="/app.html" class="btn btn-primary">Start building →</a>
-        <a href="#templates" class="btn btn-ghost">See templates</a>
+        <a href="/register.html?next=/app.html" class="btn btn-primary">Create free account →</a>
+        <a href="/login.html?next=/app.html" class="btn btn-ghost">Sign in</a>
       </div>
       <div class="hero-stats">
-        <div><strong>3</strong> professional templates</div>
-        <div><strong>1</strong> shared data model</div>
-        <div><strong>PDF</strong> via print dialog</div>
+        <div><strong>Free</strong> no credit card</div>
+        <div><strong>3</strong> pro templates</div>
+        <div><strong>Cloud</strong> saved to your account</div>
       </div>
     </div>
     <div class="hero-visual" aria-hidden="true">
@@ -61,35 +59,35 @@
   </section>
 
   <section class="section" id="features">
-    <p class="section-label">Overview</p>
-    <h2>Everything you need to ship a CV</h2>
+    <p class="section-label">Why Build Your CV</p>
+    <h2>Designed for job seekers, not developers</h2>
     <p class="section-intro">
-      A focused builder — no accounts, no drag-and-drop maze. Fill structured fields, preview on real A4 layouts, and save locally on your machine.
+      No installs, no local files, no complexity. Create an account and build your CV from any device — your progress is always waiting for you.
     </p>
     <div class="features">
       <article class="feature-card">
         <div class="feature-icon classic" aria-hidden="true">◫</div>
-        <h3>Structured editor</h3>
-        <p>Personal info, summary, experience, projects, education, skills, and certifications — organized in tabs, not scattered text boxes.</p>
+        <h3>Guided editor</h3>
+        <p>Personal details, summary, experience, projects, education, skills, and certifications — clear tabs instead of a blank page.</p>
       </article>
       <article class="feature-card">
         <div class="feature-icon nordic" aria-hidden="true">⇄</div>
-        <h3>Template switching</h3>
-        <p>Change layout from the toolbar without re-entering data. Your template choice is stored alongside your CV in SQLite.</p>
+        <h3>One CV, three looks</h3>
+        <p>Switch between Classic, Nordic, and Editorial layouts instantly. Your content stays the same; only the design changes.</p>
       </article>
       <article class="feature-card">
-        <div class="feature-icon editorial" aria-hidden="true">⎙</div>
-        <h3>Print to PDF</h3>
-        <p>Layouts are tuned for A4. Use Print / Save PDF in the builder for a file recruiters and ATS-friendly workflows expect.</p>
+        <div class="feature-icon editorial" aria-hidden="true">☁</div>
+        <h3>Saved to your account</h3>
+        <p>Every change syncs to your private profile. Sign in from anywhere and pick up right where you left off.</p>
       </article>
     </div>
   </section>
 
   <section class="section" id="templates">
     <p class="section-label">Templates</p>
-    <h2>Three distinct visual identities</h2>
+    <h2>Three layouts recruiters love</h2>
     <p class="section-intro">
-      Same content, different personality — sidebar classic, Scandinavian minimal, or editorial bold. Pick what fits your industry and taste.
+      Professional A4 designs with real typography — export to PDF with one click from your browser.
     </p>
     <div class="templates-grid">
       <article class="template-card">
@@ -99,60 +97,62 @@
         </div>
         <div class="template-card-body">
           <h3>Classic Sidebar</h3>
-          <p>Dark sidebar, warm accents, EB Garamond headings — timeless for tech and corporate roles.</p>
+          <p>Timeless sidebar layout with warm accents — ideal for tech, business, and corporate roles.</p>
         </div>
       </article>
       <article class="template-card">
         <div class="template-thumb nordic" aria-hidden="true"></div>
         <div class="template-card-body">
           <h3>Nordic Minimal</h3>
-          <p>Strong header band, dot skills, restrained typography — clean and modern without noise.</p>
+          <p>Clean header band and restrained type — modern and easy to scan.</p>
         </div>
       </article>
       <article class="template-card">
         <div class="template-thumb editorial" aria-hidden="true"></div>
         <div class="template-card-body">
           <h3>Editorial Bold</h3>
-          <p>Magazine-style hero, amber highlights, split columns — for creatives and senior profiles.</p>
+          <p>Magazine-style hero and strong hierarchy — stand out in creative and leadership roles.</p>
         </div>
       </article>
     </div>
   </section>
 
   <section class="section" id="how-it-works">
-    <p class="section-label">Workflow</p>
-    <h2>Up and running in minutes</h2>
-    <p class="section-intro">Run locally with Node.js. Your data stays in a SQLite file under <code>data/cv.db</code>.</p>
+    <p class="section-label">How it works</p>
+    <h2>From sign-up to PDF in four steps</h2>
+    <p class="section-intro">Everything runs in your browser. Free to use — create an account and start in under a minute.</p>
     <div class="steps">
       <article class="step">
-        <h3>Install & start</h3>
-        <p><code>npm install</code> then <code>npm start</code> — open localhost:3000.</p>
+        <h3>Create account</h3>
+        <p>Register free with your email. We only store what you need for your CV.</p>
       </article>
       <article class="step">
-        <h3>Open the builder</h3>
-        <p>Click <strong>Open builder</strong> to edit your CV with live preview.</p>
+        <h3>Fill your story</h3>
+        <p>Use the guided editor for each section. See a live A4 preview as you type.</p>
       </article>
       <article class="step">
-        <h3>Edit & save</h3>
-        <p>Apply changes from the modal; everything syncs to the database automatically.</p>
+        <h3>Pick a template</h3>
+        <p>Try Classic, Nordic, or Editorial — switch anytime without losing content.</p>
       </article>
       <article class="step">
-        <h3>Export</h3>
-        <p>Switch templates anytime, then print to PDF when you are happy with the result.</p>
+        <h3>Download PDF</h3>
+        <p>Print or save as PDF from the builder. Ready to send to employers.</p>
       </article>
     </div>
   </section>
 
   <section class="cta-band" aria-labelledby="cta-heading">
-    <h2 id="cta-heading">Ready to build yours?</h2>
-    <p>Jump into the app with sample data pre-loaded — replace it with your story.</p>
-    <a href="/app.html" class="btn btn-primary">Open CV builder →</a>
+    <h2 id="cta-heading">Start your free CV today</h2>
+    <p>Join Build Your CV — the easiest way to create a professional resume online.</p>
+    <a href="/register.html?next=/app.html" class="btn btn-primary">Get started free →</a>
   </section>
 </main>
 
 <footer class="landing-footer">
-  <p>Build Your CV · Node.js · Express · SQLite · <code>GET/PUT /api/cv</code></p>
+  <p>Build Your CV · Free online resume builder · <a href="/login.html">Sign in</a></p>
 </footer>
 
+<script src="/js/auth-client.js"></script>
+<script>document.addEventListener('DOMContentLoaded', initLandingNav);</script>
 </body>
 </html>

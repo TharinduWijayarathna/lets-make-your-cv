@@ -3,126 +3,91 @@ const fs = require('fs');
 const path = require('path');
 
 const DATA_DIR = path.join(__dirname, 'data');
-const DB_PATH = path.join(DATA_DIR, 'cv.db');
+const DEFAULT_DB_PATH = path.join(DATA_DIR, 'cv.db');
 
 const VALID_TEMPLATES = ['classic', 'nordic', 'editorial'];
 
-const DEFAULT_CV = {
+const EMPTY_CV = {
   template: 'classic',
   personal: {
-    name: 'Alex Morgan',
-    title: 'Full Stack Developer',
-    email: 'alex.morgan@email.com',
-    phone: '+1 (555) 234-5678',
-    location: 'San Francisco, CA',
-    linkedin: 'linkedin.com/in/alexmorgan',
-    github: 'github.com/alexmorgan',
-    portfolio: 'alexmorgan.dev',
+    name: '',
+    title: '',
+    email: '',
+    phone: '',
+    location: '',
+    linkedin: '',
+    github: '',
+    portfolio: '',
   },
-  summary:
-    'Results-driven Full Stack Developer with 5+ years of experience designing and building scalable web applications. Proficient in JavaScript, TypeScript, and Python with strong expertise in React, Node.js, and cloud infrastructure. Proven track record of delivering high-performance solutions that improve user experience and operational efficiency. Adept at collaborating in Agile teams and translating complex technical requirements into robust, maintainable code.',
-  techTags:
-    'JavaScript, TypeScript, Python, React, Node.js, Next.js, PostgreSQL, MongoDB, Docker, AWS, REST APIs, GraphQL, Git, CI/CD',
-  languages: 'English | Native\nSpanish | Intermediate',
-  experience: [
-    {
-      role: 'Senior Full Stack Developer',
-      company: 'TechNova Solutions',
-      location: 'San Francisco, CA',
-      from: 'Jan 2022',
-      to: 'Present',
-      bullets:
-        'Architected and delivered a customer-facing SaaS platform serving 50,000+ users, reducing page load time by 40%.\nLed a team of 4 engineers to migrate a monolithic application to a microservices architecture using Docker and Kubernetes.\nDesigned RESTful and GraphQL APIs integrated with third-party payment and analytics services.\nImplemented CI/CD pipelines using GitHub Actions and AWS CodePipeline, reducing deployment time from 2 hours to 12 minutes.',
-    },
-    {
-      role: 'Full Stack Developer',
-      company: 'Bright Digital Agency',
-      location: 'Austin, TX',
-      from: 'Jun 2020',
-      to: 'Dec 2021',
-      bullets:
-        'Developed and maintained 10+ client web applications using React, Node.js, and PostgreSQL.\nOptimised database queries and introduced Redis caching, resulting in a 60% reduction in API response times.\nCollaborated closely with UI/UX designers to implement pixel-perfect, accessible interfaces meeting WCAG 2.1 AA standards.',
-    },
-    {
-      role: 'Junior Web Developer',
-      company: 'StartupHub Inc.',
-      location: 'Remote',
-      from: 'Aug 2019',
-      to: 'May 2020',
-      bullets:
-        'Built and iterated on MVP features for an early-stage SaaS product using Vue.js and Django REST Framework.\nWrote unit and integration tests achieving 85% code coverage, contributing to a 30% reduction in production bugs.',
-    },
-  ],
-  projects: [
-    {
-      name: 'Real-Time Collaboration Tool',
-      tech: 'React · Node.js · Socket.io · MongoDB',
-      desc: 'Built a Figma-inspired real-time whiteboard application supporting 100+ concurrent users with operational transformation for conflict resolution and sub-100ms latency.',
-    },
-    {
-      name: 'AI-Powered Code Review Bot',
-      tech: 'Python · FastAPI · OpenAI API · GitHub Actions',
-      desc: 'Developed an automated code review GitHub bot that flags security vulnerabilities and style violations, adopted by 15+ open-source repositories.',
-    },
-  ],
-  education: [
-    {
-      degree: 'B.Sc. Computer Science',
-      school: 'University of California, Berkeley',
-      year: '2015 – 2019 · GPA: 3.8 / 4.0',
-    },
-  ],
-  skillBars: [
-    { name: 'Frontend Development', level: 92 },
-    { name: 'Backend Development', level: 85 },
-    { name: 'Database Design', level: 80 },
-    { name: 'DevOps & Cloud', level: 72 },
-    { name: 'System Design', level: 78 },
-  ],
-  certifications: [
-    { name: 'AWS Certified Solutions Architect – Associate', issuer: 'Amazon Web Services · 2023' },
-    { name: 'Google Professional Cloud Developer', issuer: 'Google · 2022' },
-    { name: 'MongoDB Certified Developer', issuer: 'MongoDB · 2021' },
-  ],
+  summary: '',
+  techTags: '',
+  languages: '',
+  experience: [],
+  projects: [],
+  education: [],
+  skillBars: [],
+  certifications: [],
 };
 
 let db;
+let dbPath = DEFAULT_DB_PATH;
 
-function initDb() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+function initDb(options = {}) {
+  if (db) {
+    db.close();
+    db = null;
   }
 
-  db = new Database(DB_PATH);
+  dbPath = options.dbPath || process.env.DB_PATH || DEFAULT_DB_PATH;
+
+  if (dbPath !== ':memory:') {
+    const dir = path.dirname(dbPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  }
+
+  db = new Database(dbPath);
   db.pragma('journal_mode = WAL');
+  db.pragma('foreign_keys = ON');
 
   db.exec(`
-    CREATE TABLE IF NOT EXISTS cv (
-      id INTEGER PRIMARY KEY CHECK (id = 1),
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT NOT NULL UNIQUE COLLATE NOCASE,
+      password_hash TEXT NOT NULL,
+      name TEXT NOT NULL DEFAULT '',
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS user_cv (
+      user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
       data TEXT NOT NULL,
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
-    )
+    );
   `);
 
-  const row = db.prepare('SELECT data FROM cv WHERE id = 1').get();
-  if (!row) {
-    db.prepare('INSERT INTO cv (id, data) VALUES (1, ?)').run(JSON.stringify(DEFAULT_CV));
+  const legacy = db.prepare(
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='cv'"
+  ).get();
+  if (legacy) {
+    db.exec('DROP TABLE IF EXISTS cv');
   }
 }
 
 function normalizeCvData(data) {
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
-    return structuredClone(DEFAULT_CV);
+    return structuredClone(EMPTY_CV);
   }
 
   return {
-    ...DEFAULT_CV,
+    ...EMPTY_CV,
     ...data,
     template: VALID_TEMPLATES.includes(data.template) ? data.template : 'classic',
-    personal: { ...DEFAULT_CV.personal, ...(data.personal || {}) },
-    summary: typeof data.summary === 'string' ? data.summary : DEFAULT_CV.summary,
-    techTags: typeof data.techTags === 'string' ? data.techTags : DEFAULT_CV.techTags,
-    languages: typeof data.languages === 'string' ? data.languages : DEFAULT_CV.languages,
+    personal: { ...EMPTY_CV.personal, ...(data.personal || {}) },
+    summary: typeof data.summary === 'string' ? data.summary : '',
+    techTags: typeof data.techTags === 'string' ? data.techTags : '',
+    languages: typeof data.languages === 'string' ? data.languages : '',
     experience: Array.isArray(data.experience) ? data.experience : [],
     projects: Array.isArray(data.projects) ? data.projects : [],
     education: Array.isArray(data.education) ? data.education : [],
@@ -131,40 +96,89 @@ function normalizeCvData(data) {
   };
 }
 
-function parseStoredCv(json) {
-  try {
-    return normalizeCvData(JSON.parse(json));
-  } catch (err) {
-    console.error('Invalid CV JSON in database, resetting to default:', err.message);
-    const data = structuredClone(DEFAULT_CV);
-    db.prepare('UPDATE cv SET data = ?, updated_at = datetime(\'now\') WHERE id = 1').run(
-      JSON.stringify(data)
-    );
-    return data;
+function closeDb() {
+  if (db) {
+    db.close();
+    db = null;
   }
 }
 
-function getCv() {
-  const row = db.prepare('SELECT data, updated_at FROM cv WHERE id = 1').get();
-  if (!row) {
-    return { data: structuredClone(DEFAULT_CV), updatedAt: null };
+function normalizeCvDataExport(data) {
+  return normalizeCvData(data);
+}
+
+function parseStoredCv(json) {
+  try {
+    return normalizeCvData(JSON.parse(json));
+  } catch {
+    return structuredClone(EMPTY_CV);
   }
+}
+
+function getUserAuthByEmail(email) {
+  return db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+}
+
+function findUserById(id) {
+  return db.prepare('SELECT id, email, name, created_at FROM users WHERE id = ?').get(id);
+}
+
+function createUser({ email, passwordHash, name }) {
+  const result = db
+    .prepare('INSERT INTO users (email, password_hash, name) VALUES (?, ?, ?)')
+    .run(email, passwordHash, name);
+  const userId = result.lastInsertRowid;
+  const starterCv = structuredClone(EMPTY_CV);
+  starterCv.personal.name = name;
+  db.prepare('INSERT INTO user_cv (user_id, data) VALUES (?, ?)').run(
+    userId,
+    JSON.stringify(starterCv)
+  );
+  return findUserById(userId);
+}
+
+function getCvForUser(userId) {
+  let row = db
+    .prepare('SELECT data, updated_at FROM user_cv WHERE user_id = ?')
+    .get(userId);
+
+  if (!row) {
+    db.prepare('INSERT INTO user_cv (user_id, data) VALUES (?, ?)').run(
+      userId,
+      JSON.stringify(structuredClone(EMPTY_CV))
+    );
+    row = db
+      .prepare('SELECT data, updated_at FROM user_cv WHERE user_id = ?')
+      .get(userId);
+  }
+
   return {
     data: parseStoredCv(row.data),
     updatedAt: row.updated_at,
   };
 }
 
-function saveCv(data) {
+function saveCvForUser(userId, data) {
   const json = JSON.stringify(normalizeCvData(data));
   db.prepare(`
-    INSERT INTO cv (id, data, updated_at)
-    VALUES (1, ?, datetime('now'))
-    ON CONFLICT(id) DO UPDATE SET
+    INSERT INTO user_cv (user_id, data, updated_at)
+    VALUES (?, ?, datetime('now'))
+    ON CONFLICT(user_id) DO UPDATE SET
       data = excluded.data,
       updated_at = excluded.updated_at
-  `).run(json);
-  return getCv();
+  `).run(userId, json);
+  return getCvForUser(userId);
 }
 
-module.exports = { initDb, getCv, saveCv, DEFAULT_CV, VALID_TEMPLATES };
+module.exports = {
+  initDb,
+  closeDb,
+  getUserAuthByEmail,
+  findUserById,
+  createUser,
+  getCvForUser,
+  saveCvForUser,
+  normalizeCvData: normalizeCvDataExport,
+  EMPTY_CV,
+  VALID_TEMPLATES,
+};

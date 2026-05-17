@@ -1,19 +1,21 @@
 # Build Your CV
 
-A single-page CV builder with a print-ready layout. Edit your details in the browser, persist them in SQLite, and export to PDF via the browser print dialog.
+A free online CV builder. Create an account, edit a professional resume in the browser, switch between three print-ready templates, and export to PDF.
 
 ## Features
 
+- **Free accounts** — register and sign in to save your CV online
 - **Three CV templates** — Classic Sidebar, Nordic Minimal, and Editorial Bold
-- Switch templates from the toolbar; your content stays the same and the choice is saved in SQLite
-- In-browser editor for personal info, summary, experience, projects, education, skills, and certifications
-- Automatic load/save to a local SQLite database
+- Switch templates anytime; your content stays the same
+- Guided editor for personal info, summary, experience, projects, education, skills, and certifications
+- Automatic save to your account
 - Print / Save as PDF from the browser
 
 ## Tech stack
 
-- **Frontend** — HTML, CSS, vanilla JavaScript (`public/index.html` landing, `public/app.html` builder)
-- **Backend** — Node.js, Express
+- **Frontend** — HTML, CSS, vanilla JavaScript
+- **Backend** — Node.js, Express, express-session
+- **Auth** — bcrypt password hashing, cookie sessions
 - **Database** — SQLite via [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 
 ## Requirements
@@ -24,65 +26,68 @@ A single-page CV builder with a print-ready layout. Edit your details in the bro
 
 ```bash
 npm install
+cp .env.example .env   # set SESSION_SECRET for production
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) for the overview, or go straight to the [CV builder](http://localhost:3000/app.html).
-
-For development with auto-restart on file changes:
+- **Home:** [http://localhost:3000](http://localhost:3000)
+- **Register:** [http://localhost:3000/register.html](http://localhost:3000/register.html)
+- **CV builder:** [http://localhost:3000/app.html](http://localhost:3000/app.html) (requires sign-in)
 
 ```bash
-npm run dev
+npm run dev   # auto-restart on file changes
+npm test      # run unit and API tests
 ```
 
 ## Usage
 
-1. Choose a **Template** from the dropdown (Classic, Nordic, or Editorial).
-2. Click **Edit CV** to update your information.
-3. Click **Apply Changes** to update the preview and save to the database.
-4. Click **Print / Save PDF** to export (use “Save as PDF” in the print dialog).
-
-The toolbar shows load and save status.
+1. **Create a free account** on the home page.
+2. Open the **CV builder** and fill in your details via **Edit CV**.
+3. Choose a **template** from the toolbar.
+4. Click **Apply Changes** to save to your account.
+5. **Print / Save PDF** when ready.
 
 ## API
 
-| Method | Endpoint    | Description                          |
-|--------|-------------|--------------------------------------|
-| `GET`  | `/api/cv`   | Load CV data from the database       |
-| `PUT`  | `/api/cv`   | Save CV data (`{ "data": { ... } }`) |
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| `POST` | `/api/auth/register` | — | `{ email, password, name }` |
+| `POST` | `/api/auth/login` | — | `{ email, password }` |
+| `POST` | `/api/auth/logout` | session | Sign out |
+| `GET` | `/api/auth/me` | session | Current user or `null` |
+| `GET` | `/api/cv` | session | Load your CV |
+| `PUT` | `/api/cv` | session | Save CV `{ "data": { ... } }` |
 
-Example save request:
+## Deploying to the web
 
-```bash
-curl -X PUT http://localhost:3000/api/cv \
-  -H "Content-Type: application/json" \
-  -d '{"data":{"personal":{"name":"Jane Doe",...},"summary":"...",...}}'
-```
+1. Set `NODE_ENV=production` and a strong `SESSION_SECRET` (see `.env.example`).
+2. Run behind HTTPS (sessions use secure cookies in production).
+3. Host on any Node-friendly platform (Railway, Render, Fly.io, VPS, etc.).
+4. Persist the `data/` directory so SQLite survives restarts.
 
 ## Project structure
 
 ```
 build-your-cv/
-├── db.js           # SQLite setup and CV read/write
-├── server.js       # Express server and API routes
+├── auth.js              # Password hashing and validation
+├── db.js                # Users and per-user CV storage
+├── server.js            # Express, sessions, API routes
 ├── public/
-│   ├── index.html       # Landing / app overview
-│   ├── app.html         # CV builder (editor, preview, template picker)
-│   ├── css/landing.css  # Landing page styles
-│   ├── js/app.js        # Load/save, template switching, renderers
-│   ├── css/             # shared.css + classic|nordic|editorial.css (active template only)
-│   └── templates/       # CV layout HTML (classic, nordic, editorial)
-├── data/
-│   └── cv.db       # Created on first run (gitignored)
-└── package.json
+│   ├── index.html       # Landing page
+│   ├── login.html       # Sign in
+│   ├── register.html    # Sign up
+│   ├── app.html         # CV builder
+│   ├── js/              # app.js, auth-client.js, auth-page.js
+│   ├── css/             # landing, auth, shared, template styles
+│   └── templates/       # CV layout partials
+├── scripts/             # CSS build tooling
+└── data/cv.db           # SQLite (gitignored)
 ```
-
-## Data storage
-
-CV content is stored as JSON in a single SQLite row (`data/cv.db`). On first run, the database is created and seeded with sample data. Delete `data/cv.db` to reset to the default CV.
 
 ## Environment
 
-| Variable | Default | Description        |
-|----------|---------|--------------------|
-| `PORT`   | `3000`  | HTTP server port   |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `3000` | HTTP server port |
+| `SESSION_SECRET` | *(dev fallback)* | **Required in production** — session signing key |
+| `NODE_ENV` | — | Set to `production` when deployed |

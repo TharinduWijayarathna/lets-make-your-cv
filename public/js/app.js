@@ -114,14 +114,14 @@ async function changeTemplate(name) {
     await saveCV();
   } catch (err) {
     console.error(err);
-    setSaveStatus('Template saved locally; sync failed', true);
+    setSaveStatus('Template changed; save failed — try again', true);
   }
 }
 
 async function loadCV() {
   setSaveStatus('Loading CV…');
   try {
-    const res = await fetch('/api/cv');
+    const res = await apiFetch('/api/cv');
     if (!res.ok) {
       const errBody = await res.json().catch(() => ({}));
       throw new Error(errBody.error || `Server error (${res.status})`);
@@ -136,27 +136,23 @@ async function loadCV() {
     await mountTemplate(cvData.template);
     renderCV();
     populateFormFields();
-    setSaveStatus('CV loaded from database');
+    setSaveStatus('CV loaded');
   } catch (err) {
+    if (err.message === 'Unauthorized') return;
     console.error('loadCV failed:', err);
-    const hint =
-      location.protocol === 'file:'
-        ? 'Open via the server (npm start → http://localhost:3000)'
-        : err.message || 'Check that the server is running';
-    setSaveStatus(`Could not load CV — ${hint}`, true);
+    setSaveStatus(`Could not load CV — ${err.message || 'Try again'}`, true);
   }
 }
 
 async function saveCV() {
   setSaveStatus('Saving…');
-  const res = await fetch('/api/cv', {
+  const res = await apiFetch('/api/cv', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ data: cvData }),
   });
   if (!res.ok) throw new Error('Failed to save');
   const { updatedAt } = await res.json();
-  setSaveStatus(updatedAt ? `Saved · ${updatedAt} UTC` : 'Saved to database');
+  setSaveStatus(updatedAt ? `Saved · ${updatedAt}` : 'Saved to your account');
 }
 
 function renderCV() {
@@ -529,7 +525,22 @@ document.getElementById('modal-overlay').addEventListener('click', (e) => {
   if (e.target === e.currentTarget) closeModal();
 });
 
+async function initAppUser() {
+  const user = await fetchCurrentUser();
+  if (!user) {
+    const next = encodeURIComponent('/app.html');
+    location.href = `/login.html?next=${next}`;
+    return false;
+  }
+  const label = $('toolbar-user');
+  if (label) label.textContent = user.name || user.email;
+  return true;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+  const logoutBtn = $('btn-logout');
+  if (logoutBtn) logoutBtn.addEventListener('click', () => logout());
+
   const select = $('template-select');
   if (select) {
     select.innerHTML = Object.entries(TEMPLATES)
@@ -538,6 +549,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     select.addEventListener('change', () => changeTemplate(select.value));
   }
   try {
+    const authed = await initAppUser();
+    if (!authed) return;
     await preloadTemplates();
     await loadCV();
   } catch (err) {

@@ -13,11 +13,13 @@
 <body class="tpl-classic">
 
 <div class="toolbar no-print">
-  <a href="/" class="toolbar-home" title="Back to overview">← Overview</a>
+  <a href="/" class="toolbar-home" title="Back to home">← Home</a>
+  <span class="toolbar-user" id="toolbar-user"></span>
   <span class="template-label">Template</span>
   <select id="template-select" aria-label="CV template"></select>
   <button type="button" class="btn-edit" onclick="openModal()">✏ Edit CV</button>
   <button type="button" class="btn-print" onclick="window.print()">⎙ Print / Save PDF</button>
+  <button type="button" class="btn-logout" id="btn-logout">Sign out</button>
   <span class="toolbar-note" id="save-status">Loading CV…</span>
 </div>
 
@@ -101,6 +103,7 @@
   </div>
 </div>
 
+<script src="/js/auth-client.js"></script>
 <script src="/js/app.js"></script>
 </body>
 </html>

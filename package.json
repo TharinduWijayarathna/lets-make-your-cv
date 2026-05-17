@@ -6,13 +6,19 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "build:css": "node scripts/build-template-css.js"
+    "build:css": "node scripts/build-template-css.js",
+    "test": "node --test --test-concurrency=1 test/**/*.test.js"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "better-sqlite3": "^11.10.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-session": "^1.18.1"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4"
   }
 }
