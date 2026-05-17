@@ -1,6 +1,6 @@
 # Build Your CV
 
-Free online CV builder — sign up, edit your resume, pick a template, save to your account, export as PDF.
+Free online CV builder — sign up, edit your resume, pick a layout, save to your account, export as PDF.
 
 **Stack:** Node.js, Express, SQLite, vanilla HTML/CSS/JS.
 
