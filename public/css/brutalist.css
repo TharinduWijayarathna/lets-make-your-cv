@@ -2,9 +2,9 @@ body.tpl-brutalist #cv-mount,
 #cv-mount.tpl-brutalist {
 --black:#000;--white:#fff;--off:#f2f2f2;--mid:#444;--lite:#999;
   --accent:#ff3300;--border:2px solid #000;--border-t:1px solid #000;
-}
 
-#cv-mount .cv-page {width:210mm;min-height:297mm;background:var(--white);box-shadow:8px 8px 0 #000;display:flex;flex-direction:column}
+.cv-page{width:210mm;min-height:297mm;background:var(--white);box-shadow:8px 8px 0 #000;display:flex;flex-direction:column
+}
 
 #cv-mount .cv-header {border-bottom:4px solid #000;display:grid;grid-template-columns:1fr auto;align-items:stretch}
 #cv-mount .header-left {padding:32px 36px 28px;border-right:2px solid #000}
@@ -16,8 +16,7 @@ body.tpl-brutalist #cv-mount,
 #cv-mount .contact-item:last-child {margin-bottom:0}
 #cv-mount .contact-item .cl {display:block;font-size:7px;font-weight:600;letter-spacing:.18em;color:var(--lite);text-transform:uppercase;margin-bottom:3px}
 
-#cv-mount .cv-body {flex:1;display:grid;grid-template-columns:48mm 1fr}
-#cv-mount .col-left {border-right:2px solid #000;display:flex;flex-direction:column}
+#cv-mount .cv-.col-left {border-right:2px solid #000;display:flex;flex-direction:column}
 #cv-mount .left-block {padding:22px 20px;border-bottom:var(--border-t)}
 #cv-mount .left-block:last-child {border-bottom:none}
 #cv-mount .sec-label {font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--black);line-height:1;margin-bottom:14px;display:flex;align-items:center;gap:8px}
@@ -31,12 +30,12 @@ body.tpl-brutalist #cv-mount,
 #cv-mount .tag-row {display:flex;flex-wrap:wrap;gap:4px}
 #cv-mount .tag-b {font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:500;border:1px solid #000;padding:3px 6px;color:#000;letter-spacing:.06em}
 
-#cv-mount .edu-b {margin-bottom:12px}.edu-b:last-child{margin-bottom:0}
+#cv-mount .edu-b {margin-bottom:12px}#cv-mount .edu-b:last-child{margin-bottom:0}
 #cv-mount .edu-deg {font-size:10px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.04em}
 #cv-mount .edu-sch {font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--mid);margin-top:2px}
 #cv-mount .edu-yr {font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--lite);margin-top:1px}
 
-#cv-mount .cert-b {padding:8px 0;border-bottom:1px dashed #ccc}.cert-b:last-child{border-bottom:none;padding-bottom:0}
+#cv-mount .cert-b {padding:8px 0;border-bottom:1px dashed #ccc}#cv-mount .cert-b:last-child{border-bottom:none;padding-bottom:0}
 #cv-mount .cert-n {font-size:9.5px;font-weight:500;color:var(--black)}
 #cv-mount .cert-i {font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--lite);margin-top:1px}
 
@@ -45,7 +44,7 @@ body.tpl-brutalist #cv-mount,
 #cv-mount .lang-l {font-size:8px;color:var(--accent);font-weight:600}
 
 #cv-mount .col-right {display:flex;flex-direction:column}
-#cv-mount .right-block {padding:22px 28px;border-bottom:var(--border-t)}.right-block:last-child{border-bottom:none}
+#cv-mount .right-block {padding:22px 28px;border-bottom:var(--border-t)}#cv-mount .right-block:last-child{border-bottom:none}
 #cv-mount .summary-txt {font-size:10.5px;line-height:1.8;color:var(--mid);font-weight:300}
 
 #cv-mount .exp-item {display:grid;grid-template-columns:32px 1fr;gap:0 14px;margin-bottom:20px}

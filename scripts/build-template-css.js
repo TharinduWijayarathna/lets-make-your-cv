@@ -29,8 +29,12 @@ function stripSections(css) {
   out = out.replace(/\.no-print\s*\{\s*display\s*:\s*none\s*;?\s*\}/gi, '');
   out = out.replace(/\*,\*::before,\*::after\{[^}]+\}\s*/g, '');
   out = out.replace(/\*, \*::before, \*::after \{[\s\S]*?\}\s*/m, '');
-  out = out.replace(/^body\{[^}]+\}\s*/m, '');
-  out = out.replace(/body \{[\s\S]*?\}\s*/m, '');
+  out = out.replace(/\bbody\s*\{[^}]+\}\s*/g, '');
+  out = out.replace(/\.cv-page\{box-shadow:none\s*!important\}\s*/g, '');
+  out = out.replace(/\.modal[\s\S]*?(?=:root|\.cv-page|\.blueprint-page|\.circuit-page|\.ink-page)/i, '');
+  out = out.replace(/^h1,h2,h3,p\{[^}]+\}\s*/m, '');
+  out = out.replace(/^ul\{[^}]+\}\s*/m, '');
+  out = out.replace(/^\s*\}\s*$/gm, '');
   return out.trim();
 }
 
@@ -53,22 +57,30 @@ function extractVarsBlock(css, tplName) {
   return { css: css.trim(), header };
 }
 
+function scopeSelectorList(selectors, prefix) {
+  return selectors
+    .split(',')
+    .map((sel) => {
+      const s = sel.trim();
+      if (!s || s.startsWith('@')) return s;
+      if (s.startsWith(prefix)) return s;
+      return `${prefix} ${s}`;
+    })
+    .join(', ');
+}
+
 /** Prefix class/id selectors so CV template CSS cannot style the app sidebar. */
 function scopeRules(css, prefix = '#cv-mount') {
-  const prefixSelectors = (block) =>
-    block.replace(/^(\s*)([.#][^{]+)\{/gm, (match, indent, selectors) => {
-      const scoped = selectors
-        .split(',')
-        .map((sel) => {
-          const s = sel.trim();
-          if (!s) return s;
-          return `${prefix} ${s}`;
-        })
-        .join(', ');
-      return `${indent}${scoped} {`;
-    });
+  let out = css.replace(/^(\s*)([^{]+)\{/gm, (match, indent, selectors) => {
+    const trimmed = selectors.trim();
+    if (!trimmed || trimmed.startsWith('@')) return match;
+    return `${indent}${scopeSelectorList(selectors, prefix)} {`;
+  });
 
-  return prefixSelectors(css);
+  // Rules chained on one line: }.skill-top{...}
+  out = out.replace(/\}([.#][^{]+)\{/g, (match, selectors) => `}${scopeSelectorList(selectors, prefix)}{`);
+
+  return out;
 }
 
 function buildTemplateCss(rawCss, tplName) {

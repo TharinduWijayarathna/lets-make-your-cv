@@ -4,8 +4,6 @@ body.tpl-circuit #cv-mount,
 }
 
 #cv-mount .cv-page {width:210mm;min-height:297mm;overflow:hidden}
-h1,h2,h3,p{margin:0}
-ul{list-style:none}
 #cv-mount .tags {display:flex;flex-wrap:wrap;gap:6px}
 #cv-mount .exp-head {display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 #cv-mount .exp-content ul {display:flex;flex-direction:column;gap:5px}
@@ -14,17 +12,6 @@ ul{list-style:none}
 #cv-mount .lang {display:flex;justify-content:space-between;gap:12px}
 #cv-mount .skill-top {display:flex;justify-content:space-between;gap:10px;margin-bottom:5px}
 
-
-  #cv-mount .cv-page {box-shadow:none !important}
-}
-
-#cv-mount .modal h2 {font-size:25px}
-#cv-mount .modal-head p {font-size:12px}
-#cv-mount .tab, #cv-mount .add-b, #cv-mount .modal-actions button {font-weight:700}
-#cv-mount .fg label {font-size:10px;text-transform:uppercase;letter-spacing:.08em}
-#cv-mount .fg input, #cv-mount .fg textarea {font-size:12px;padding:10px 12px}
-
-body{font-family:'Inter',sans-serif;background:radial-gradient(circle at 10% 10%,#12304a 0,#08131f 44%,#050b12 100%)}
 #cv-mount .toolbar button {font:700 10px 'Orbitron',sans-serif;padding:11px 18px;border-radius:4px;letter-spacing:.12em}
 #cv-mount .circuit-page {background:linear-gradient(180deg,#071420,#091827);color:var(--text);box-shadow:0 0 0 1px rgba(73,244,255,.3),0 25px 90px rgba(0,0,0,.55);position:relative}
 #cv-mount .circuit-page::before {content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(73,244,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(73,244,255,.05) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
@@ -39,10 +26,10 @@ body{font-family:'Inter',sans-serif;background:radial-gradient(circle at 10% 10%
 #cv-mount .panel {background:rgba(12,27,45,.88);border:1px solid var(--line);padding:16px;box-shadow:inset 0 0 0 1px rgba(73,244,255,.04)}
 #cv-mount .panel h2 {font:700 10px 'Orbitron',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:12px}
 #cv-mount .panel p {font-size:10px;line-height:1.8;color:var(--muted)}
-#cv-mount .skill {margin-bottom:11px}.skill-top{font-size:9px;color:#d9f8ff}
-#cv-mount .skill-track {height:5px;background:#11283b;border:1px solid #16334b}.skill-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--cyan))}
+#cv-mount .skill {margin-bottom:11px}#cv-mount .skill-top{font-size:9px;color:#d9f8ff}
+#cv-mount .skill-track {height:5px;background:#11283b;border:1px solid #16334b}#cv-mount .skill-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--cyan))}
 #cv-mount .tag {font:600 8px 'IBM Plex Mono',monospace;padding:5px 7px;border:1px solid var(--line);color:var(--green)}
-#cv-mount .lang {font:500 9px 'IBM Plex Mono',monospace;padding:7px 0;border-bottom:1px dashed var(--line)}.lang strong{color:var(--cyan)}
+#cv-mount .lang {font:500 9px 'IBM Plex Mono',monospace;padding:7px 0;border-bottom:1px dashed var(--line)}#cv-mount .lang strong{color:var(--cyan)}
 #cv-mount .exp {display:grid;grid-template-columns:38px 1fr;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
 #cv-mount .exp-marker {font:700 15px 'Orbitron',sans-serif;color:var(--green);padding-top:2px}
 #cv-mount .exp h3, #cv-mount .project h3, #cv-mount .edu h3 {font-size:11.5px;color:var(--text)}
@@ -53,10 +40,10 @@ body{font-family:'Inter',sans-serif;background:radial-gradient(circle at 10% 10%
 #cv-mount .lower {display:grid;grid-template-columns:1.08fr .92fr;gap:14px}
 #cv-mount .project {padding:11px;border:1px solid var(--line);background:rgba(5,13,22,.45);margin-bottom:10px}
 #cv-mount .edu, #cv-mount .cert {padding:9px 0;border-bottom:1px solid var(--line)}
-#cv-mount .cert span {font-size:10px;font-weight:700}.cert small{font:500 8px 'IBM Plex Mono',monospace;color:var(--muted)}
+#cv-mount .cert span {font-size:10px;font-weight:700}#cv-mount .cert small{font:500 8px 'IBM Plex Mono',monospace;color:var(--muted)}
 #cv-mount .secondary {margin-top:18px}
 #cv-mount .modal {font-family:'Inter',sans-serif;background:#071420;border:1px solid var(--cyan);color:var(--text);box-shadow:0 30px 90px rgba(0,0,0,.6)}
-#cv-mount .modal-head p {color:var(--muted)}.modal-x{color:var(--cyan)}
-#cv-mount .tabs .tab {font:700 9px 'Orbitron',sans-serif;padding:9px 11px;border:1px solid var(--line);background:#0b1c2c;color:var(--muted)}.tabs .tab.active{border-color:var(--cyan);color:var(--cyan)}
-#cv-mount .de {border:1px solid var(--line);background:#0b1b2b}.fg input,.fg textarea{border:1px solid var(--line);background:#07111d;color:#eaf8ff}
-#cv-mount .add-b, #cv-mount .modal-actions .apply {padding:11px 15px;border:1px solid var(--cyan);background:var(--cyan);color:#03121a}.modal-actions .cancel{padding:11px 15px;border:1px solid var(--line);background:transparent;color:var(--text)}
+#cv-mount .modal-head p {color:var(--muted)}#cv-mount .modal-x{color:var(--cyan)}
+#cv-mount .tabs .tab {font:700 9px 'Orbitron',sans-serif;padding:9px 11px;border:1px solid var(--line);background:#0b1c2c;color:var(--muted)}#cv-mount .tabs .tab.active{border-color:var(--cyan);color:var(--cyan)}
+#cv-mount .de {border:1px solid var(--line);background:#0b1b2b}#cv-mount .fg input, #cv-mount .fg textarea{border:1px solid var(--line);background:#07111d;color:#eaf8ff}
+#cv-mount .add-b, #cv-mount .modal-actions .apply {padding:11px 15px;border:1px solid var(--cyan);background:var(--cyan);color:#03121a}#cv-mount .modal-actions .cancel{padding:11px 15px;border:1px solid var(--line);background:transparent;color:var(--text)}

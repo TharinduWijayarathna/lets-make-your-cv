@@ -4,8 +4,6 @@ body.tpl-ink #cv-mount,
 }
 
 #cv-mount .cv-page {width:210mm;min-height:297mm;overflow:hidden}
-h1,h2,h3,p{margin:0}
-ul{list-style:none}
 #cv-mount .tags {display:flex;flex-wrap:wrap;gap:6px}
 #cv-mount .exp-head {display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 #cv-mount .exp-content ul {display:flex;flex-direction:column;gap:5px}
@@ -14,17 +12,6 @@ ul{list-style:none}
 #cv-mount .lang {display:flex;justify-content:space-between;gap:12px}
 #cv-mount .skill-top {display:flex;justify-content:space-between;gap:10px;margin-bottom:5px}
 
-
-  #cv-mount .cv-page {box-shadow:none !important}
-}
-
-#cv-mount .modal h2 {font-size:25px}
-#cv-mount .modal-head p {font-size:12px}
-#cv-mount .tab, #cv-mount .add-b, #cv-mount .modal-actions button {font-weight:700}
-#cv-mount .fg label {font-size:10px;text-transform:uppercase;letter-spacing:.08em}
-#cv-mount .fg input, #cv-mount .fg textarea {font-size:12px;padding:10px 12px}
-
-body{font-family:'Inter',sans-serif;background:#e3dacb}
 #cv-mount .toolbar button {font:600 11px 'Inter',sans-serif;padding:10px 18px;border-radius:3px}
 #cv-mount .ink-page {background:var(--paper);box-shadow:0 20px 70px rgba(45,31,16,.18);padding:36px 42px;color:var(--ink)}
 #cv-mount .folio-head {text-align:center;padding-bottom:22px;border-bottom:1px solid var(--rule)}
@@ -47,13 +34,13 @@ body{font-family:'Inter',sans-serif;background:#e3dacb}
 #cv-mount .exp li, #cv-mount .project p, #cv-mount .edu p {font-size:9.7px;line-height:1.75;color:#4e4339}
 #cv-mount .exp li::before {content:'•';margin-right:7px;color:var(--brown)}
 #cv-mount .project {padding:12px 0;border-bottom:1px solid var(--rule)}
-#cv-mount .skill {margin-bottom:11px}.skill-top{font-size:9.5px;color:#3d342d}
-#cv-mount .skill-track {height:3px;background:#e8dece}.skill-fill{height:3px;background:var(--brown)}
+#cv-mount .skill {margin-bottom:11px}#cv-mount .skill-top{font-size:9.5px;color:#3d342d}
+#cv-mount .skill-track {height:3px;background:#e8dece}#cv-mount .skill-fill{height:3px;background:var(--brown)}
 #cv-mount .tag {font-size:8.5px;padding:5px 8px;border:1px solid var(--rule);background:#fff8ef}
 #cv-mount .edu, #cv-mount .cert {display:flex;flex-direction:column;padding:9px 0;border-bottom:1px solid var(--rule)}
-#cv-mount .edu span {margin-top:3px}.cert span{font-size:10px;font-weight:600}.cert small{font-size:8.5px;color:#796a5b}
-#cv-mount .lang {font-size:9.5px;padding:7px 0;border-bottom:1px solid var(--rule)}.lang strong{color:var(--brown)}
+#cv-mount .edu span {margin-top:3px}#cv-mount .cert span{font-size:10px;font-weight:600}#cv-mount .cert small{font-size:8.5px;color:#796a5b}
+#cv-mount .lang {font-size:9.5px;padding:7px 0;border-bottom:1px solid var(--rule)}#cv-mount .lang strong{color:var(--brown)}
 #cv-mount .modal {font-family:'Inter',sans-serif;background:var(--paper);border:1px solid var(--rule);border-radius:8px;box-shadow:0 28px 70px rgba(0,0,0,.3)}
-#cv-mount .tabs .tab {padding:9px 12px;border-radius:3px;background:var(--wash);color:var(--brown)}.tabs .tab.active{background:var(--ink);color:#fff}
-#cv-mount .de {border:1px solid var(--rule);background:#fffaf2}.fg input,.fg textarea{border:1px solid var(--rule);background:#fffdf9}
-#cv-mount .add-b, #cv-mount .modal-actions .apply {padding:11px 15px;border:none;border-radius:3px;background:var(--ink);color:#fff}.modal-actions .cancel{padding:11px 15px;border:1px solid var(--rule);background:transparent}
+#cv-mount .tabs .tab {padding:9px 12px;border-radius:3px;background:var(--wash);color:var(--brown)}#cv-mount .tabs .tab.active{background:var(--ink);color:#fff}
+#cv-mount .de {border:1px solid var(--rule);background:#fffaf2}#cv-mount .fg input, #cv-mount .fg textarea{border:1px solid var(--rule);background:#fffdf9}
+#cv-mount .add-b, #cv-mount .modal-actions .apply {padding:11px 15px;border:none;border-radius:3px;background:var(--ink);color:#fff}#cv-mount .modal-actions .cancel{padding:11px 15px;border:1px solid var(--rule);background:transparent}

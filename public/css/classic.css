@@ -1,52 +1,48 @@
-/* =====================
+#cv-mount /* =====================
        RESET & BASE
     ===================== */
     /* =====================
        A4 PAGE
     ===================== */
-    #cv-mount .cv-page {
-      width: 210mm;
+    .cv-page {
+      #cv-mount width: 210mm;
       min-height: 297mm;
       background: #faf9f7;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      box-shadow: 0 8px 40px rgba(0, #cv-mount 0, #cv-mount 0, #cv-mount 0.18);
       display: grid;
       grid-template-columns: 68mm 1fr;
       position: relative;
       overflow: hidden;
-    }
 
     /* =====================
        LEFT SIDEBAR
     ===================== */
-    #cv-mount .sidebar {
-      background: #1c1c1e;
+    .sidebar {
+      #cv-mount background: #1c1c1e;
       color: #f0ede8;
       padding: 42px 26px 40px;
       display: flex;
       flex-direction: column;
       gap: 32px;
-    }
 
-    #cv-mount .sidebar-name {
-      font-family: 'EB Garamond', serif;
+    .sidebar-name {
+      #cv-mount font-family: 'EB Garamond', #cv-mount serif;
       font-size: 26px;
       font-weight: 600;
       line-height: 1.2;
       color: #f5f1ea;
       letter-spacing: 0.01em;
-    }
 
-    #cv-mount .sidebar-title {
-      font-size: 11px;
+    .sidebar-title {
+      #cv-mount font-size: 11px;
       font-weight: 400;
       color: #c8b99a;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       margin-top: 6px;
-    }
 
-    #cv-mount .sidebar-photo-wrap {
-      width: 90px;
+    .sidebar-photo-wrap {
+      #cv-mount width: 90px;
       height: 90px;
       border-radius: 50%;
       background: #2e2e30;
@@ -56,21 +52,18 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 4px;
-    }
 
-    #cv-mount .sidebar-photo-wrap img {
-      width: 100%;
+    .sidebar-photo-wrap img {
+      #cv-mount width: 100%;
       height: 100%;
       object-fit: cover;
-    }
 
-    #cv-mount .sidebar-photo-wrap .photo-placeholder {
-      font-size: 36px;
+    .sidebar-photo-wrap .photo-placeholder {
+      #cv-mount font-size: 36px;
       color: #555;
-    }
 
-    #cv-mount .sidebar-section-title {
-      font-size: 9px;
+    .sidebar-section-title {
+      #cv-mount font-size: 9px;
       font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -78,85 +71,77 @@
       margin-bottom: 10px;
       padding-bottom: 5px;
       border-bottom: 1px solid #333;
-    }
 
-    #cv-mount .contact-list {
-      list-style: none;
+    .contact-list {
+      #cv-mount list-style: none;
       display: flex;
       flex-direction: column;
       gap: 8px;
-    }
 
-    #cv-mount .contact-list li {
-      font-size: 10.5px;
+    .contact-list li {
+      #cv-mount font-size: 10.5px;
       color: #c8c4bc;
       line-height: 1.5;
       word-break: break-all;
-    }
 
-    #cv-mount .contact-list li span.label {
-      display: block;
+    .contact-list li span.label {
+      #cv-mount display: block;
       font-size: 8.5px;
       color: #888;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       margin-bottom: 1px;
-    }
 
-    #cv-mount .skills-grid {
-      display: flex;
+    .skills-grid {
+      #cv-mount display: flex;
       flex-direction: column;
       gap: 9px;
-    }
 
-    #cv-mount .skill-item {}
+    .skill-item {}
     #cv-mount .skill-name {
-      font-size: 10.5px;
+      #cv-mount font-size: 10.5px;
       color: #d4cfc7;
       margin-bottom: 4px;
-    }
-    #cv-mount .skill-bar-bg {
-      height: 3px;
+
+    .skill-bar-bg {
+      #cv-mount height: 3px;
       background: #2e2e30;
       border-radius: 2px;
-    }
-    #cv-mount .skill-bar-fill {
-      height: 3px;
-      background: linear-gradient(90deg, #c8b99a, #e8d9bc);
-      border-radius: 2px;
-    }
 
-    #cv-mount .lang-list {
-      list-style: none;
+    .skill-bar-fill {
+      #cv-mount height: 3px;
+      background: linear-gradient(90deg, #cv-mount #c8b99a, #cv-mount #e8d9bc);
+      border-radius: 2px;
+
+    .lang-list {
+      #cv-mount list-style: none;
       display: flex;
       flex-direction: column;
       gap: 7px;
-    }
-    #cv-mount .lang-list li {
-      display: flex;
+
+    .lang-list li {
+      #cv-mount display: flex;
       justify-content: space-between;
       font-size: 10.5px;
       color: #c4bfb8;
-    }
-    #cv-mount .lang-level {
-      font-size: 9.5px;
+
+    .lang-level {
+      #cv-mount font-size: 9.5px;
       color: #888;
-    }
 
     /* =====================
        RIGHT MAIN CONTENT
     ===================== */
-    #cv-mount .main {
-      padding: 42px 34px 40px 30px;
+    .main {
+      #cv-mount padding: 42px 34px 40px 30px;
       display: flex;
       flex-direction: column;
       gap: 26px;
-    }
 
-    #cv-mount .section {}
+    .section {}
 
     #cv-mount .section-title {
-      font-family: 'EB Garamond', serif;
+      #cv-mount font-family: 'EB Garamond', #cv-mount serif;
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.08em;
@@ -166,160 +151,142 @@
       display: flex;
       align-items: center;
       gap: 10px;
-    }
 
-    #cv-mount .section-title::after {
-      content: '';
+    .section-title::after {
+      #cv-mount content: '';
       flex: 1;
       height: 1px;
       background: #d4cfc7;
-    }
 
     /* Summary */
-    #cv-mount .summary-text {
-      font-size: 11px;
+    .summary-text {
+      #cv-mount font-size: 11px;
       line-height: 1.75;
       color: #3a3a3a;
       font-weight: 300;
-    }
 
     /* Experience */
-    #cv-mount .exp-entry {
-      margin-bottom: 18px;
-    }
-    #cv-mount .exp-entry:last-child { margin-bottom: 0; }
+    .exp-entry {
+      #cv-mount margin-bottom: 18px;
+
+    .exp-entry:last-child { margin-bottom: 0; }
 
     #cv-mount .exp-header {
-      display: flex;
+      #cv-mount display: flex;
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 3px;
-    }
 
-    #cv-mount .exp-role {
-      font-size: 12px;
+    .exp-role {
+      #cv-mount font-size: 12px;
       font-weight: 600;
       color: #1a1a1a;
-    }
 
-    #cv-mount .exp-date {
-      font-size: 9.5px;
+    .exp-date {
+      #cv-mount font-size: 9.5px;
       color: #888;
       letter-spacing: 0.06em;
       white-space: nowrap;
       margin-top: 2px;
-    }
 
-    #cv-mount .exp-company {
-      font-size: 10.5px;
+    .exp-company {
+      #cv-mount font-size: 10.5px;
       color: #c8b99a;
       font-weight: 500;
       margin-bottom: 7px;
-    }
 
-    #cv-mount .exp-bullets {
-      list-style: none;
+    .exp-bullets {
+      #cv-mount list-style: none;
       display: flex;
       flex-direction: column;
       gap: 4px;
-    }
 
-    #cv-mount .exp-bullets li {
-      font-size: 10.5px;
+    .exp-bullets li {
+      #cv-mount font-size: 10.5px;
       color: #3a3a3a;
       line-height: 1.6;
       padding-left: 12px;
       position: relative;
       font-weight: 300;
-    }
 
-    #cv-mount .exp-bullets li::before {
-      content: '–';
+    .exp-bullets li::before {
+      #cv-mount content: '–';
       position: absolute;
       left: 0;
       color: #c8b99a;
       font-weight: 400;
-    }
 
     /* Education */
-    #cv-mount .edu-entry {
-      margin-bottom: 14px;
-    }
-    #cv-mount .edu-entry:last-child { margin-bottom: 0; }
+    .edu-entry {
+      #cv-mount margin-bottom: 14px;
+
+    .edu-entry:last-child { margin-bottom: 0; }
 
     #cv-mount .edu-degree {
-      font-size: 11.5px;
+      #cv-mount font-size: 11.5px;
       font-weight: 600;
       color: #1a1a1a;
-    }
 
-    #cv-mount .edu-school {
-      font-size: 10.5px;
+    .edu-school {
+      #cv-mount font-size: 10.5px;
       color: #c8b99a;
       font-weight: 500;
       margin-top: 2px;
-    }
 
-    #cv-mount .edu-year {
-      font-size: 9.5px;
+    .edu-year {
+      #cv-mount font-size: 9.5px;
       color: #888;
       margin-top: 1px;
-    }
 
     /* Certifications */
-    #cv-mount .cert-list {
-      list-style: none;
+    .cert-list {
+      #cv-mount list-style: none;
       display: flex;
       flex-direction: column;
       gap: 8px;
-    }
 
-    #cv-mount .cert-list li {
-      font-size: 10.5px;
+    .cert-list li {
+      #cv-mount font-size: 10.5px;
       color: #3a3a3a;
       font-weight: 300;
       display: flex;
       justify-content: space-between;
       line-height: 1.5;
-    }
 
-    #cv-mount .cert-list li span.cert-issuer {
-      font-size: 9.5px;
+    .cert-list li span.cert-issuer {
+      #cv-mount font-size: 9.5px;
       color: #888;
-    }
 
     /* Projects */
-    #cv-mount .project-entry {
-      margin-bottom: 14px;
-    }
-    #cv-mount .project-entry:last-child { margin-bottom: 0; }
+    .project-entry {
+      #cv-mount margin-bottom: 14px;
+
+    .project-entry:last-child { margin-bottom: 0; }
 
     #cv-mount .project-name {
-      font-size: 11.5px;
+      #cv-mount font-size: 11.5px;
       font-weight: 600;
       color: #1a1a1a;
-    }
-    #cv-mount .project-tech {
-      font-size: 9.5px;
+
+    .project-tech {
+      #cv-mount font-size: 9.5px;
       color: #c8b99a;
       margin: 2px 0 5px;
       font-weight: 500;
-    }
-    #cv-mount .project-desc {
-      font-size: 10.5px;
+
+    .project-desc {
+      #cv-mount font-size: 10.5px;
       color: #3a3a3a;
       font-weight: 300;
       line-height: 1.6;
-    }
 
     /* Tags for tech skills in sidebar */
-    #cv-mount .tags-wrap {
-      display: flex;
+    .tags-wrap {
+      #cv-mount display: flex;
       flex-wrap: wrap;
       gap: 5px;
-    }
 
-    #cv-mount .tag {
+    .tag {
       font-size: 9px;
       background: #2a2a2c;
       color: #c8c4bc;
@@ -327,4 +294,3 @@
       border-radius: 2px;
       padding: 3px 7px;
       letter-spacing: 0.04em;
-    }

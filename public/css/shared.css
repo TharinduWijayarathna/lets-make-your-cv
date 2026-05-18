@@ -63,6 +63,8 @@ body.tpl-ink { background: #e3dacb; font-family: 'Inter', sans-serif; }
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   min-height: min(calc(100vh - 40px), 520px);
+  overflow: visible;
+  isolation: isolate;
 }
 
 .sidebar-brand {
@@ -133,10 +135,18 @@ body.tpl-ink { background: #e3dacb; font-family: 'Inter', sans-serif; }
 
 .sidebar-templates {
   gap: 10px;
+  position: relative;
+  z-index: 20;
+  flex-shrink: 0;
 }
 
 .template-select {
   position: relative;
+  z-index: 1;
+}
+
+.template-select:has(.template-select-trigger[aria-expanded='true']) {
+  z-index: 200;
 }
 
 .template-select-trigger {
@@ -189,15 +199,15 @@ body.tpl-ink { background: #e3dacb; font-family: 'Inter', sans-serif; }
   top: calc(100% + 6px);
   left: 0;
   right: 0;
-  z-index: 60;
-  max-height: min(340px, 55vh);
+  z-index: 210;
+  max-height: min(260px, 48vh);
   overflow-y: auto;
   overflow-x: hidden;
   padding: 8px;
   background: #fff;
   border: 1px solid #d4cfc7;
   border-radius: 8px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
@@ -428,6 +438,9 @@ body.tpl-ink { background: #e3dacb; font-family: 'Inter', sans-serif; }
 
 .sidebar-actions {
   gap: 10px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
 }
 
 .sidebar-footer {
@@ -437,6 +450,9 @@ body.tpl-ink { background: #e3dacb; font-family: 'Inter', sans-serif; }
   margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid #e8e5df;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
 }
 
 .sidebar-user {
@@ -584,22 +600,40 @@ body.tpl-blueprint .app-sidebar .sidebar-home {
 body.tpl-blueprint .app-sidebar .sidebar-home:hover {
   background: rgba(255, 255, 255, 0.1);
 }
-body.tpl-blueprint .app-sidebar .template-select-trigger,
-body.tpl-blueprint .app-sidebar .template-select-panel,
+body.tpl-blueprint .app-sidebar .template-select-trigger {
+  background: #0c477f;
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #eef7ff;
+}
+body.tpl-blueprint .app-sidebar .template-select-panel {
+  background: #0a3762;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+body.tpl-blueprint .app-sidebar .template-panel-count {
+  color: #9ec4e8;
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
 body.tpl-blueprint .app-sidebar .sidebar-btn-ghost {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.28);
   color: #eef7ff;
 }
 body.tpl-blueprint .app-sidebar .template-option {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: #0c477f;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+body.tpl-blueprint .app-sidebar .template-option:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: #0d4f8c;
 }
 body.tpl-blueprint .app-sidebar .template-option-name {
   color: #eef7ff;
 }
 body.tpl-blueprint .app-sidebar .template-option.is-active {
-  background: rgba(255, 255, 255, 0.16);
+  background: #0d4f8c;
+  border-color: #fff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 body.tpl-circuit .app-sidebar {
@@ -619,8 +653,20 @@ body.tpl-circuit .app-sidebar .sidebar-home {
 body.tpl-circuit .app-sidebar .sidebar-home:hover {
   background: rgba(73, 244, 255, 0.08);
 }
-body.tpl-circuit .app-sidebar .template-select-trigger,
-body.tpl-circuit .app-sidebar .template-select-panel,
+body.tpl-circuit .app-sidebar .template-select-trigger {
+  background: #0c1b2d;
+  border-color: #22455f;
+  color: #eaf8ff;
+}
+body.tpl-circuit .app-sidebar .template-select-panel {
+  background: #071420;
+  border-color: #49f4ff;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+body.tpl-circuit .app-sidebar .template-panel-count {
+  color: #9fb5c6;
+  border-bottom-color: #22455f;
+}
 body.tpl-circuit .app-sidebar .sidebar-btn-ghost {
   background: #0c1b2d;
   border-color: #22455f;
@@ -630,12 +676,17 @@ body.tpl-circuit .app-sidebar .template-option {
   background: #0b1b2b;
   border-color: #22455f;
 }
+body.tpl-circuit .app-sidebar .template-option:hover {
+  border-color: #49f4ff;
+  background: #0c1b2d;
+}
 body.tpl-circuit .app-sidebar .template-option-name {
   color: #eaf8ff;
 }
 body.tpl-circuit .app-sidebar .template-option.is-active {
   border-color: #49f4ff;
-  background: rgba(73, 244, 255, 0.08);
+  background: #0c1b2d;
+  box-shadow: 0 0 0 1px #49f4ff;
 }
 
 body.tpl-ink .app-sidebar {
