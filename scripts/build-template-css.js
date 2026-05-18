@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Regenerate public/css/{classic,nordic,editorial}.css from template sources.
+ * Regenerate public/css/{classic,nordic,editorial,brutalist,artdeco}.css from template sources.
+ * All CV rules are scoped to #cv-mount so they do not override the app sidebar.
  * Run: node scripts/build-template-css.js
  */
 const fs = require('fs');
@@ -21,9 +22,7 @@ function stripSections(css) {
   out = out.replace(/\.btn-edit\{[^}]+\}\s*\.btn-print\{[^}]+\}\s*/g, '');
   out = out.replace(/\/\*\s*MODAL\s*\*\/[\s\S]*?(?=@media print|$)/i, '');
   out = out.replace(/^\.modal-overlay[\s\S]*?(?=@media print|$)/m, '');
-  // Remove full @media print block (non-greedy { } would leave .no-print rules behind)
   out = out.replace(/@media print\s*\{[\s\S]*\}\s*/g, '');
-  // Strip any orphaned print-rule fragments
   out = out.replace(/\.cv-page\{box-shadow:none\}\.no-print\{display:none\}\}/g, '');
   out = out.replace(/\.no-print\s*\{\s*display\s*:\s*none\s*;?\s*\}/gi, '');
   out = out.replace(/\*,\*::before,\*::after\{[^}]+\}\s*/g, '');
@@ -33,27 +32,54 @@ function stripSections(css) {
   return out.trim();
 }
 
-function wrapVars(css, bodyClass) {
+function extractVarsBlock(css, tplName) {
   const rootMatch = css.match(/:root\s*\{([^}]+)\}/);
+  const bodyMatch = css.match(new RegExp(`body\\.${tplName}\\s*\\{([^}]+)\\}`));
+
+  let vars = '';
   if (rootMatch) {
+    vars = rootMatch[1].trim();
     css = css.replace(/:root\s*\{[^}]+\}\s*/, '');
-    css = `body.${bodyClass} {\n${rootMatch[1].trim()}\n}\n\n${css}`;
+  } else if (bodyMatch) {
+    vars = bodyMatch[1].trim();
+    css = css.replace(new RegExp(`body\\.${tplName}\\s*\\{[^}]+\\}\\s*`), '');
   }
-  return css;
+
+  if (!vars) return { css, header: '' };
+
+  const header = `body.${tplName} #cv-mount,\n#cv-mount.${tplName} {\n${vars}\n}\n\n`;
+  return { css: css.trim(), header };
 }
 
-const nordic = wrapVars(
-  stripSections(extractStyle(fs.readFileSync(path.join(root, 'scripts/template-sources/cv_template_nordic.html'), 'utf8'))),
-  'tpl-nordic'
-);
-const editorial = wrapVars(
-  stripSections(extractStyle(fs.readFileSync(path.join(root, 'scripts/template-sources/cv_template_editorial.html'), 'utf8'))),
-  'tpl-editorial'
-);
+/** Prefix class/id selectors so CV template CSS cannot style the app sidebar. */
+function scopeRules(css, prefix = '#cv-mount') {
+  const prefixSelectors = (block) =>
+    block.replace(/^(\s*)([.#][^{]+)\{/gm, (match, indent, selectors) => {
+      const scoped = selectors
+        .split(',')
+        .map((sel) => {
+          const s = sel.trim();
+          if (!s) return s;
+          return `${prefix} ${s}`;
+        })
+        .join(', ');
+      return `${indent}${scoped} {`;
+    });
 
-let classic = extractStyle(
-  fs.readFileSync(path.join(root, 'scripts/template-sources/cv_template_classic.html'), 'utf8')
-);
+  return prefixSelectors(css);
+}
+
+function buildTemplateCss(rawCss, tplName) {
+  const stripped = stripSections(rawCss);
+  const { css, header } = extractVarsBlock(stripped, tplName);
+  return header + scopeRules(css);
+}
+
+function readSource(name) {
+  return fs.readFileSync(path.join(root, 'scripts/template-sources', name), 'utf8');
+}
+
+let classic = extractStyle(readSource('cv_template_classic.html'));
 const printIdx = classic.indexOf('/* =====================\n       PRINT STYLES');
 const toolbarIdx = classic.indexOf('/* =====================\n       TOOLBAR');
 if (printIdx !== -1) classic = classic.slice(0, printIdx);
@@ -63,24 +89,16 @@ classic = classic
   .replace(/body \{[\s\S]*?\}\s*/m, '')
   .trim();
 
-const brutalist = wrapVars(
-  stripSections(
-    extractStyle(
-      fs.readFileSync(path.join(root, 'scripts/template-sources/cv_template_brutalist.html'), 'utf8')
-    )
-  ),
-  'tpl-brutalist'
-);
-const artdeco = wrapVars(
-  stripSections(
-    extractStyle(fs.readFileSync(path.join(root, 'scripts/template-sources/cv_template_artdeco.html'), 'utf8'))
-  ),
-  'tpl-artdeco'
-);
+const outputs = {
+  classic: buildTemplateCss(classic, 'tpl-classic'),
+  nordic: buildTemplateCss(extractStyle(readSource('cv_template_nordic.html')), 'tpl-nordic'),
+  editorial: buildTemplateCss(extractStyle(readSource('cv_template_editorial.html')), 'tpl-editorial'),
+  brutalist: buildTemplateCss(extractStyle(readSource('cv_template_brutalist.html')), 'tpl-brutalist'),
+  artdeco: buildTemplateCss(extractStyle(readSource('cv_template_artdeco.html')), 'tpl-artdeco'),
+};
 
-fs.writeFileSync(path.join(outDir, 'nordic.css'), nordic);
-fs.writeFileSync(path.join(outDir, 'editorial.css'), editorial);
-fs.writeFileSync(path.join(outDir, 'classic.css'), classic);
-fs.writeFileSync(path.join(outDir, 'brutalist.css'), brutalist);
-fs.writeFileSync(path.join(outDir, 'artdeco.css'), artdeco);
-console.log('Wrote classic.css, nordic.css, editorial.css, brutalist.css, artdeco.css');
+for (const [name, css] of Object.entries(outputs)) {
+  fs.writeFileSync(path.join(outDir, `${name}.css`), css);
+}
+
+console.log('Wrote scoped classic.css, nordic.css, editorial.css, brutalist.css, artdeco.css');

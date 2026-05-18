@@ -1,4 +1,5 @@
-body.tpl-nordic {
+body.tpl-nordic #cv-mount,
+#cv-mount.tpl-nordic {
 --red:#c0392b;
   --dark:#111;
   --mid:#444;
@@ -9,7 +10,7 @@ body.tpl-nordic {
 }
 
 /* A4 */
-.cv-page{
+#cv-mount .cv-page {
   width:210mm;
   min-height:297mm;
   background:var(--white);
@@ -19,7 +20,7 @@ body.tpl-nordic {
 }
 
 /* HEADER BAND */
-.cv-header{
+#cv-mount .cv-header {
   background:var(--dark);
   color:#fff;
   padding:36px 44px 32px;
@@ -29,7 +30,7 @@ body.tpl-nordic {
   gap:20px;
 }
 
-.cv-header-name{
+#cv-mount .cv-header-name {
   font-family:'Playfair Display',serif;
   font-size:42px;
   font-weight:700;
@@ -37,7 +38,7 @@ body.tpl-nordic {
   letter-spacing:-.01em;
 }
 
-.cv-header-role{
+#cv-mount .cv-header-role {
   font-family:'Barlow Condensed',sans-serif;
   font-size:13px;
   font-weight:600;
@@ -47,28 +48,28 @@ body.tpl-nordic {
   margin-top:10px;
 }
 
-.cv-header-contact{
+#cv-mount .cv-header-contact {
   text-align:right;
   font-size:10px;
   font-weight:300;
   color:#aaa;
   line-height:1.9;
 }
-.cv-header-contact a{color:#aaa;text-decoration:none}
+#cv-mount .cv-header-contact a {color:#aaa;text-decoration:none}
 
 /* BODY: two columns */
-.cv-body{
+#cv-mount .cv-body {
   display:grid;
   grid-template-columns:1fr 2px 1fr;
   gap:0;
   padding:0;
 }
 
-.cv-col{padding:36px 44px 40px}
-.cv-col-divider{background:var(--rule);margin:36px 0}
+#cv-mount .cv-col {padding:36px 44px 40px}
+#cv-mount .cv-col-divider {background:var(--rule);margin:36px 0}
 
 /* SECTION */
-.sec-label{
+#cv-mount .sec-label {
   font-family:'Barlow Condensed',sans-serif;
   font-size:9px;
   font-weight:700;
@@ -80,50 +81,50 @@ body.tpl-nordic {
   align-items:center;
   gap:10px;
 }
-.sec-label::after{content:'';flex:1;height:1px;background:var(--rule)}
+#cv-mount .sec-label::after {content:'';flex:1;height:1px;background:var(--rule)}
 
-.section{margin-bottom:30px}
-.section:last-child{margin-bottom:0}
+#cv-mount .section {margin-bottom:30px}
+#cv-mount .section:last-child {margin-bottom:0}
 
 /* Summary */
-.summary-p{font-size:11px;line-height:1.8;color:var(--mid);font-weight:300}
+#cv-mount .summary-p {font-size:11px;line-height:1.8;color:var(--mid);font-weight:300}
 
 /* Experience */
-.exp-block{margin-bottom:20px}
-.exp-block:last-child{margin-bottom:0}
-.exp-meta{display:flex;justify-content:space-between;margin-bottom:2px;align-items:baseline}
-.exp-role{font-size:12px;font-weight:600;color:var(--dark)}
-.exp-date{font-size:9px;color:var(--light);font-weight:400;letter-spacing:.04em;white-space:nowrap}
-.exp-co{font-size:10px;color:var(--red);font-weight:500;margin-bottom:7px}
-.exp-pts{list-style:none;display:flex;flex-direction:column;gap:4px}
-.exp-pts li{font-size:10px;color:var(--mid);line-height:1.65;padding-left:10px;position:relative;font-weight:300}
-.exp-pts li::before{content:'▸';position:absolute;left:0;color:var(--red);font-size:7px;top:3px}
+#cv-mount .exp-block {margin-bottom:20px}
+#cv-mount .exp-block:last-child {margin-bottom:0}
+#cv-mount .exp-meta {display:flex;justify-content:space-between;margin-bottom:2px;align-items:baseline}
+#cv-mount .exp-role {font-size:12px;font-weight:600;color:var(--dark)}
+#cv-mount .exp-date {font-size:9px;color:var(--light);font-weight:400;letter-spacing:.04em;white-space:nowrap}
+#cv-mount .exp-co {font-size:10px;color:var(--red);font-weight:500;margin-bottom:7px}
+#cv-mount .exp-pts {list-style:none;display:flex;flex-direction:column;gap:4px}
+#cv-mount .exp-pts li {font-size:10px;color:var(--mid);line-height:1.65;padding-left:10px;position:relative;font-weight:300}
+#cv-mount .exp-pts li::before {content:'▸';position:absolute;left:0;color:var(--red);font-size:7px;top:3px}
 
 /* Skills */
-.skill-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.skill-label{font-size:10.5px;color:var(--dark);font-weight:400}
-.dots{display:flex;gap:4px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--rule)}
-.dot.on{background:var(--red)}
+#cv-mount .skill-row {display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+#cv-mount .skill-label {font-size:10.5px;color:var(--dark);font-weight:400}
+#cv-mount .dots {display:flex;gap:4px}
+#cv-mount .dot {width:8px;height:8px;border-radius:50%;background:var(--rule)}
+#cv-mount .dot.on {background:var(--red)}
 
 /* Education */
-.edu-block{margin-bottom:14px}
-.edu-block:last-child{margin-bottom:0}
-.edu-deg{font-size:11.5px;font-weight:600;color:var(--dark)}
-.edu-sch{font-size:10px;color:var(--red);font-weight:500;margin-top:2px}
-.edu-yr{font-size:9.5px;color:var(--light);margin-top:1px}
+#cv-mount .edu-block {margin-bottom:14px}
+#cv-mount .edu-block:last-child {margin-bottom:0}
+#cv-mount .edu-deg {font-size:11.5px;font-weight:600;color:var(--dark)}
+#cv-mount .edu-sch {font-size:10px;color:var(--red);font-weight:500;margin-top:2px}
+#cv-mount .edu-yr {font-size:9.5px;color:var(--light);margin-top:1px}
 
 /* Tags */
-.tag-wrap{display:flex;flex-wrap:wrap;gap:5px}
-.tag{font-size:9px;border:1px solid var(--rule);color:var(--mid);padding:3px 8px;border-radius:1px;font-weight:400;letter-spacing:.03em}
+#cv-mount .tag-wrap {display:flex;flex-wrap:wrap;gap:5px}
+#cv-mount .tag {font-size:9px;border:1px solid var(--rule);color:var(--mid);padding:3px 8px;border-radius:1px;font-weight:400;letter-spacing:.03em}
 
 /* Certs */
-.cert-row{display:flex;justify-content:space-between;font-size:10px;color:var(--mid);margin-bottom:7px;line-height:1.5;font-weight:300}
-.cert-iss{font-size:9px;color:var(--light)}
+#cv-mount .cert-row {display:flex;justify-content:space-between;font-size:10px;color:var(--mid);margin-bottom:7px;line-height:1.5;font-weight:300}
+#cv-mount .cert-iss {font-size:9px;color:var(--light)}
 
 /* Projects */
-.proj-block{margin-bottom:14px}
-.proj-block:last-child{margin-bottom:0}
-.proj-name{font-size:11px;font-weight:600;color:var(--dark)}
-.proj-tech{font-size:9px;color:var(--red);margin:2px 0 4px;font-weight:500;letter-spacing:.04em}
-.proj-desc{font-size:10px;color:var(--mid);line-height:1.65;font-weight:300}
+#cv-mount .proj-block {margin-bottom:14px}
+#cv-mount .proj-block:last-child {margin-bottom:0}
+#cv-mount .proj-name {font-size:11px;font-weight:600;color:var(--dark)}
+#cv-mount .proj-tech {font-size:9px;color:var(--red);margin:2px 0 4px;font-weight:500;letter-spacing:.04em}
+#cv-mount .proj-desc {font-size:10px;color:var(--mid);line-height:1.65;font-weight:300}

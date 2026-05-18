@@ -88,13 +88,16 @@ async function preloadTemplates() {
 }
 
 function setBodyTemplateClass(name) {
+  const tplClass = `tpl-${name}`;
   document.body.classList.remove(...TEMPLATE_BODY_CLASSES);
-  document.body.classList.add(`tpl-${name}`);
+  document.body.classList.add(tplClass);
+
+  document.querySelectorAll('#cv-mount, .app-sidebar').forEach((el) => {
+    el.classList.remove(...TEMPLATE_BODY_CLASSES);
+    el.classList.add(tplClass);
+  });
+
   const mount = $('cv-mount');
-  if (mount) {
-    mount.classList.remove(...TEMPLATE_BODY_CLASSES);
-    mount.classList.add(`tpl-${name}`);
-  }
   const sheet = $('template-css');
   if (sheet) {
     const href = `/css/${name}.css`;

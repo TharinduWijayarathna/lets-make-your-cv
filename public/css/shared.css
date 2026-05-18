@@ -95,7 +95,7 @@ body.tpl-artdeco { background: #1a1a2e; font-family: 'Raleway', sans-serif; }
   background: #faf9f7;
 }
 
-.sidebar-title {
+.app-sidebar-heading {
   margin: 0;
   flex: 1;
   min-width: 0;
@@ -346,22 +346,83 @@ body > .modal-overlay.no-print.active {
   color: #1a1a1a;
 }
 
+/* —— App sidebar: theme follows active CV template —— */
+body.tpl-classic .app-sidebar {
+  background: rgba(250, 249, 247, 0.98);
+  border-color: #d4cfc7;
+}
+body.tpl-nordic .app-sidebar {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: #ccc;
+}
+body.tpl-editorial .app-sidebar {
+  background: rgba(250, 248, 243, 0.98);
+  border-color: #d4cfc7;
+}
+body.tpl-brutalist .app-sidebar {
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #000;
+}
+body.tpl-artdeco .app-sidebar {
+  background: #14243e;
+  border-color: rgba(201, 168, 76, 0.35);
+  color: #f5f0e6;
+}
+body.tpl-artdeco .app-sidebar .app-sidebar-heading,
+body.tpl-artdeco .app-sidebar .sidebar-label,
+body.tpl-artdeco .app-sidebar .sidebar-user {
+  color: #f5f0e6;
+}
+body.tpl-artdeco .app-sidebar .sidebar-home {
+  color: #c9a84c;
+  border-color: rgba(201, 168, 76, 0.4);
+  background: rgba(11, 22, 40, 0.6);
+}
+body.tpl-artdeco .app-sidebar .sidebar-home:hover {
+  color: #e8c96e;
+  border-color: #c9a84c;
+}
+body.tpl-artdeco .app-sidebar select,
+body.tpl-artdeco .app-sidebar .sidebar-btn-ghost {
+  border-color: rgba(201, 168, 76, 0.35);
+}
+body.tpl-artdeco .app-sidebar .template-option {
+  background: #0b1628;
+  border-color: rgba(201, 168, 76, 0.25);
+}
+body.tpl-artdeco .app-sidebar .template-option-name {
+  color: #e8dcc4;
+}
+body.tpl-artdeco .app-sidebar .template-option.is-active {
+  border-color: #c9a84c;
+  box-shadow: 0 0 0 1px #c9a84c;
+}
+
 .btn-download { background: #1c1c1e; color: #f5f1ea; }
 .btn-download:hover { background: #333; }
 .btn-download:disabled { opacity: 0.65; cursor: wait; }
 .btn-generate { background: #4a5d7a; color: #f5f1ea; }
 .btn-generate:hover { background: #3a4a62; }
 .btn-generate:disabled { opacity: 0.65; cursor: wait; }
-body.tpl-nordic .btn-generate { background: #2c3e50; }
-body.tpl-editorial .btn-generate { background: #5c4d3c; }
 .btn-edit { background: #c8b99a; color: #1a1a1a; }
 .btn-edit:hover { background: #b5a484; }
-body.tpl-nordic .btn-edit { background: #c0392b; color: #fff; }
-body.tpl-editorial .btn-edit { background: #d4840a; color: #fff; }
-body.tpl-brutalist .btn-edit { background: #000; color: #fff; }
-body.tpl-brutalist .btn-edit:hover { background: #ff3300; }
-body.tpl-artdeco .btn-edit { background: #c9a84c; color: #0b1628; }
-body.tpl-artdeco .btn-edit:hover { background: #e8c96e; }
+
+body.tpl-nordic .app-sidebar .btn-generate { background: #2c3e50; }
+body.tpl-editorial .app-sidebar .btn-generate { background: #5c4d3c; }
+body.tpl-nordic .app-sidebar .btn-edit { background: #c0392b; color: #fff; }
+body.tpl-editorial .app-sidebar .btn-edit { background: #d4840a; color: #fff; }
+body.tpl-brutalist .app-sidebar .btn-edit { background: #000; color: #fff; }
+body.tpl-brutalist .app-sidebar .btn-edit:hover { background: #ff3300; }
+body.tpl-brutalist .app-sidebar .btn-download { background: #000; color: #fff; border: 2px solid #000; }
+body.tpl-brutalist .app-sidebar .btn-download:hover { background: #ff3300; }
+body.tpl-brutalist .app-sidebar .btn-generate { background: #333; color: #fff; }
+body.tpl-artdeco .app-sidebar .btn-edit { background: #c9a84c; color: #0b1628; }
+body.tpl-artdeco .app-sidebar .btn-edit:hover { background: #e8c96e; }
+body.tpl-artdeco .app-sidebar .btn-download { background: #c9a84c; color: #0b1628; }
+body.tpl-artdeco .app-sidebar .btn-download:hover { background: #e8c96e; }
+body.tpl-artdeco .app-sidebar .btn-generate { background: #1e3259; color: #c9a84c; border: 1px solid #c9a84c; }
 
 .generate-modal { width: 560px; }
 .generate-modal.is-generating {
