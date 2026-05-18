@@ -122,27 +122,83 @@ function templatePickerThumb(id) {
   return `<div class="picker-thumb ${id}" aria-hidden="true"></div>`;
 }
 
+function templateCardHtml(id, meta) {
+  return `${templatePickerThumb(id)}<span class="template-option-name">${escapeHtml(meta.short || meta.label)}</span>`;
+}
+
+function isTemplatePanelOpen() {
+  const panel = $('template-picker');
+  return panel && !panel.hidden;
+}
+
+function openTemplatePanel() {
+  const panel = $('template-picker');
+  const trigger = $('template-select-trigger');
+  if (!panel || !trigger) return;
+  panel.hidden = false;
+  trigger.setAttribute('aria-expanded', 'true');
+}
+
+function closeTemplatePanel() {
+  const panel = $('template-picker');
+  const trigger = $('template-select-trigger');
+  if (!panel || !trigger) return;
+  panel.hidden = true;
+  trigger.setAttribute('aria-expanded', 'false');
+}
+
+function toggleTemplatePanel() {
+  if (isTemplatePanelOpen()) closeTemplatePanel();
+  else openTemplatePanel();
+}
+
 function initTemplatePicker() {
   const picker = $('template-picker');
-  if (!picker) return;
+  const trigger = $('template-select-trigger');
+  const current = $('template-select-current');
+  if (!picker || !trigger || !current) return;
 
-  picker.innerHTML = Object.entries(TEMPLATES)
+  const count = Object.keys(TEMPLATES).length;
+  picker.innerHTML = `<p class="template-panel-count">${count} template${count === 1 ? '' : 's'}</p>${Object.entries(TEMPLATES)
     .map(
       ([id, meta]) => `<button type="button" class="template-option" role="option" data-template="${id}" aria-selected="false">
-        ${templatePickerThumb(id)}
-        <span class="template-option-name">${escapeHtml(meta.short || meta.label)}</span>
+        ${templateCardHtml(id, meta)}
       </button>`
     )
-    .join('');
+    .join('')}`;
 
   picker.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-template]');
     if (!btn) return;
     changeTemplate(btn.dataset.template);
+    closeTemplatePanel();
   });
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleTemplatePanel();
+  });
+
+  document.addEventListener('click', (e) => {
+    const wrap = $('template-select-wrap');
+    if (!wrap || wrap.contains(e.target)) return;
+    closeTemplatePanel();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeTemplatePanel();
+  });
+
+  setTemplatePickerActive(activeTemplate);
 }
 
 function setTemplatePickerActive(name) {
+  const meta = TEMPLATES[name];
+  const current = $('template-select-current');
+  if (current && meta) {
+    current.innerHTML = templateCardHtml(name, meta);
+  }
+
   const picker = $('template-picker');
   if (!picker) return;
   picker.querySelectorAll('.template-option').forEach((btn) => {

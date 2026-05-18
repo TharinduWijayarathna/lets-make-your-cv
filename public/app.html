@@ -35,7 +35,21 @@
       <nav class="sidebar-nav">
         <div class="sidebar-section sidebar-templates">
           <span class="sidebar-label" id="template-picker-label">Template</span>
-          <div id="template-picker" class="template-picker" role="listbox" aria-labelledby="template-picker-label"></div>
+          <div class="template-select" id="template-select-wrap">
+            <button
+              type="button"
+              id="template-select-trigger"
+              class="template-select-trigger"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="template-picker"
+              aria-labelledby="template-picker-label"
+            >
+              <span class="template-select-current" id="template-select-current"></span>
+              <span class="template-select-chevron" aria-hidden="true">▾</span>
+            </button>
+            <div id="template-picker" class="template-select-panel" role="listbox" hidden></div>
+          </div>
         </div>
 
         <div class="sidebar-section sidebar-actions">
