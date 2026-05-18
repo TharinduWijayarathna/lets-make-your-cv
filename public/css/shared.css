@@ -64,33 +64,45 @@ body.tpl-artdeco { background: #1a1a2e; font-family: 'Raleway', sans-serif; }
 
 .sidebar-brand {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-bottom: 16px;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 2px;
   border-bottom: 1px solid #e8e5df;
 }
 
 .sidebar-home {
-  font-size: 11px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
   font-weight: 500;
-  color: #666;
+  line-height: 1;
+  color: #555;
   text-decoration: none;
-  align-self: flex-start;
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid #d4cfc7;
+  border-radius: 6px;
+  border: 1px solid #e0ddd8;
   background: #fff;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
 
 .sidebar-home:hover {
   color: #1a1a1a;
   border-color: #c8b99a;
+  background: #faf9f7;
 }
 
 .sidebar-title {
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 1.25rem;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 15px;
   font-weight: 600;
+  letter-spacing: -0.02em;
   color: #1a1a1a;
   line-height: 1.2;
 }
