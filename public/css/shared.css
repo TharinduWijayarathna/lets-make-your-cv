@@ -436,6 +436,10 @@ body.tpl-artdeco .btn-edit:hover { background: #e8c96e; }
   cursor: pointer;
 }
 
+#cv-mount .cv-page.pdf-export {
+  box-shadow: none !important;
+}
+
 @media print {
   body { background: none !important; padding: 0; }
   .no-print { display: none !important; }

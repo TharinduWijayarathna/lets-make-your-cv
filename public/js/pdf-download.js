@@ -31,6 +31,7 @@ async function downloadCvPdf() {
   try {
     if (document.fonts?.ready) await document.fonts.ready;
 
+    page.classList.add('pdf-export');
     const filename = buildCvFilename();
 
     await html2pdf()
@@ -59,6 +60,7 @@ async function downloadCvPdf() {
       setSaveStatus('Could not create PDF — try again', true);
     }
   } finally {
+    page.classList.remove('pdf-export');
     window.scrollTo(scrollX, scrollY);
     if (btn) {
       btn.disabled = false;
