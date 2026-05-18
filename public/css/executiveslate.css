@@ -1,0 +1,259 @@
+body.tpl-executiveslate #cv-mount,
+#cv-mount.tpl-executiveslate {
+--paper:#f7f5f1;
+  --white:#ffffff;
+  --ink:#17191d;
+  --charcoal:#262b33;
+  --muted:#667085;
+  --soft:#e6e1d8;
+  --soft-2:#efeae2;
+  --accent:#8a5a2b;
+  --accent-dark:#6e451f;
+  --line:#d8d1c6;
+}
+
+#cv-mount .cv-page{
+  width:210mm;
+  min-height:297mm;
+  background:var(--paper);
+  box-shadow:0 18px 70px rgba(30,25,18,.25);
+  position:relative;
+  overflow:hidden;
+}#cv-mount .cv-page::before{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  width:105mm;
+  height:72mm;
+  background:
+    linear-gradient(135deg,rgba(138,90,43,.18),transparent 60%),
+    radial-gradient(circle at 80% 20%,rgba(38,43,51,.14),transparent 42%);
+  pointer-events:none;
+}#cv-mount .cv-header{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1fr 72mm;
+  min-height:74mm;
+  border-bottom:1px solid var(--line);
+}#cv-mount .header-main{
+  padding:28mm 18mm 15mm;
+}#cv-mount .header-kicker{
+  font-size:9px;
+  font-weight:800;
+  color:var(--accent);
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}#cv-mount .header-name{
+  font-family:'Instrument Serif',serif;
+  font-size:52px;
+  line-height:.95;
+  color:var(--ink);
+  letter-spacing:-.02em;
+}#cv-mount .header-title{
+  font-size:13px;
+  color:var(--charcoal);
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-top:14px;
+}#cv-mount .header-contact{
+  border-left:1px solid var(--line);
+  background:rgba(255,255,255,.35);
+  padding:25mm 11mm 12mm;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:9px;
+}#cv-mount .contact-row{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}#cv-mount .contact-label{
+  font-size:7.5px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  color:var(--accent);
+}#cv-mount .contact-value{
+  font-size:10px;
+  line-height:1.45;
+  color:var(--charcoal);
+  word-break:break-word;
+}#cv-mount .cv-body{
+  display:grid;
+  grid-template-columns:63mm 1fr;
+  min-height:223mm;
+}#cv-mount .sidebar{
+  padding:16mm 11mm 16mm 18mm;
+  border-right:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(239,234,226,.72));
+}#cv-mount .main{
+  padding:16mm 18mm 16mm 13mm;
+}#cv-mount .section{
+  margin-bottom:22px;
+}#cv-mount .section:last-child{margin-bottom:0}#cv-mount .section-title{
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}#cv-mount .section-title::after{
+  content:'';
+  height:1px;
+  background:var(--line);
+  flex:1;
+}#cv-mount .profile{
+  font-size:10.5px;
+  color:var(--charcoal);
+  line-height:1.8;
+  font-weight:400;
+}#cv-mount .skill-group{
+  margin-bottom:13px;
+}#cv-mount .skill-group:last-child{margin-bottom:0}#cv-mount .skill-head{
+  font-size:10px;
+  font-weight:800;
+  color:var(--ink);
+  margin-bottom:5px;
+}#cv-mount .skill-text{
+  font-size:9.5px;
+  line-height:1.7;
+  color:var(--muted);
+}#cv-mount .badge-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}#cv-mount .badge{
+  font-size:8.5px;
+  font-weight:700;
+  color:var(--charcoal);
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.55);
+  padding:4px 8px;
+}#cv-mount .edu-item, #cv-mount .cert-item, #cv-mount .lang-item{
+  padding-bottom:10px;
+  margin-bottom:10px;
+  border-bottom:1px solid var(--line);
+}#cv-mount .edu-item:last-child, #cv-mount .cert-item:last-child, #cv-mount .lang-item:last-child{
+  border-bottom:none;
+  padding-bottom:0;
+  margin-bottom:0;
+}#cv-mount .edu-degree, #cv-mount .cert-name{
+  font-size:10.5px;
+  font-weight:800;
+  line-height:1.45;
+  color:var(--ink);
+}#cv-mount .edu-school, #cv-mount .cert-meta, #cv-mount .lang-level{
+  font-size:9px;
+  color:var(--muted);
+  line-height:1.55;
+  margin-top:2px;
+}#cv-mount .lang-item{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  font-size:10px;
+  color:var(--charcoal);
+}#cv-mount .exp-card{
+  position:relative;
+  padding:0 0 18px 18px;
+  margin-bottom:18px;
+  border-left:1px solid var(--line);
+}#cv-mount .exp-card:last-child{
+  margin-bottom:0;
+  padding-bottom:0;
+}#cv-mount .exp-card::before{
+  content:'';
+  position:absolute;
+  left:-4px;
+  top:5px;
+  width:7px;
+  height:7px;
+  background:var(--accent);
+}#cv-mount .exp-top{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-start;
+  margin-bottom:3px;
+}#cv-mount .exp-role{
+  font-size:12px;
+  font-weight:800;
+  color:var(--ink);
+  line-height:1.45;
+}#cv-mount .exp-date{
+  font-size:8.5px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--accent);
+  white-space:nowrap;
+  padding-top:3px;
+}#cv-mount .exp-company{
+  font-size:9.5px;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:8px;
+}#cv-mount .exp-points{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}#cv-mount .exp-points li{
+  position:relative;
+  padding-left:13px;
+  font-size:10px;
+  line-height:1.65;
+  color:var(--charcoal);
+}#cv-mount .exp-points li::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:8px;
+  width:5px;
+  height:1px;
+  background:var(--accent);
+}#cv-mount .project-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}#cv-mount .project-card{
+  background:rgba(255,255,255,.55);
+  border:1px solid var(--line);
+  padding:11px 12px;
+  min-height:78px;
+}#cv-mount .project-name{
+  font-size:10.5px;
+  font-weight:800;
+  color:var(--ink);
+}#cv-mount .project-tech{
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-weight:800;
+  color:var(--accent);
+  margin-top:4px;
+  margin-bottom:5px;
+}#cv-mount .project-desc{
+  font-size:9.2px;
+  line-height:1.65;
+  color:var(--charcoal);
+}#cv-mount .achievement-list{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}#cv-mount .achievement-list li{
+  border-left:2px solid var(--accent);
+  padding:5px 0 5px 10px;
+  font-size:10px;
+  color:var(--charcoal);
+  line-height:1.6;
+  background:linear-gradient(90deg,rgba(138,90,43,.05),transparent 70%);
+}

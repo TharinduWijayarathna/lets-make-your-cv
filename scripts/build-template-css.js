@@ -15,30 +15,72 @@ function extractStyle(html) {
   return m ? m[1] : '';
 }
 
-const CV_STYLE_START =
-  '(?=@media print|:root|\\.cv-page|\\.blueprint-page|\\.circuit-page|\\.ink-page|\\.ats-page|\\.newspaper-page|\\.origami-page)';
+/** After modal UI in source; includes print so nordic-style templates strip through end of modal. */
+const MODAL_COMMENT_END =
+  '(?=@media\\s+print\\b|@media\\s*\\(\\s*max-width|:root|\\.blueprint-page|\\.circuit-page|\\.ink-page|\\.newspaper-page|\\.origami-page)';
+/** Stops before inline @media print between modal and :root (blueprint, circuit, ink). */
+const MODAL_BLOCK_END =
+  '(?=@media\\s*\\(\\s*max-width|:root|\\.blueprint-page|\\.circuit-page|\\.ink-page|\\.newspaper-page|\\.origami-page)';
+
+function removeComments(css) {
+  return css.replace(/\/\*[\s\S]*?\*\//g, '');
+}
+
+/** Remove @media blocks whose condition matches predicate (brace-aware). */
+function removeAtMedia(css, shouldRemove) {
+  let out = '';
+  let i = 0;
+
+  while (i < css.length) {
+    const tail = css.slice(i);
+    const m = tail.match(/^@media\s+([^{]+)\{/);
+    if (!m) {
+      out += css[i];
+      i += 1;
+      continue;
+    }
+
+    const query = m[1].trim();
+    const start = i;
+    i += m[0].length;
+    let depth = 1;
+    while (i < css.length && depth > 0) {
+      if (css[i] === '{') depth += 1;
+      else if (css[i] === '}') depth -= 1;
+      if (depth > 0) i += 1;
+    }
+    if (i < css.length && css[i] === '}') i += 1;
+
+    if (!shouldRemove(query)) {
+      out += css.slice(start, i);
+    }
+  }
+
+  return out;
+}
 
 function stripSections(css) {
   let out = css;
   out = out.replace(/\/\*\s*TOOLBAR\s*\*\/[\s\S]*?(?=\/\*\s*A4|\.cv-page)/i, '');
   out = out.replace(/^\.toolbar[\s\S]*?(?=\/\*\s*A4|\.cv-page)/m, '');
   out = out.replace(/\.btn-edit\{[^}]+\}\s*\.btn-print\{[^}]+\}\s*/g, '');
-  out = out.replace(new RegExp(`/\\*\\s*MODAL\\s*\\*/[\\s\\S]*?${CV_STYLE_START}`, 'i'), '');
-  out = out.replace(new RegExp(`^\\.modal-overlay[\\s\\S]*?${CV_STYLE_START}`, 'm'), '');
-  out = out.replace(/@media print\s*\{[\s\S]*?\}\s*/g, '');
+  out = out.replace(new RegExp(`/\\*\\s*MODAL\\s*\\*/[\\s\\S]*?${MODAL_COMMENT_END}`, 'i'), '');
+  out = out.replace(new RegExp(`\\.modal-overlay[\\s\\S]*?${MODAL_BLOCK_END}`, 'i'), '');
+  out = out.replace(new RegExp(`\\.modal[\\s\\S]*?${MODAL_BLOCK_END}`, 'i'), '');
+  out = removeAtMedia(out, (q) => /^print\b/i.test(q) || /\bmax-width\b/i.test(q));
   out = out.replace(/\.cv-page\{box-shadow:none\}\.no-print\{display:none\}\}/g, '');
   out = out.replace(/\.no-print\s*\{\s*display\s*:\s*none\s*;?\s*\}/gi, '');
+  out = out.replace(/\.toolbar\b[^{]*\{[^}]*\}/g, '');
+  out = out.replace(/\.toolbar\s+button[^{]*\{[^}]*\}/g, '');
+  out = out.replace(/\.btn-edit\{[^}]+\}/g, '');
+  out = out.replace(/\.btn-print\{[^}]+\}/g, '');
   out = out.replace(/\*,\*::before,\*::after\{[^}]+\}\s*/g, '');
   out = out.replace(/\*, \*::before, \*::after \{[\s\S]*?\}\s*/m, '');
-  out = out.replace(/\bbody\s*\{[^}]+\}\s*/g, '');
+  /* Do not match `.cv-body` — only the document `body` selector. */
+  out = out.replace(/(^|[^-.\w])(body\s*\{[^}]+\}\s*)/g, '$1');
   out = out.replace(/\.cv-page\{box-shadow:none\s*!important\}\s*/g, '');
-  out = out.replace(
-    /\.modal[\s\S]*?(?=:root|\.cv-page|\.blueprint-page|\.circuit-page|\.ink-page|\.ats-page|\.newspaper-page|\.origami-page)/i,
-    ''
-  );
   out = out.replace(/^h1,h2,h3,p\{[^}]+\}\s*/m, '');
   out = out.replace(/^ul\{[^}]+\}\s*/m, '');
-  out = out.replace(/^\s*\}\s*$/gm, '');
   return out.trim();
 }
 
@@ -75,20 +117,71 @@ function scopeSelectorList(selectors, prefix) {
 
 /** Prefix class/id selectors so CV template CSS cannot style the app sidebar. */
 function scopeRules(css, prefix = '#cv-mount') {
-  let out = css.replace(/^(\s*)([^{]+)\{/gm, (match, indent, selectors) => {
-    const trimmed = selectors.trim();
-    if (!trimmed || trimmed.startsWith('@')) return match;
-    return `${indent}${scopeSelectorList(selectors, prefix)} {`;
-  });
+  let out = '';
+  let i = 0;
 
-  // Rules chained on one line: }.skill-top{...}
-  out = out.replace(/\}([.#][^{]+)\{/g, (match, selectors) => `}${scopeSelectorList(selectors, prefix)}{`);
+  while (i < css.length) {
+    if (css.startsWith('/*', i)) {
+      const end = css.indexOf('*/', i);
+      if (end === -1) {
+        out += css.slice(i);
+        break;
+      }
+      out += css.slice(i, end + 2);
+      i = end + 2;
+      continue;
+    }
+
+    const open = css.indexOf('{', i);
+    if (open === -1) {
+      out += css.slice(i);
+      break;
+    }
+
+    const selector = css.slice(i, open).trim();
+    const looksLikeRule =
+      selector &&
+      !selector.startsWith('@') &&
+      !selector.includes(';') &&
+      /[.#a-zA-Z_-]/.test(selector);
+
+    if (looksLikeRule) {
+      out += scopeSelectorList(selector, prefix);
+    } else {
+      out += css.slice(i, open);
+    }
+
+    out += '{';
+    i = open + 1;
+
+    let depth = 1;
+    while (i < css.length && depth > 0) {
+      if (css.startsWith('/*', i)) {
+        const end = css.indexOf('*/', i);
+        const commentEnd = end === -1 ? css.length : end + 2;
+        out += css.slice(i, commentEnd);
+        i = commentEnd;
+        continue;
+      }
+      if (css[i] === '{') depth += 1;
+      else if (css[i] === '}') depth -= 1;
+      if (depth > 0) {
+        out += css[i];
+        i += 1;
+      }
+    }
+
+    if (i < css.length && css[i] === '}') {
+      out += '}';
+      i += 1;
+    }
+  }
 
   return out;
 }
 
 function buildTemplateCss(rawCss, tplName) {
-  const stripped = stripSections(rawCss);
+  const stripped = removeComments(stripSections(rawCss));
   const { css, header } = extractVarsBlock(stripped, tplName);
   return header + scopeRules(css);
 }
@@ -119,6 +212,7 @@ const outputs = {
   ats: buildTemplateCss(extractStyle(readSource('cv_template_ats_plain.html')), 'tpl-ats'),
   newspaper: buildTemplateCss(extractStyle(readSource('cv_template_newspaper.html')), 'tpl-newspaper'),
   origami: buildTemplateCss(extractStyle(readSource('cv_template_origami.html')), 'tpl-origami'),
+  executiveslate: buildTemplateCss(extractStyle(readSource('cv_template_executiveslate.html')), 'tpl-executiveslate'),
 };
 
 for (const [name, css] of Object.entries(outputs)) {

@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CV – Executive Slate</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#f7f5f1;
+  --white:#ffffff;
+  --ink:#17191d;
+  --charcoal:#262b33;
+  --muted:#667085;
+  --soft:#e6e1d8;
+  --soft-2:#efeae2;
+  --accent:#8a5a2b;
+  --accent-dark:#6e451f;
+  --line:#d8d1c6;
+}
+body{
+  font-family:'Manrope',sans-serif;
+  background:#d9d4cb;
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 20px;
+  min-height:100vh;
+}
+.toolbar{
+  display:flex;
+  gap:10px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+.toolbar button{
+  font-family:'Manrope',sans-serif;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:10px 20px;
+  border:none;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.btn-edit{
+  background:var(--charcoal);
+  color:var(--white);
+}
+.btn-edit:hover{background:var(--accent-dark)}
+.btn-print{
+  background:var(--paper);
+  color:var(--charcoal);
+  border:1px solid var(--charcoal)!important;
+}
+.btn-print:hover{
+  background:var(--charcoal);
+  color:var(--white);
+}
+.cv-page{
+  width:210mm;
+  min-height:297mm;
+  background:var(--paper);
+  box-shadow:0 18px 70px rgba(30,25,18,.25);
+  position:relative;
+  overflow:hidden;
+}
+.cv-page::before{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  width:105mm;
+  height:72mm;
+  background:
+    linear-gradient(135deg,rgba(138,90,43,.18),transparent 60%),
+    radial-gradient(circle at 80% 20%,rgba(38,43,51,.14),transparent 42%);
+  pointer-events:none;
+}
+.cv-header{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1fr 72mm;
+  min-height:74mm;
+  border-bottom:1px solid var(--line);
+}
+.header-main{
+  padding:28mm 18mm 15mm;
+}
+.header-kicker{
+  font-size:9px;
+  font-weight:800;
+  color:var(--accent);
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.header-name{
+  font-family:'Instrument Serif',serif;
+  font-size:52px;
+  line-height:.95;
+  color:var(--ink);
+  letter-spacing:-.02em;
+}
+.header-title{
+  font-size:13px;
+  color:var(--charcoal);
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-top:14px;
+}
+.header-contact{
+  border-left:1px solid var(--line);
+  background:rgba(255,255,255,.35);
+  padding:25mm 11mm 12mm;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:9px;
+}
+.contact-row{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.contact-label{
+  font-size:7.5px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  color:var(--accent);
+}
+.contact-value{
+  font-size:10px;
+  line-height:1.45;
+  color:var(--charcoal);
+  word-break:break-word;
+}
+.cv-body{
+  display:grid;
+  grid-template-columns:63mm 1fr;
+  min-height:223mm;
+}
+.sidebar{
+  padding:16mm 11mm 16mm 18mm;
+  border-right:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(239,234,226,.72));
+}
+.main{
+  padding:16mm 18mm 16mm 13mm;
+}
+.section{
+  margin-bottom:22px;
+}
+.section:last-child{margin-bottom:0}
+.section-title{
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-title::after{
+  content:'';
+  height:1px;
+  background:var(--line);
+  flex:1;
+}
+.profile{
+  font-size:10.5px;
+  color:var(--charcoal);
+  line-height:1.8;
+  font-weight:400;
+}
+.skill-group{
+  margin-bottom:13px;
+}
+.skill-group:last-child{margin-bottom:0}
+.skill-head{
+  font-size:10px;
+  font-weight:800;
+  color:var(--ink);
+  margin-bottom:5px;
+}
+.skill-text{
+  font-size:9.5px;
+  line-height:1.7;
+  color:var(--muted);
+}
+.badge-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.badge{
+  font-size:8.5px;
+  font-weight:700;
+  color:var(--charcoal);
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.55);
+  padding:4px 8px;
+}
+.edu-item,.cert-item,.lang-item{
+  padding-bottom:10px;
+  margin-bottom:10px;
+  border-bottom:1px solid var(--line);
+}
+.edu-item:last-child,.cert-item:last-child,.lang-item:last-child{
+  border-bottom:none;
+  padding-bottom:0;
+  margin-bottom:0;
+}
+.edu-degree,.cert-name{
+  font-size:10.5px;
+  font-weight:800;
+  line-height:1.45;
+  color:var(--ink);
+}
+.edu-school,.cert-meta,.lang-level{
+  font-size:9px;
+  color:var(--muted);
+  line-height:1.55;
+  margin-top:2px;
+}
+.lang-item{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  font-size:10px;
+  color:var(--charcoal);
+}
+.exp-card{
+  position:relative;
+  padding:0 0 18px 18px;
+  margin-bottom:18px;
+  border-left:1px solid var(--line);
+}
+.exp-card:last-child{
+  margin-bottom:0;
+  padding-bottom:0;
+}
+.exp-card::before{
+  content:'';
+  position:absolute;
+  left:-4px;
+  top:5px;
+  width:7px;
+  height:7px;
+  background:var(--accent);
+}
+.exp-top{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-start;
+  margin-bottom:3px;
+}
+.exp-role{
+  font-size:12px;
+  font-weight:800;
+  color:var(--ink);
+  line-height:1.45;
+}
+.exp-date{
+  font-size:8.5px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--accent);
+  white-space:nowrap;
+  padding-top:3px;
+}
+.exp-company{
+  font-size:9.5px;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:8px;
+}
+.exp-points{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.exp-points li{
+  position:relative;
+  padding-left:13px;
+  font-size:10px;
+  line-height:1.65;
+  color:var(--charcoal);
+}
+.exp-points li::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:8px;
+  width:5px;
+  height:1px;
+  background:var(--accent);
+}
+.project-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.project-card{
+  background:rgba(255,255,255,.55);
+  border:1px solid var(--line);
+  padding:11px 12px;
+  min-height:78px;
+}
+.project-name{
+  font-size:10.5px;
+  font-weight:800;
+  color:var(--ink);
+}
+.project-tech{
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-weight:800;
+  color:var(--accent);
+  margin-top:4px;
+  margin-bottom:5px;
+}
+.project-desc{
+  font-size:9.2px;
+  line-height:1.65;
+  color:var(--charcoal);
+}
+.achievement-list{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.achievement-list li{
+  border-left:2px solid var(--accent);
+  padding:5px 0 5px 10px;
+  font-size:10px;
+  color:var(--charcoal);
+  line-height:1.6;
+  background:linear-gradient(90deg,rgba(138,90,43,.05),transparent 70%);
+}
+
+/* Modal */
+.modal-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(18,20,24,.72);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+.modal-overlay.active{display:flex}
+.modal{
+  width:760px;
+  max-width:100%;
+  max-height:92vh;
+  overflow-y:auto;
+  background:var(--paper);
+  border:1px solid var(--line);
+  box-shadow:0 24px 80px rgba(0,0,0,.35);
+  padding:30px;
+}
+.modal h2{
+  font-family:'Instrument Serif',serif;
+  font-size:34px;
+  color:var(--ink);
+  font-weight:400;
+}
+.modal-sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+  margin-bottom:18px;
+}
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:18px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.tab{
+  font-family:'Manrope',sans-serif;
+  border:1px solid var(--line);
+  background:var(--white);
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:8px 11px;
+  cursor:pointer;
+}
+.tab.active,.tab:hover{
+  background:var(--charcoal);
+  color:var(--white);
+  border-color:var(--charcoal);
+}
+.tp{display:none}
+.tp.active{display:block}
+.fg{margin-bottom:14px}
+.fg label{
+  display:block;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:5px;
+}
+.fg input,.fg textarea{
+  width:100%;
+  font-family:'Manrope',sans-serif;
+  font-size:12px;
+  color:var(--ink);
+  border:1px solid var(--line);
+  background:var(--white);
+  padding:10px 11px;
+  outline:none;
+}
+.fg textarea{
+  min-height:72px;
+  resize:vertical;
+}
+.fr{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.de{
+  position:relative;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.62);
+  padding:14px 16px;
+  margin-bottom:12px;
+}
+.rm{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:26px;
+  height:26px;
+  border:1px solid var(--line);
+  background:var(--white);
+  color:var(--muted);
+  font-size:16px;
+  cursor:pointer;
+}
+.rm:hover{
+  background:var(--charcoal);
+  color:var(--white);
+}
+.add-b{
+  width:100%;
+  border:1px dashed var(--accent);
+  background:transparent;
+  color:var(--accent);
+  font-family:'Manrope',sans-serif;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:10px 14px;
+  cursor:pointer;
+}
+.add-b:hover{
+  background:rgba(138,90,43,.08);
+}
+.ma{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+.bc,.ba{
+  font-family:'Manrope',sans-serif;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:11px 18px;
+  cursor:pointer;
+}
+.bc{
+  background:transparent;
+  border:1px solid var(--line);
+  color:var(--muted);
+}
+.ba{
+  background:var(--charcoal);
+  color:var(--white);
+  border:1px solid var(--charcoal);
+}
+.ba:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+@media (max-width:900px){
+  .cv-page{width:100%;min-height:auto}
+  .cv-header,.cv-body{grid-template-columns:1fr}
+  .header-contact{border-left:none;border-top:1px solid var(--line);padding:20px 24px}
+  .sidebar{border-right:none;border-bottom:1px solid var(--line);padding:24px}
+  .main{padding:24px}
+  .header-main{padding:42px 24px 24px}
+  .project-grid,.fr{grid-template-columns:1fr}
+}
+@media print{
+  @page{size:A4;margin:0}
+  body{background:none;padding:0}
+  .cv-page{box-shadow:none;width:210mm;min-height:297mm}
+  .no-print{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button class="btn-edit" onclick="openModal()">Edit CV</button>
+  <button class="btn-print" onclick="window.print()">Print / PDF</button>
+</div>
+
+<div class="cv-page">
+  <header class="cv-header">
+    <div class="header-main">
+      <div class="header-kicker">Professional Profile</div>
+      <div class="header-name" id="cv-name">Elena<br>Hartwell</div>
+      <div class="header-title" id="cv-title">Senior Product &amp; Technology Leader</div>
+    </div>
+    <div class="header-contact">
+      <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value" id="cv-email">elena.hartwell@email.com</span></div>
+      <div class="contact-row"><span class="contact-label">Phone</span><span class="contact-value" id="cv-phone">+44 20 7946 0182</span></div>
+      <div class="contact-row"><span class="contact-label">Location</span><span class="contact-value" id="cv-location">London, United Kingdom</span></div>
+      <div class="contact-row"><span class="contact-label">LinkedIn</span><span class="contact-value" id="cv-linkedin">linkedin.com/in/elenahartwell</span></div>
+      <div class="contact-row"><span class="contact-label">Portfolio</span><span class="contact-value" id="cv-portfolio">elenahartwell.com</span></div>
+    </div>
+  </header>
+
+  <div class="cv-body">
+    <aside class="sidebar">
+      <section class="section">
+        <div class="section-title">Profile</div>
+        <p class="profile" id="cv-summary">Strategic technology leader with 10+ years of experience building digital products, scaling multidisciplinary teams, and translating business goals into resilient product and engineering execution. Known for aligning design, operations, and delivery around measurable outcomes.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-title">Expertise</div>
+        <div id="cv-skill-groups">
+          <div class="skill-group">
+            <div class="skill-head">Leadership</div>
+            <div class="skill-text">Product Strategy, Team Development, Roadmapping, Stakeholder Management</div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-head">Technology</div>
+            <div class="skill-text">Platform Architecture, SaaS Delivery, Data-Informed Decisions, Automation</div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-head">Operations</div>
+            <div class="skill-text">OKRs, Cross-Functional Planning, Process Design, Vendor Governance</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">Core Tools</div>
+        <div class="badge-wrap" id="cv-tools">
+          <span class="badge">Jira</span>
+          <span class="badge">Figma</span>
+          <span class="badge">Notion</span>
+          <span class="badge">Amplitude</span>
+          <span class="badge">SQL</span>
+          <span class="badge">AWS</span>
+          <span class="badge">Miro</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">Education</div>
+        <div id="cv-education">
+          <div class="edu-item">
+            <div class="edu-degree">MSc, Digital Innovation</div>
+            <div class="edu-school">Imperial College London</div>
+            <div class="edu-school">2013 – 2014</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-degree">BSc, Information Systems</div>
+            <div class="edu-school">University of Leeds</div>
+            <div class="edu-school">2009 – 2012</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">Certifications</div>
+        <div id="cv-certifications">
+          <div class="cert-item">
+            <div class="cert-name">SAFe Product Owner / Product Manager</div>
+            <div class="cert-meta">Scaled Agile · 2024</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-name">AWS Cloud Practitioner</div>
+            <div class="cert-meta">Amazon Web Services · 2023</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">Languages</div>
+        <div id="cv-languages">
+          <div class="lang-item"><span>English</span><span class="lang-level">Native</span></div>
+          <div class="lang-item"><span>French</span><span class="lang-level">Professional</span></div>
+        </div>
+      </section>
+    </aside>
+
+    <main class="main">
+      <section class="section">
+        <div class="section-title">Professional Experience</div>
+        <div id="cv-experience">
+          <div class="exp-card">
+            <div class="exp-top">
+              <div class="exp-role">Director of Product &amp; Platform</div>
+              <div class="exp-date">2021 – Present</div>
+            </div>
+            <div class="exp-company">Northstar Systems · London</div>
+            <ul class="exp-points">
+              <li>Led a 24-person product and engineering organisation delivering a multi-region SaaS platform used by enterprise clients.</li>
+              <li>Reframed the roadmap around customer retention and operational efficiency, contributing to a 31% increase in expansion revenue.</li>
+              <li>Introduced quarterly planning rituals, product health metrics, and delivery governance across design, engineering, and customer success.</li>
+            </ul>
+          </div>
+
+          <div class="exp-card">
+            <div class="exp-top">
+              <div class="exp-role">Head of Digital Products</div>
+              <div class="exp-date">2017 – 2021</div>
+            </div>
+            <div class="exp-company">Vantage Commerce · Manchester</div>
+            <ul class="exp-points">
+              <li>Built and scaled a B2B platform portfolio spanning onboarding, analytics, billing, and support automation.</li>
+              <li>Reduced product discovery-to-launch time by 35% through standardized discovery, prototyping, and release processes.</li>
+              <li>Partnered with commercial leadership on new subscription packaging and premium service tiers.</li>
+            </ul>
+          </div>
+
+          <div class="exp-card">
+            <div class="exp-top">
+              <div class="exp-role">Senior Product Manager</div>
+              <div class="exp-date">2014 – 2017</div>
+            </div>
+            <div class="exp-company">Harbor Digital · Leeds</div>
+            <ul class="exp-points">
+              <li>Owned customer-facing web and mobile product lines from research through launch and iteration.</li>
+              <li>Worked with analytics and engineering teams to improve activation conversion by 22%.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">Selected Projects</div>
+        <div class="project-grid" id="cv-projects">
+          <div class="project-card">
+            <div class="project-name">Enterprise Control Center</div>
+            <div class="project-tech">SaaS · Analytics · Workflow</div>
+            <div class="project-desc">Unified operational dashboard for account health, usage intelligence, and service interventions.</div>
+          </div>
+          <div class="project-card">
+            <div class="project-name">Revenue Expansion Framework</div>
+            <div class="project-tech">Pricing · Growth · Product</div>
+            <div class="project-desc">Cross-functional initiative to define upgrade triggers, packaging logic, and customer-facing premium tiers.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">Key Achievements</div>
+        <ul class="achievement-list" id="cv-achievements">
+          <li>Scaled digital recurring revenue initiatives supporting seven-figure annual growth.</li>
+          <li>Built leadership operating models that improved planning clarity across product, engineering, and design.</li>
+          <li>Presented executive product strategy updates to board-level stakeholders and strategic customers.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay no-print" id="modal-overlay">
+  <div class="modal">
+    <h2>Edit Executive Slate CV</h2>
+    <div class="modal-sub">Update content while preserving the premium professional layout.</div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('personal', this)">Personal</button>
+      <button class="tab" onclick="showTab('profile', this)">Profile</button>
+      <button class="tab" onclick="showTab('skills', this)">Skills</button>
+      <button class="tab" onclick="showTab('experience', this)">Experience</button>
+      <button class="tab" onclick="showTab('projects', this)">Projects</button>
+      <button class="tab" onclick="showTab('extras', this)">Extras</button>
+    </div>
+
+    <div class="tp active" id="tab-personal">
+      <div class="fr">
+        <div class="fg"><label>Full Name</label><input id="input-name" value="Elena Hartwell"/></div>
+        <div class="fg"><label>Title</label><input id="input-title" value="Senior Product & Technology Leader"/></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Email</label><input id="input-email" value="elena.hartwell@email.com"/></div>
+        <div class="fg"><label>Phone</label><input id="input-phone" value="+44 20 7946 0182"/></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Location</label><input id="input-location" value="London, United Kingdom"/></div>
+        <div class="fg"><label>LinkedIn</label><input id="input-linkedin" value="linkedin.com/in/elenahartwell"/></div>
+      </div>
+      <div class="fg"><label>Portfolio</label><input id="input-portfolio" value="elenahartwell.com"/></div>
+    </div>
+
+    <div class="tp" id="tab-profile">
+      <div class="fg"><label>Profile Summary</label><textarea id="input-summary">Strategic technology leader with 10+ years of experience building digital products, scaling multidisciplinary teams, and translating business goals into resilient product and engineering execution. Known for aligning design, operations, and delivery around measurable outcomes.</textarea></div>
+    </div>
+
+    <div class="tp" id="tab-skills">
+      <div id="skill-editor"></div>
+      <button class="add-b" onclick="addSkillGroup()">Add Expertise Group</button>
+      <div style="height:14px"></div>
+      <div class="fg"><label>Core Tools - comma separated</label><textarea id="input-tools">Jira, Figma, Notion, Amplitude, SQL, AWS, Miro</textarea></div>
+    </div>
+
+    <div class="tp" id="tab-experience">
+      <div id="experience-editor"></div>
+      <button class="add-b" onclick="addExperience()">Add Experience</button>
+    </div>
+
+    <div class="tp" id="tab-projects">
+      <div id="project-editor"></div>
+      <button class="add-b" onclick="addProject()">Add Project</button>
+    </div>
+
+    <div class="tp" id="tab-extras">
+      <div id="education-editor"></div>
+      <button class="add-b" onclick="addEducation()">Add Education</button>
+      <div style="height:14px"></div>
+      <div id="cert-editor"></div>
+      <button class="add-b" onclick="addCertification()">Add Certification</button>
+      <div style="height:14px"></div>
+      <div id="language-editor"></div>
+      <button class="add-b" onclick="addLanguage()">Add Language</button>
+      <div style="height:14px"></div>
+      <div class="fg"><label>Achievements - one per line</label><textarea id="input-achievements">Scaled digital recurring revenue initiatives supporting seven-figure annual growth.
+Built leadership operating models that improved planning clarity across product, engineering, and design.
+Presented executive product strategy updates to board-level stakeholders and strategic customers.</textarea></div>
+    </div>
+
+    <div class="ma">
+      <button class="bc" onclick="closeModal()">Cancel</button>
+      <button class="ba" onclick="applyChanges()">Apply Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const data = {
+  skills: [
+    {title:'Leadership', text:'Product Strategy, Team Development, Roadmapping, Stakeholder Management'},
+    {title:'Technology', text:'Platform Architecture, SaaS Delivery, Data-Informed Decisions, Automation'},
+    {title:'Operations', text:'OKRs, Cross-Functional Planning, Process Design, Vendor Governance'}
+  ],
+  experience: [
+    {
+      role:'Director of Product & Platform',
+      date:'2021 – Present',
+      company:'Northstar Systems · London',
+      points:[
+        'Led a 24-person product and engineering organisation delivering a multi-region SaaS platform used by enterprise clients.',
+        'Reframed the roadmap around customer retention and operational efficiency, contributing to a 31% increase in expansion revenue.',
+        'Introduced quarterly planning rituals, product health metrics, and delivery governance across design, engineering, and customer success.'
+      ]
+    },
+    {
+      role:'Head of Digital Products',
+      date:'2017 – 2021',
+      company:'Vantage Commerce · Manchester',
+      points:[
+        'Built and scaled a B2B platform portfolio spanning onboarding, analytics, billing, and support automation.',
+        'Reduced product discovery-to-launch time by 35% through standardized discovery, prototyping, and release processes.',
+        'Partnered with commercial leadership on new subscription packaging and premium service tiers.'
+      ]
+    },
+    {
+      role:'Senior Product Manager',
+      date:'2014 – 2017',
+      company:'Harbor Digital · Leeds',
+      points:[
+        'Owned customer-facing web and mobile product lines from research through launch and iteration.',
+        'Worked with analytics and engineering teams to improve activation conversion by 22%.'
+      ]
+    }
+  ],
+  projects: [
+    {name:'Enterprise Control Center', tech:'SaaS · Analytics · Workflow', desc:'Unified operational dashboard for account health, usage intelligence, and service interventions.'},
+    {name:'Revenue Expansion Framework', tech:'Pricing · Growth · Product', desc:'Cross-functional initiative to define upgrade triggers, packaging logic, and customer-facing premium tiers.'}
+  ],
+  education: [
+    {degree:'MSc, Digital Innovation', school:'Imperial College London', year:'2013 – 2014'},
+    {degree:'BSc, Information Systems', school:'University of Leeds', year:'2009 – 2012'}
+  ],
+  certifications: [
+    {name:'SAFe Product Owner / Product Manager', meta:'Scaled Agile · 2024'},
+    {name:'AWS Cloud Practitioner', meta:'Amazon Web Services · 2023'}
+  ],
+  languages: [
+    {name:'English', level:'Native'},
+    {name:'French', level:'Professional'}
+  ]
+};
+
+function esc(v){
+  return String(v)
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+}
+function openModal(){
+  document.getElementById('modal-overlay').classList.add('active');
+  renderEditors();
+}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('active')}
+function showTab(id, btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tp').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`tab-${id}`).classList.add('active');
+}
+function renderEditors(){
+  renderSkillEditor();
+  renderExperienceEditor();
+  renderProjectEditor();
+  renderEducationEditor();
+  renderCertificationEditor();
+  renderLanguageEditor();
+}
+function renderSkillEditor(){
+  document.getElementById('skill-editor').innerHTML=data.skills.map((s,i)=>`
+    <div class="de">
+      <button class="rm" onclick="removeSkillGroup(${i})">×</button>
+      <div class="fg"><label>Group Name</label><input value="${esc(s.title)}" onchange="data.skills[${i}].title=this.value"></div>
+      <div class="fg"><label>Description</label><textarea onchange="data.skills[${i}].text=this.value">${esc(s.text)}</textarea></div>
+    </div>`).join('');
+}
+function addSkillGroup(){data.skills.push({title:'Expertise Area',text:'Relevant capabilities'});renderSkillEditor()}
+function removeSkillGroup(i){data.skills.splice(i,1);renderSkillEditor()}
+function renderExperienceEditor(){
+  document.getElementById('experience-editor').innerHTML=data.experience.map((e,i)=>`
+    <div class="de">
+      <button class="rm" onclick="removeExperience(${i})">×</button>
+      <div class="fr">
+        <div class="fg"><label>Role</label><input value="${esc(e.role)}" onchange="data.experience[${i}].role=this.value"></div>
+        <div class="fg"><label>Date</label><input value="${esc(e.date)}" onchange="data.experience[${i}].date=this.value"></div>
+      </div>
+      <div class="fg"><label>Company</label><input value="${esc(e.company)}" onchange="data.experience[${i}].company=this.value"></div>
+      <div class="fg"><label>Bullet Points - one per line</label><textarea onchange="data.experience[${i}].points=this.value.split('\\n').map(v=>v.trim()).filter(Boolean)">${esc(e.points.join('\n'))}</textarea></div>
+    </div>`).join('');
+}
+function addExperience(){data.experience.push({role:'Role',date:'Year – Year',company:'Company · Location',points:['Achievement or responsibility']});renderExperienceEditor()}
+function removeExperience(i){data.experience.splice(i,1);renderExperienceEditor()}
+function renderProjectEditor(){
+  document.getElementById('project-editor').innerHTML=data.projects.map((p,i)=>`
+    <div class="de">
+      <button class="rm" onclick="removeProject(${i})">×</button>
+      <div class="fg"><label>Project Name</label><input value="${esc(p.name)}" onchange="data.projects[${i}].name=this.value"></div>
+      <div class="fg"><label>Tags</label><input value="${esc(p.tech)}" onchange="data.projects[${i}].tech=this.value"></div>
+      <div class="fg"><label>Description</label><textarea onchange="data.projects[${i}].desc=this.value">${esc(p.desc)}</textarea></div>
+    </div>`).join('');
+}
+function addProject(){data.projects.push({name:'Project Name',tech:'Category · Tags',desc:'Short project description.'});renderProjectEditor()}
+function removeProject(i){data.projects.splice(i,1);renderProjectEditor()}
+function renderEducationEditor(){
+  document.getElementById('education-editor').innerHTML=data.education.map((e,i)=>`
+    <div class="de">
+      <button class="rm" onclick="removeEducation(${i})">×</button>
+      <div class="fg"><label>Degree</label><input value="${esc(e.degree)}" onchange="data.education[${i}].degree=this.value"></div>
+      <div class="fr">
+        <div class="fg"><label>Institution</label><input value="${esc(e.school)}" onchange="data.education[${i}].school=this.value"></div>
+        <div class="fg"><label>Years</label><input value="${esc(e.year)}" onchange="data.education[${i}].year=this.value"></div>
+      </div>
+    </div>`).join('');
+}
+function addEducation(){data.education.push({degree:'Degree',school:'Institution',year:'Year – Year'});renderEducationEditor()}
+function removeEducation(i){data.education.splice(i,1);renderEducationEditor()}
+function renderCertificationEditor(){
+  document.getElementById('cert-editor').innerHTML=data.certifications.map((c,i)=>`
+    <div class="de">
+      <button class="rm" onclick="removeCertification(${i})">×</button>
+      <div class="fg"><label>Certification</label><input value="${esc(c.name)}" onchange="data.certifications[${i}].name=this.value"></div>
+      <div class="fg"><label>Issuer / Year</label><input value="${esc(c.meta)}" onchange="data.certifications[${i}].meta=this.value"></div>
+    </div>`).join('');
+}
+function addCertification(){data.certifications.push({name:'Certification',meta:'Issuer · Year'});renderCertificationEditor()}
+function removeCertification(i){data.certifications.splice(i,1);renderCertificationEditor()}
+function renderLanguageEditor(){
+  document.getElementById('language-editor').innerHTML=data.languages.map((l,i)=>`
+    <div class="de">
+      <button class="rm" onclick="removeLanguage(${i})">×</button>
+      <div class="fr">
+        <div class="fg"><label>Language</label><input value="${esc(l.name)}" onchange="data.languages[${i}].name=this.value"></div>
+        <div class="fg"><label>Level</label><input value="${esc(l.level)}" onchange="data.languages[${i}].level=this.value"></div>
+      </div>
+    </div>`).join('');
+}
+function addLanguage(){data.languages.push({name:'Language',level:'Level'});renderLanguageEditor()}
+function removeLanguage(i){data.languages.splice(i,1);renderLanguageEditor()}
+function applyChanges(){
+  document.getElementById('cv-name').innerHTML=esc(document.getElementById('input-name').value).replace(' ','<br>');
+  document.getElementById('cv-title').textContent=document.getElementById('input-title').value;
+  document.getElementById('cv-email').textContent=document.getElementById('input-email').value;
+  document.getElementById('cv-phone').textContent=document.getElementById('input-phone').value;
+  document.getElementById('cv-location').textContent=document.getElementById('input-location').value;
+  document.getElementById('cv-linkedin').textContent=document.getElementById('input-linkedin').value;
+  document.getElementById('cv-portfolio').textContent=document.getElementById('input-portfolio').value;
+  document.getElementById('cv-summary').textContent=document.getElementById('input-summary').value;
+
+  document.getElementById('cv-skill-groups').innerHTML=data.skills.map(s=>`
+    <div class="skill-group">
+      <div class="skill-head">${esc(s.title)}</div>
+      <div class="skill-text">${esc(s.text)}</div>
+    </div>`).join('');
+
+  document.getElementById('cv-tools').innerHTML=document.getElementById('input-tools').value
+    .split(',')
+    .map(v=>v.trim())
+    .filter(Boolean)
+    .map(v=>`<span class="badge">${esc(v)}</span>`)
+    .join('');
+
+  document.getElementById('cv-experience').innerHTML=data.experience.map(e=>`
+    <div class="exp-card">
+      <div class="exp-top">
+        <div class="exp-role">${esc(e.role)}</div>
+        <div class="exp-date">${esc(e.date)}</div>
+      </div>
+      <div class="exp-company">${esc(e.company)}</div>
+      <ul class="exp-points">${e.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>
+    </div>`).join('');
+
+  document.getElementById('cv-projects').innerHTML=data.projects.map(p=>`
+    <div class="project-card">
+      <div class="project-name">${esc(p.name)}</div>
+      <div class="project-tech">${esc(p.tech)}</div>
+      <div class="project-desc">${esc(p.desc)}</div>
+    </div>`).join('');
+
+  document.getElementById('cv-education').innerHTML=data.education.map(e=>`
+    <div class="edu-item">
+      <div class="edu-degree">${esc(e.degree)}</div>
+      <div class="edu-school">${esc(e.school)}</div>
+      <div class="edu-school">${esc(e.year)}</div>
+    </div>`).join('');
+
+  document.getElementById('cv-certifications').innerHTML=data.certifications.map(c=>`
+    <div class="cert-item">
+      <div class="cert-name">${esc(c.name)}</div>
+      <div class="cert-meta">${esc(c.meta)}</div>
+    </div>`).join('');
+
+  document.getElementById('cv-languages').innerHTML=data.languages.map(l=>`
+    <div class="lang-item"><span>${esc(l.name)}</span><span class="lang-level">${esc(l.level)}</span></div>`).join('');
+
+  document.getElementById('cv-achievements').innerHTML=document.getElementById('input-achievements').value
+    .split('\n')
+    .map(v=>v.trim())
+    .filter(Boolean)
+    .map(v=>`<li>${esc(v)}</li>`)
+    .join('');
+
+  closeModal();
+}
+</script>
+</body>
+</html>

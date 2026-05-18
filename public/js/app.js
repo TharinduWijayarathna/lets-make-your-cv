@@ -10,6 +10,7 @@ const TEMPLATES = {
   ats: { label: 'ATS Plain', short: 'ATS', file: '/templates/ats.html' },
   newspaper: { label: 'Newspaper Bureau', short: 'Newspaper', file: '/templates/newspaper.html' },
   origami: { label: 'Folded Origami', short: 'Origami', file: '/templates/origami.html' },
+  executiveslate: { label: 'Executive Slate', short: 'Slate', file: '/templates/executiveslate.html' },
 };
 
 const TEMPLATE_BODY_CLASSES = [
@@ -24,6 +25,7 @@ const TEMPLATE_BODY_CLASSES = [
   'tpl-ats',
   'tpl-newspaper',
   'tpl-origami',
+  'tpl-executiveslate',
 ];
 
 const templateCache = {};
@@ -288,6 +290,7 @@ function renderCV() {
   else if (activeTemplate === 'ats') renderAts(cvData, root);
   else if (activeTemplate === 'newspaper') renderNewspaper(cvData, root);
   else if (activeTemplate === 'origami') renderOrigami(cvData, root);
+  else if (activeTemplate === 'executiveslate') renderExecutiveSlate(cvData, root);
 }
 
 function renderClassic(data, root) {
@@ -964,6 +967,157 @@ function renderArtdeco(data, root) {
         (c) =>
           `<div class="cert-row"><span>${escapeHtml(c.name)}</span><span class="cert-iss">${escapeHtml(c.issuer)}</span></div>`
       )
+      .join(''),
+    root
+  );
+}
+
+function executiveSlateNameHtml(name) {
+  const { first, last } = splitName(name);
+  if (!first && !last) return '';
+  if (!last) return escapeHtml(first);
+  return `${escapeHtml(first)}<br>${escapeHtml(last)}`;
+}
+
+function buildExecutiveSkillGroups(data) {
+  const bars = data.skillBars || [];
+  if (!bars.length) return [];
+  const names = bars.map((s) => s.name).filter(Boolean);
+  if (!names.length) return [];
+  const chunkSize = 4;
+  if (names.length <= chunkSize) {
+    return [{ title: 'Core Competencies', text: names.join(', ') }];
+  }
+  const groups = [];
+  for (let i = 0; i < names.length; i += chunkSize) {
+    const chunk = names.slice(i, i + chunkSize);
+    groups.push({
+      title: i === 0 ? 'Core Competencies' : 'Additional Expertise',
+      text: chunk.join(', '),
+    });
+  }
+  return groups;
+}
+
+function buildExecutiveAchievements(data) {
+  const lines = [];
+  for (const entry of data.experience || []) {
+    const bullets = (entry.bullets || '').split('\n').map((b) => b.trim()).filter(Boolean);
+    if (bullets[0]) lines.push(bullets[0].replace(/^[–\-•▸]\s*/, ''));
+    if (lines.length >= 4) break;
+  }
+  return lines;
+}
+
+function renderExecutiveSlate(data, root) {
+  const p = data.personal || {};
+  setHtml('cv-name', executiveSlateNameHtml(p.name), root);
+  setText('cv-title', p.title, root);
+  setText('cv-email', p.email, root);
+  setText('cv-phone', p.phone, root);
+  setText('cv-location', p.location, root);
+  setText('cv-linkedin', p.linkedin, root);
+  setText('cv-portfolio', p.portfolio, root);
+  setText('cv-summary', data.summary, root);
+
+  setHtml(
+    'cv-skill-groups',
+    buildExecutiveSkillGroups(data)
+      .map(
+        (g) =>
+          `<div class="skill-group"><div class="skill-head">${escapeHtml(g.title)}</div><div class="skill-text">${escapeHtml(g.text)}</div></div>`
+      )
+      .join(''),
+    root
+  );
+
+  const tags = (data.techTags || '').split(',').map((t) => t.trim()).filter(Boolean);
+  setHtml('cv-tools', tags.map((t) => `<span class="badge">${escapeHtml(t)}</span>`).join(''), root);
+
+  const langs = (data.languages || '').split('\n').map((l) => l.trim()).filter(Boolean);
+  setHtml(
+    'cv-languages',
+    langs
+      .map((l) => {
+        const parts = l.split('|').map((x) => x.trim());
+        return `<div class="lang-item"><span>${escapeHtml(parts[0] || '')}</span><span class="lang-level">${escapeHtml(parts[1] || '')}</span></div>`;
+      })
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-experience',
+    (data.experience || [])
+      .map(
+        (e) => `
+    <div class="exp-card">
+      <div class="exp-top">
+        <div class="exp-role">${escapeHtml(e.role)}</div>
+        <div class="exp-date">${escapeHtml(e.from)} – ${escapeHtml(e.to)}</div>
+      </div>
+      <div class="exp-company">${escapeHtml(companyLine(e))}</div>
+      <ul class="exp-points">
+        ${(e.bullets || '')
+          .split('\n')
+          .filter(Boolean)
+          .map((b) => `<li>${escapeHtml(b.replace(/^[–\-•▸]\s*/, ''))}</li>`)
+          .join('')}
+      </ul>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-projects',
+    (data.projects || [])
+      .map(
+        (proj) => `
+    <div class="project-card">
+      <div class="project-name">${escapeHtml(proj.name)}</div>
+      <div class="project-tech">${escapeHtml(proj.tech)}</div>
+      <div class="project-desc">${escapeHtml(proj.desc)}</div>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-education',
+    (data.education || [])
+      .map(
+        (e) => `
+    <div class="edu-item">
+      <div class="edu-degree">${escapeHtml(e.degree)}</div>
+      <div class="edu-school">${escapeHtml(e.school)}</div>
+      <div class="edu-school">${escapeHtml(e.year)}</div>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-certifications',
+    (data.certifications || [])
+      .map(
+        (c) => `
+    <div class="cert-item">
+      <div class="cert-name">${escapeHtml(c.name)}</div>
+      <div class="cert-meta">${escapeHtml(c.issuer)}</div>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-achievements',
+    buildExecutiveAchievements(data)
+      .map((line) => `<li>${escapeHtml(line)}</li>`)
       .join(''),
     root
   );

@@ -80,5 +80,6 @@ describe('database layer', () => {
     assert.ok(VALID_TEMPLATES.includes('ats'));
     assert.ok(VALID_TEMPLATES.includes('newspaper'));
     assert.ok(VALID_TEMPLATES.includes('origami'));
+    assert.ok(VALID_TEMPLATES.includes('executiveslate'));
   });
 });

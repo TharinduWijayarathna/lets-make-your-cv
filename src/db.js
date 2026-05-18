@@ -18,6 +18,7 @@ const VALID_TEMPLATES = [
   'ats',
   'newspaper',
   'origami',
+  'executiveslate',
 ];
 
 const EMPTY_CV = {
