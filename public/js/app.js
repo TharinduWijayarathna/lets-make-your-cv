@@ -613,25 +613,88 @@ function closeModal() {
   $('modal-overlay').classList.remove('active');
 }
 
+const GENERATE_LOADING_STEPS = [
+  'Analyzing your background…',
+  'Drafting experience & skills…',
+  'Structuring projects & education…',
+  'Applying professional wording…',
+  'Almost done…',
+];
+
+let generateStepTimer = null;
+
 function openGenerateModal() {
   const overlay = $('generate-overlay');
   const status = $('generate-status');
   const btn = $('btn-run-generate');
   if (!overlay) return;
+  setGenerateLoading(false);
   if (status) {
     status.hidden = true;
     status.textContent = '';
     status.classList.remove('is-error', 'is-busy');
   }
-  if (btn) btn.disabled = false;
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = 'Generate CV';
+  }
   overlay.classList.add('active');
   const prompt = $('generate-prompt');
   if (prompt) prompt.focus();
 }
 
 function closeGenerateModal() {
+  const modal = $('generate-modal');
+  if (modal?.classList.contains('is-generating')) return;
   const overlay = $('generate-overlay');
   if (overlay) overlay.classList.remove('active');
+}
+
+function setGenerateLoading(active) {
+  const loading = $('generate-loading');
+  const body = $('generate-body');
+  const modal = $('generate-modal');
+  const prompt = $('generate-prompt');
+  const cancelBtn = $('btn-generate-cancel');
+  const sidebarBtn = $('btn-generate');
+  const actions = $('generate-actions');
+
+  if (loading) {
+    loading.hidden = !active;
+    loading.setAttribute('aria-busy', active ? 'true' : 'false');
+  }
+  if (body) body.hidden = active;
+  if (actions) actions.hidden = active;
+  if (modal) modal.classList.toggle('is-generating', active);
+  if (prompt) prompt.disabled = active;
+  if (cancelBtn) cancelBtn.disabled = active;
+  if (sidebarBtn) sidebarBtn.disabled = active;
+
+  if (active) startGenerateStepCycle();
+  else stopGenerateStepCycle();
+}
+
+function startGenerateStepCycle() {
+  const stepEl = $('generate-loading-step');
+  let index = 0;
+  if (stepEl) stepEl.textContent = GENERATE_LOADING_STEPS[0];
+  stopGenerateStepCycle();
+  generateStepTimer = setInterval(() => {
+    index = (index + 1) % GENERATE_LOADING_STEPS.length;
+    if (stepEl) {
+      stepEl.textContent = GENERATE_LOADING_STEPS[index];
+      stepEl.style.animation = 'none';
+      stepEl.offsetHeight;
+      stepEl.style.animation = '';
+    }
+  }, 2800);
+}
+
+function stopGenerateStepCycle() {
+  if (generateStepTimer) {
+    clearInterval(generateStepTimer);
+    generateStepTimer = null;
+  }
 }
 
 function setGenerateStatus(message, { error = false, busy = false } = {}) {
@@ -652,7 +715,8 @@ async function runGenerate() {
     return;
   }
 
-  setGenerateStatus('Generating your CV — this may take 15–30 seconds…', { busy: true });
+  setGenerateStatus('');
+  setGenerateLoading(true);
   if (btn) btn.disabled = true;
 
   try {
@@ -671,13 +735,21 @@ async function runGenerate() {
     await mountTemplate(cvData.template);
     renderCV();
     populateFormFields();
+    setGenerateLoading(false);
     closeGenerateModal();
     setSaveStatus('');
   } catch (err) {
-    if (err.message === 'Unauthorized') return;
+    if (err.message === 'Unauthorized') {
+      setGenerateLoading(false);
+      return;
+    }
+    setGenerateLoading(false);
     setGenerateStatus(err.message || 'Generation failed — try again', { error: true });
   } finally {
-    if (btn) btn.disabled = false;
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Generate CV';
+    }
   }
 }
 

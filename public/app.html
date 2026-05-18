@@ -66,16 +66,31 @@
 </div>
 
 <div class="modal-overlay no-print" id="generate-overlay">
-  <div class="modal generate-modal">
+  <div class="modal generate-modal" id="generate-modal">
     <h2>Generate CV with AI</h2>
     <p class="modal-subtitle">Describe your background, target role, skills, and experience. We’ll draft your full CV — you can edit everything afterward.</p>
-    <div class="field-group">
-      <label for="generate-prompt">Your background &amp; goals</label>
-      <textarea id="generate-prompt" rows="8" placeholder="Example: I’m a junior full-stack developer with 2 years at a startup. Built React/Node apps, led a small team, BS in Computer Science. Looking for a mid-level role in fintech. Skills: TypeScript, PostgreSQL, AWS…"></textarea>
+    <div class="generate-body" id="generate-body">
+      <div class="field-group">
+        <label for="generate-prompt">Your background &amp; goals</label>
+        <textarea id="generate-prompt" rows="8" placeholder="Example: I’m a junior full-stack developer with 2 years at a startup. Built React/Node apps, led a small team, BS in Computer Science. Looking for a mid-level role in fintech. Skills: TypeScript, PostgreSQL, AWS…"></textarea>
+      </div>
+      <p class="generate-hint" id="generate-status" hidden></p>
     </div>
-    <p class="generate-hint" id="generate-status" hidden></p>
-    <div class="modal-actions">
-      <button type="button" class="btn-cancel" onclick="closeGenerateModal()">Cancel</button>
+
+    <div class="generate-loading" id="generate-loading" hidden aria-live="polite" aria-busy="true">
+      <div class="generate-loader" aria-hidden="true">
+        <div class="generate-orbit"><span></span><span></span><span></span></div>
+      </div>
+      <p class="generate-loading-title">Generating your CV</p>
+      <p class="generate-loading-step" id="generate-loading-step">Analyzing your background…</p>
+      <div class="generate-progress" role="progressbar" aria-label="Generating">
+        <div class="generate-progress-bar"></div>
+      </div>
+      <p class="generate-loading-note">This usually takes 15–30 seconds</p>
+    </div>
+
+    <div class="modal-actions" id="generate-actions">
+      <button type="button" class="btn-cancel" id="btn-generate-cancel" onclick="closeGenerateModal()">Cancel</button>
       <button type="button" class="btn-apply" id="btn-run-generate" onclick="runGenerate()">Generate CV</button>
     </div>
   </div>
