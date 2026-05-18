@@ -1,9 +1,9 @@
 const TEMPLATES = {
-  classic: { label: 'Classic Sidebar', file: '/templates/classic.html' },
-  nordic: { label: 'Nordic Minimal', file: '/templates/nordic.html' },
-  editorial: { label: 'Editorial Bold', file: '/templates/editorial.html' },
-  brutalist: { label: 'Brutalist', file: '/templates/brutalist.html' },
-  artdeco: { label: 'Art Deco', file: '/templates/artdeco.html' },
+  classic: { label: 'Classic Sidebar', short: 'Classic', file: '/templates/classic.html' },
+  nordic: { label: 'Nordic Minimal', short: 'Nordic', file: '/templates/nordic.html' },
+  editorial: { label: 'Editorial Bold', short: 'Editorial', file: '/templates/editorial.html' },
+  brutalist: { label: 'Brutalist', short: 'Brutalist', file: '/templates/brutalist.html' },
+  artdeco: { label: 'Art Deco', short: 'Art Deco', file: '/templates/artdeco.html' },
 };
 
 const TEMPLATE_BODY_CLASSES = ['tpl-classic', 'tpl-nordic', 'tpl-editorial', 'tpl-brutalist', 'tpl-artdeco'];
@@ -109,8 +109,44 @@ async function mountTemplate(name) {
   activeTemplate = name;
   setBodyTemplateClass(name);
   $('cv-mount').innerHTML = templateCache[name];
-  const select = $('template-select');
-  if (select && select.value !== name) select.value = name;
+  setTemplatePickerActive(name);
+}
+
+function templatePickerThumb(id) {
+  if (id === 'classic') {
+    return '<div class="picker-thumb classic" aria-hidden="true"><span class="t-side"></span><span class="t-main"></span></div>';
+  }
+  return `<div class="picker-thumb ${id}" aria-hidden="true"></div>`;
+}
+
+function initTemplatePicker() {
+  const picker = $('template-picker');
+  if (!picker) return;
+
+  picker.innerHTML = Object.entries(TEMPLATES)
+    .map(
+      ([id, meta]) => `<button type="button" class="template-option" role="option" data-template="${id}" aria-selected="false">
+        ${templatePickerThumb(id)}
+        <span class="template-option-name">${escapeHtml(meta.short || meta.label)}</span>
+      </button>`
+    )
+    .join('');
+
+  picker.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-template]');
+    if (!btn) return;
+    changeTemplate(btn.dataset.template);
+  });
+}
+
+function setTemplatePickerActive(name) {
+  const picker = $('template-picker');
+  if (!picker) return;
+  picker.querySelectorAll('.template-option').forEach((btn) => {
+    const active = btn.dataset.template === name;
+    btn.classList.toggle('is-active', active);
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
 }
 
 async function changeTemplate(name) {
@@ -846,13 +882,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const logoutBtn = $('btn-logout');
   if (logoutBtn) logoutBtn.addEventListener('click', () => logout());
 
-  const select = $('template-select');
-  if (select) {
-    select.innerHTML = Object.entries(TEMPLATES)
-      .map(([id, meta]) => `<option value="${id}">${meta.label}</option>`)
-      .join('');
-    select.addEventListener('change', () => changeTemplate(select.value));
-  }
+  initTemplatePicker();
   try {
     const authed = await initAppUser();
     if (!authed) return;
