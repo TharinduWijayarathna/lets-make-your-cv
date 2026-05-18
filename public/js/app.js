@@ -2,7 +2,11 @@ const TEMPLATES = {
   classic: { label: 'Classic Sidebar', file: '/templates/classic.html' },
   nordic: { label: 'Nordic Minimal', file: '/templates/nordic.html' },
   editorial: { label: 'Editorial Bold', file: '/templates/editorial.html' },
+  brutalist: { label: 'Brutalist', file: '/templates/brutalist.html' },
+  artdeco: { label: 'Art Deco', file: '/templates/artdeco.html' },
 };
+
+const TEMPLATE_BODY_CLASSES = ['tpl-classic', 'tpl-nordic', 'tpl-editorial', 'tpl-brutalist', 'tpl-artdeco'];
 
 const templateCache = {};
 let cvData = null;
@@ -84,11 +88,11 @@ async function preloadTemplates() {
 }
 
 function setBodyTemplateClass(name) {
-  document.body.classList.remove('tpl-classic', 'tpl-nordic', 'tpl-editorial');
+  document.body.classList.remove(...TEMPLATE_BODY_CLASSES);
   document.body.classList.add(`tpl-${name}`);
   const mount = $('cv-mount');
   if (mount) {
-    mount.classList.remove('tpl-classic', 'tpl-nordic', 'tpl-editorial');
+    mount.classList.remove(...TEMPLATE_BODY_CLASSES);
     mount.classList.add(`tpl-${name}`);
   }
   const sheet = $('template-css');
@@ -163,6 +167,8 @@ function renderCV() {
   if (activeTemplate === 'classic') renderClassic(cvData, root);
   else if (activeTemplate === 'nordic') renderNordic(cvData, root);
   else if (activeTemplate === 'editorial') renderEditorial(cvData, root);
+  else if (activeTemplate === 'brutalist') renderBrutalist(cvData, root);
+  else if (activeTemplate === 'artdeco') renderArtdeco(cvData, root);
 }
 
 function renderClassic(data, root) {
@@ -268,6 +274,228 @@ function renderNordic(data, root) {
   ).join(''), root);
 }
 
+function brutalistNameHtml(name) {
+  const { first, last } = splitName(name);
+  const up = (s) => escapeHtml((s || '').toUpperCase());
+  if (!first && !last) return '';
+  if (!last) return up(first);
+  return `${up(first)}<br>${up(last)}`;
+}
+
+function brutalistCoLine(entry) {
+  const company = (entry.company || '').toUpperCase();
+  const location = (entry.location || '').toUpperCase();
+  return location ? `${company} · ${location}` : company;
+}
+
+function renderBrutalist(data, root) {
+  const p = data.personal || {};
+  setHtml('cv-name', brutalistNameHtml(p.name), root);
+  setText('cv-title', (p.title || '').toUpperCase(), root);
+  setText('cv-email', p.email, root);
+  setText('cv-phone', p.phone, root);
+  setText('cv-location', p.location, root);
+  setText('cv-github', p.github, root);
+  setText('cv-linkedin', p.linkedin, root);
+  setText('cv-portfolio', p.portfolio, root);
+  setText('cv-summary', data.summary, root);
+
+  setHtml(
+    'cv-skills',
+    (data.skillBars || [])
+      .map(
+        (s) =>
+          `<li>${escapeHtml(s.name)}<span class="skill-pct">${Math.min(100, Math.max(0, s.level || 0))}%</span></li>`
+      )
+      .join(''),
+    root
+  );
+
+  const tags = (data.techTags || '').split(',').map((t) => t.trim()).filter(Boolean);
+  setHtml('cv-tech-tags', tags.map((t) => `<span class="tag-b">${escapeHtml(t)}</span>`).join(''), root);
+
+  const langs = (data.languages || '').split('\n').map((l) => l.trim()).filter(Boolean);
+  setHtml(
+    'cv-languages',
+    langs
+      .map((l) => {
+        const parts = l.split('|').map((x) => x.trim());
+        return `<div class="lang-b"><span>${escapeHtml(parts[0] || '')}</span><span class="lang-l">${escapeHtml((parts[1] || '').toUpperCase())}</span></div>`;
+      })
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-experience',
+    (data.experience || [])
+      .map((e, i) => {
+        const num = String(i + 1).padStart(2, '0');
+        const bullets = (e.bullets || '')
+          .split('\n')
+          .filter(Boolean)
+          .map((b) => `<li>${escapeHtml(b.replace(/^[–\-•▸]\s*/, ''))}</li>`)
+          .join('');
+        return `<div class="exp-item">
+      <div class="exp-num">${num}</div>
+      <div class="exp-content">
+        <div class="exp-role">${escapeHtml((e.role || '').toUpperCase())}</div>
+        <div class="exp-meta-row"><span class="exp-co">${escapeHtml(brutalistCoLine(e))}</span><span class="exp-date">${escapeHtml(e.from)} – ${escapeHtml(e.to)}</span></div>
+        <ul class="exp-pts">${bullets}</ul>
+      </div>
+    </div>`;
+      })
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-projects',
+    (data.projects || [])
+      .map(
+        (proj) => `<div class="proj-card">
+      <div class="proj-name">${escapeHtml((proj.name || '').toUpperCase())}</div>
+      <div class="proj-tech">${escapeHtml((proj.tech || '').toUpperCase())}</div>
+      <div class="proj-desc">${escapeHtml(proj.desc)}</div>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-education',
+    (data.education || [])
+      .map(
+        (e) => `<div class="edu-b">
+      <div class="edu-deg">${escapeHtml((e.degree || '').toUpperCase())}</div>
+      <div class="edu-sch">${escapeHtml(e.school)}</div>
+      <div class="edu-yr">${escapeHtml(e.year)}</div>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-certifications',
+    (data.certifications || [])
+      .map(
+        (c) => `<div class="cert-b"><div class="cert-n">${escapeHtml(c.name)}</div><div class="cert-i">${escapeHtml(c.issuer)}</div></div>`
+      )
+      .join(''),
+    root
+  );
+}
+
+function renderArtdeco(data, root) {
+  const p = data.personal || {};
+  const { first, last } = splitName(p.name);
+  const nameHtml = last
+    ? `${escapeHtml(first)}<br/>${escapeHtml(last)}`
+    : escapeHtml(first || p.name || '');
+  setHtml('cv-name', nameHtml, root);
+  setText('cv-title', p.title, root);
+
+  const contactRows = [
+    ['Email', p.email],
+    ['Phone', p.phone],
+    ['Location', p.location],
+    ['LinkedIn', p.linkedin],
+    ['GitHub', p.github],
+    ['Portfolio', p.portfolio],
+  ].filter(([, val]) => val && String(val).trim());
+  setHtml(
+    'cv-contact',
+    contactRows
+      .map(([lbl, val]) => `<li><span class="lbl">${lbl}</span>${escapeHtml(val)}</li>`)
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-skill-bars',
+    (data.skillBars || [])
+      .map(
+        (s) => `<div class="skill-item"><div class="skill-name">${escapeHtml(s.name)}</div><div class="bar-bg"><div class="bar-fill" style="width:${Math.min(100, Math.max(0, s.level || 0))}%"></div></div></div>`
+      )
+      .join(''),
+    root
+  );
+
+  const tags = (data.techTags || '').split(',').map((t) => t.trim()).filter(Boolean);
+  setHtml('cv-tech-tags', tags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join(''), root);
+
+  const langs = (data.languages || '').split('\n').map((l) => l.trim()).filter(Boolean);
+  setHtml(
+    'cv-languages',
+    langs
+      .map((l) => {
+        const parts = l.split('|').map((x) => x.trim());
+        return `<div class="lang-item"><span>${escapeHtml(parts[0] || '')}</span><span class="lang-lvl">${escapeHtml(parts[1] || '')}</span></div>`;
+      })
+      .join(''),
+    root
+  );
+
+  setText('cv-summary', data.summary, root);
+
+  setHtml(
+    'cv-experience',
+    (data.experience || [])
+      .map(
+        (e) => `<div class="exp-block">
+      <div class="exp-head"><span class="exp-role">${escapeHtml(e.role)}</span><span class="exp-date">${escapeHtml(e.from)} – ${escapeHtml(e.to)}</span></div>
+      <div class="exp-co">${escapeHtml(companyLine(e).toUpperCase())}</div>
+      <ul class="exp-pts">${(e.bullets || '').split('\n').filter(Boolean).map((b) => `<li>${escapeHtml(b.replace(/^[–\-•▸]\s*/, ''))}</li>`).join('')}</ul>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-projects',
+    (data.projects || [])
+      .map(
+        (proj) => `<div class="proj-block">
+      <div class="proj-name">${escapeHtml(proj.name)}</div>
+      <div class="proj-tech">${escapeHtml(proj.tech)}</div>
+      <div class="proj-desc">${escapeHtml(proj.desc)}</div>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-education',
+    (data.education || [])
+      .map(
+        (e) => `<div class="edu-block">
+      <div>
+        <div class="edu-deg">${escapeHtml(e.degree)}</div>
+        <div class="edu-sch">${escapeHtml(e.school)}</div>
+      </div>
+      <div class="edu-yr">${escapeHtml(e.year)}</div>
+    </div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-certifications',
+    (data.certifications || [])
+      .map(
+        (c) =>
+          `<div class="cert-row"><span>${escapeHtml(c.name)}</span><span class="cert-iss">${escapeHtml(c.issuer)}</span></div>`
+      )
+      .join(''),
+    root
+  );
+}
+
 function renderEditorial(data, root) {
   const p = data.personal || {};
   const { first, last } = splitName(p.name);
@@ -347,6 +575,74 @@ function openModal() {
 
 function closeModal() {
   $('modal-overlay').classList.remove('active');
+}
+
+function openGenerateModal() {
+  const overlay = $('generate-overlay');
+  const status = $('generate-status');
+  const btn = $('btn-run-generate');
+  if (!overlay) return;
+  if (status) {
+    status.hidden = true;
+    status.textContent = '';
+    status.classList.remove('is-error', 'is-busy');
+  }
+  if (btn) btn.disabled = false;
+  overlay.classList.add('active');
+  const prompt = $('generate-prompt');
+  if (prompt) prompt.focus();
+}
+
+function closeGenerateModal() {
+  const overlay = $('generate-overlay');
+  if (overlay) overlay.classList.remove('active');
+}
+
+function setGenerateStatus(message, { error = false, busy = false } = {}) {
+  const el = $('generate-status');
+  if (!el) return;
+  el.hidden = !message;
+  el.textContent = message;
+  el.classList.toggle('is-error', !!error);
+  el.classList.toggle('is-busy', !!busy);
+}
+
+async function runGenerate() {
+  const promptEl = $('generate-prompt');
+  const btn = $('btn-run-generate');
+  const prompt = promptEl?.value?.trim() || '';
+  if (prompt.length < 20) {
+    setGenerateStatus('Please describe your background in at least 20 characters.', { error: true });
+    return;
+  }
+
+  setGenerateStatus('Generating your CV — this may take 15–30 seconds…', { busy: true });
+  if (btn) btn.disabled = true;
+
+  try {
+    const res = await apiFetch('/api/cv/generate', {
+      method: 'POST',
+      body: JSON.stringify({ prompt }),
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(body.error || `Server error (${res.status})`);
+    }
+    if (!body?.data) throw new Error('Invalid response from server');
+
+    cvData = body.data;
+    cvData.template = TEMPLATES[cvData.template] ? cvData.template : activeTemplate;
+    await mountTemplate(cvData.template);
+    renderCV();
+    populateFormFields();
+    closeGenerateModal();
+    setSaveStatus('');
+  } catch (err) {
+    if (err.message === 'Unauthorized') return;
+    setGenerateStatus(err.message || 'Generation failed — try again', { error: true });
+  } finally {
+    if (btn) btn.disabled = false;
+  }
 }
 
 function switchTab(id, btn) {
@@ -527,6 +823,13 @@ document.getElementById('modal-overlay').addEventListener('click', (e) => {
   if (e.target === e.currentTarget) closeModal();
 });
 
+const generateOverlay = $('generate-overlay');
+if (generateOverlay) {
+  generateOverlay.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeGenerateModal();
+  });
+}
+
 async function initAppUser() {
   const user = await fetchCurrentUser();
   if (!user) {
@@ -564,6 +867,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Expose handlers for inline onclick attributes
 window.openModal = openModal;
 window.closeModal = closeModal;
+window.openGenerateModal = openGenerateModal;
+window.closeGenerateModal = closeGenerateModal;
+window.runGenerate = runGenerate;
 window.switchTab = switchTab;
 window.applyChanges = applyChanges;
 window.addExpEntry = addExpEntry;

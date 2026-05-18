@@ -4,12 +4,18 @@ const request = require('supertest');
 
 let sharedApp = null;
 
-function setupTestEnv() {
+function setupTestEnv(appOptions = {}) {
   if (!sharedApp) {
     initDb({ dbPath: ':memory:' });
-    sharedApp = createApp({ serveStatic: false, production: false });
+    sharedApp = createApp({ serveStatic: false, production: false, ...appOptions });
   }
   return request.agent(sharedApp);
+}
+
+function setupTestEnvWithOptions(appOptions = {}) {
+  initDb({ dbPath: ':memory:' });
+  const app = createApp({ serveStatic: false, production: false, ...appOptions });
+  return request.agent(app);
 }
 
 /** New cookie jar — use for unauthenticated or second-user flows */
@@ -36,6 +42,7 @@ async function registerUser(agent, overrides = {}) {
 
 module.exports = {
   setupTestEnv,
+  setupTestEnvWithOptions,
   createAgent,
   teardownTestEnv,
   validUser,

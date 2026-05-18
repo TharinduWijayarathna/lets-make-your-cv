@@ -63,7 +63,24 @@ classic = classic
   .replace(/body \{[\s\S]*?\}\s*/m, '')
   .trim();
 
+const brutalist = wrapVars(
+  stripSections(
+    extractStyle(
+      fs.readFileSync(path.join(root, 'scripts/template-sources/cv_template_brutalist.html'), 'utf8')
+    )
+  ),
+  'tpl-brutalist'
+);
+const artdeco = wrapVars(
+  stripSections(
+    extractStyle(fs.readFileSync(path.join(root, 'scripts/template-sources/cv_template_artdeco.html'), 'utf8'))
+  ),
+  'tpl-artdeco'
+);
+
 fs.writeFileSync(path.join(outDir, 'nordic.css'), nordic);
 fs.writeFileSync(path.join(outDir, 'editorial.css'), editorial);
 fs.writeFileSync(path.join(outDir, 'classic.css'), classic);
-console.log('Wrote classic.css, nordic.css, editorial.css');
+fs.writeFileSync(path.join(outDir, 'brutalist.css'), brutalist);
+fs.writeFileSync(path.join(outDir, 'artdeco.css'), artdeco);
+console.log('Wrote classic.css, nordic.css, editorial.css, brutalist.css, artdeco.css');

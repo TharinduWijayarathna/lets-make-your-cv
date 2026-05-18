@@ -14,6 +14,8 @@ body {
 body.tpl-classic { background: #e8e5df; }
 body.tpl-nordic { background: #dedad4; font-family: 'Barlow', sans-serif; }
 body.tpl-editorial { background: #c8c0b0; font-family: 'Outfit', sans-serif; }
+body.tpl-brutalist { background: #e0e0e0; font-family: 'IBM Plex Sans', sans-serif; }
+body.tpl-artdeco { background: #1a1a2e; font-family: 'Raleway', sans-serif; }
 
 #cv-mount {
   width: 100%;
@@ -161,10 +163,28 @@ body > .modal-overlay.no-print.active {
 
 .btn-print { background: #1c1c1e; color: #f5f1ea; }
 .btn-print:hover { background: #333; }
+.btn-generate { background: #4a5d7a; color: #f5f1ea; }
+.btn-generate:hover { background: #3a4a62; }
+.btn-generate:disabled { opacity: 0.65; cursor: wait; }
+body.tpl-nordic .btn-generate { background: #2c3e50; }
+body.tpl-editorial .btn-generate { background: #5c4d3c; }
 .btn-edit { background: #c8b99a; color: #1a1a1a; }
 .btn-edit:hover { background: #b5a484; }
 body.tpl-nordic .btn-edit { background: #c0392b; color: #fff; }
 body.tpl-editorial .btn-edit { background: #d4840a; color: #fff; }
+body.tpl-brutalist .btn-edit { background: #000; color: #fff; }
+body.tpl-brutalist .btn-edit:hover { background: #ff3300; }
+body.tpl-artdeco .btn-edit { background: #c9a84c; color: #0b1628; }
+body.tpl-artdeco .btn-edit:hover { background: #e8c96e; }
+
+.generate-modal { width: 560px; }
+.generate-hint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 8px;
+}
+.generate-hint.is-error { color: #c0392b; }
+.generate-hint.is-busy { color: #4a5d7a; }
 
 .toolbar-error {
   font-size: 11px;

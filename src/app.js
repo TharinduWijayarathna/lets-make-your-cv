@@ -20,6 +20,11 @@ const {
 } = require('./db');
 const { createPageViewTracker, getAdminStats } = require('./analytics');
 const { verifyAdminLogin, requireAdmin, getAdminCredentials } = require('./admin-auth');
+const {
+  generateCvFromPrompt,
+  getGeminiApiKey,
+  validateGeneratePrompt,
+} = require('./gemini');
 
 function resolveCookieSecure(isProd, options) {
   if (options.cookieSecure !== undefined) return options.cookieSecure;
@@ -165,6 +170,47 @@ function createApp(options = {}) {
     } catch (err) {
       console.error('PUT /api/cv:', err);
       res.status(500).json({ error: 'Failed to save CV data' });
+    }
+  });
+
+  app.post('/api/cv/generate', requireAuth, async (req, res) => {
+    try {
+      if (!getGeminiApiKey() && !options.geminiGenerate) {
+        return res.status(503).json({ error: 'AI generation is not configured on this server' });
+      }
+
+      const promptCheck = validateGeneratePrompt(req.body?.prompt);
+      if (!promptCheck.ok) {
+        return res.status(400).json({ error: promptCheck.error });
+      }
+
+      const user = findUserById(req.session.userId);
+      const generate = options.geminiGenerate || generateCvFromPrompt;
+      const generated = await generate(promptCheck.value, {
+        name: user?.name,
+        email: user?.email,
+      });
+
+      const existing = getCvForUser(req.session.userId);
+      const merged = {
+        ...generated,
+        template: existing.data.template,
+        personal: {
+          ...generated.personal,
+          name: generated.personal?.name || user?.name || existing.data.personal?.name || '',
+          email: generated.personal?.email || user?.email || existing.data.personal?.email || '',
+        },
+      };
+
+      const result = saveCvForUser(req.session.userId, merged);
+      res.json(result);
+    } catch (err) {
+      if (err.code === 'NOT_CONFIGURED') {
+        return res.status(503).json({ error: 'AI generation is not configured on this server' });
+      }
+      console.error('POST /api/cv/generate:', err);
+      const status = err.status === 429 ? 429 : 502;
+      res.status(status).json({ error: err.message || 'Failed to generate CV' });
     }
   });
 

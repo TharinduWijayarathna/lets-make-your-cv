@@ -7,6 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&family=Cinzel+Decorative:wght@400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="/css/shared.css"/>
   <link rel="stylesheet" href="/css/ads.css"/>
   <link rel="stylesheet" id="template-css" href="/css/classic.css"/>
@@ -31,6 +33,7 @@
     <select id="template-select" aria-label="CV layout"></select>
   </div>
   <div class="toolbar-end">
+    <button type="button" class="btn-generate" id="btn-generate" onclick="openGenerateModal()">✦ Generate with AI</button>
     <button type="button" class="btn-edit" onclick="openModal()">✏ Edit CV</button>
     <button type="button" class="btn-print" onclick="window.print()">⎙ Print / Save PDF</button>
     <div class="toolbar-account">
@@ -51,6 +54,22 @@
       <ins class="adsbygoogle ad-unit" style="display:inline-block;width:160px;height:600px" data-ad-format="vertical"></ins>
     </div>
   </aside>
+</div>
+
+<div class="modal-overlay no-print" id="generate-overlay">
+  <div class="modal generate-modal">
+    <h2>Generate CV with AI</h2>
+    <p class="modal-subtitle">Describe your background, target role, skills, and experience. We’ll draft your full CV — you can edit everything afterward.</p>
+    <div class="field-group">
+      <label for="generate-prompt">Your background &amp; goals</label>
+      <textarea id="generate-prompt" rows="8" placeholder="Example: I’m a junior full-stack developer with 2 years at a startup. Built React/Node apps, led a small team, BS in Computer Science. Looking for a mid-level role in fintech. Skills: TypeScript, PostgreSQL, AWS…"></textarea>
+    </div>
+    <p class="generate-hint" id="generate-status" hidden></p>
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" onclick="closeGenerateModal()">Cancel</button>
+      <button type="button" class="btn-apply" id="btn-run-generate" onclick="runGenerate()">Generate CV</button>
+    </div>
+  </div>
 </div>
 
 <div class="modal-overlay no-print" id="modal-overlay">

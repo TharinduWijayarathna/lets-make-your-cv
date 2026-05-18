@@ -72,5 +72,7 @@ describe('database layer', () => {
     assert.equal(normalized.template, 'classic');
     assert.deepEqual(normalized.experience, []);
     assert.ok(VALID_TEMPLATES.includes('editorial'));
+    assert.ok(VALID_TEMPLATES.includes('brutalist'));
+    assert.ok(VALID_TEMPLATES.includes('artdeco'));
   });
 });

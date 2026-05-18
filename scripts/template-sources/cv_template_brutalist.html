@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CV – Brutalist</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#000;--white:#fff;--off:#f2f2f2;--mid:#444;--lite:#999;
+  --accent:#ff3300;--border:2px solid #000;--border-t:1px solid #000;
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:#e0e0e0;display:flex;flex-direction:column;align-items:center;padding:40px 20px;min-height:100vh}
+.toolbar{display:flex;gap:0;margin-bottom:22px;flex-wrap:wrap;align-items:center;border:2px solid #000}
+.toolbar button{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;padding:10px 20px;border:none;border-right:2px solid #000;cursor:pointer;letter-spacing:.1em;text-transform:uppercase}
+.toolbar button:last-child{border-right:none}
+.btn-edit{background:#000;color:#fff}.btn-edit:hover{background:#ff3300}
+.btn-print{background:#fff;color:#000}.btn-print:hover{background:#000;color:#fff}
+
+.cv-page{width:210mm;min-height:297mm;background:var(--white);box-shadow:8px 8px 0 #000;display:flex;flex-direction:column}
+
+.cv-header{border-bottom:4px solid #000;display:grid;grid-template-columns:1fr auto;align-items:stretch}
+.header-left{padding:32px 36px 28px;border-right:2px solid #000}
+.header-no{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:400;letter-spacing:.22em;color:var(--lite);margin-bottom:8px}
+.header-name{font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:.88;color:var(--black);letter-spacing:.02em}
+.header-role{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-top:14px;padding-top:14px;border-top:var(--border-t)}
+.header-right{display:flex;flex-direction:column;justify-content:flex-end;padding:20px 24px 24px;min-width:120px;background:var(--off)}
+.contact-item{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--mid);line-height:1;margin-bottom:9px}
+.contact-item:last-child{margin-bottom:0}
+.contact-item .cl{display:block;font-size:7px;font-weight:600;letter-spacing:.18em;color:var(--lite);text-transform:uppercase;margin-bottom:3px}
+
+.cv-body{flex:1;display:grid;grid-template-columns:48mm 1fr}
+.col-left{border-right:2px solid #000;display:flex;flex-direction:column}
+.left-block{padding:22px 20px;border-bottom:var(--border-t)}
+.left-block:last-child{border-bottom:none}
+.sec-label{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--black);line-height:1;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-label::before{content:'';display:inline-block;width:14px;height:3px;background:var(--accent);flex-shrink:0}
+
+.skill-mono{list-style:none;display:flex;flex-direction:column}
+.skill-mono li{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--mid);padding:6px 0;border-bottom:1px dashed #ccc;display:flex;justify-content:space-between;align-items:center}
+.skill-mono li:last-child{border-bottom:none}
+.skill-pct{font-size:8px;font-weight:600;color:var(--accent)}
+
+.tag-row{display:flex;flex-wrap:wrap;gap:4px}
+.tag-b{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:500;border:1px solid #000;padding:3px 6px;color:#000;letter-spacing:.06em}
+
+.edu-b{margin-bottom:12px}.edu-b:last-child{margin-bottom:0}
+.edu-deg{font-size:10px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.04em}
+.edu-sch{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--mid);margin-top:2px}
+.edu-yr{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--lite);margin-top:1px}
+
+.cert-b{padding:8px 0;border-bottom:1px dashed #ccc}.cert-b:last-child{border-bottom:none;padding-bottom:0}
+.cert-n{font-size:9.5px;font-weight:500;color:var(--black)}
+.cert-i{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--lite);margin-top:1px}
+
+.lang-b{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #ccc;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--mid)}
+.lang-b:last-child{border-bottom:none}
+.lang-l{font-size:8px;color:var(--accent);font-weight:600}
+
+.col-right{display:flex;flex-direction:column}
+.right-block{padding:22px 28px;border-bottom:var(--border-t)}.right-block:last-child{border-bottom:none}
+.summary-txt{font-size:10.5px;line-height:1.8;color:var(--mid);font-weight:300}
+
+.exp-item{display:grid;grid-template-columns:32px 1fr;gap:0 14px;margin-bottom:20px}
+.exp-item:last-child{margin-bottom:0}
+.exp-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#e8e8e8;line-height:1;text-align:right;padding-top:2px;-webkit-text-stroke:1px #ccc}
+.exp-role{font-size:11.5px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.06em}
+.exp-meta-row{display:flex;justify-content:space-between;align-items:center;margin:3px 0 7px}
+.exp-co{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--accent);font-weight:500}
+.exp-date{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--lite)}
+.exp-pts{list-style:none;display:flex;flex-direction:column;gap:4px}
+.exp-pts li{font-size:10px;color:var(--mid);line-height:1.65;font-weight:300;padding-left:14px;position:relative}
+.exp-pts li::before{content:'//';position:absolute;left:0;color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;top:1px}
+
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.proj-card{border:1px solid #000;padding:10px 12px}
+.proj-name{font-size:10.5px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.04em}
+.proj-tech{font-family:'IBM Plex Mono',monospace;font-size:7.5px;color:var(--accent);margin:4px 0;font-weight:500;letter-spacing:.06em}
+.proj-desc{font-size:9.5px;color:var(--mid);line-height:1.6;font-weight:300}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border:3px solid #000;box-shadow:6px 6px 0 #000;width:700px;max-width:96vw;max-height:90vh;overflow-y:auto;padding:36px}
+.modal h2{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:.04em;margin-bottom:4px}
+.modal-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#888;margin-bottom:22px;letter-spacing:.06em}
+.tabs{display:flex;gap:0;margin-bottom:20px;border:2px solid #000;flex-wrap:wrap}
+.tab{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;padding:8px 12px;border:none;border-right:1px solid #000;background:#fff;cursor:pointer;color:#888;letter-spacing:.1em;text-transform:uppercase}
+.tab:last-child{border-right:none}
+.tab.active{background:#000;color:#fff}
+.tp{display:none}.tp.active{display:block}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:5px}
+.fg input,.fg textarea{width:100%;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:9px 12px;border:2px solid #000;border-radius:0;background:#fff;color:#000;outline:none}
+.fg input:focus,.fg textarea:focus{border-color:var(--accent)}
+.fg textarea{resize:vertical;min-height:70px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.de{background:#f5f5f5;border-left:4px solid #000;padding:14px 16px;margin-bottom:12px;position:relative}
+.rm{position:absolute;top:10px;right:12px;background:none;border:none;font-size:18px;cursor:pointer;color:#aaa;font-family:'IBM Plex Mono',monospace}
+.rm:hover{color:#ff3300}
+.add-b{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;color:#000;background:#fff;border:2px dashed #000;padding:8px 14px;cursor:pointer;width:100%;letter-spacing:.1em;text-transform:uppercase}
+.add-b:hover{background:#000;color:#fff}
+.ma{display:flex;justify-content:flex-end;gap:6px;margin-top:22px;border-top:2px solid #000;padding-top:16px}
+.bc{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;padding:10px 20px;border:2px solid #000;background:#fff;cursor:pointer;color:#000;letter-spacing:.1em;text-transform:uppercase}
+.ba{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;padding:10px 24px;background:#000;color:#fff;border:2px solid #000;cursor:pointer;letter-spacing:.1em;text-transform:uppercase}
+.ba:hover{background:#ff3300;border-color:#ff3300}
+
+@media print{body{background:none;padding:0}.cv-page{box-shadow:none}.no-print{display:none}}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button class="btn-edit" onclick="openModal()">[ EDIT CV ]</button>
+  <button class="btn-print" onclick="window.print()">[ PRINT / PDF ]</button>
+</div>
+
+<div class="cv-page">
+  <div class="cv-header">
+    <div class="header-left">
+      <div class="header-no">CV // SOFTWARE ENGINEER // 001</div>
+      <div class="header-name" id="cv-name">RILEY<br>CROSS</div>
+      <div class="header-role" id="cv-title">DevOps &amp; Platform Engineer</div>
+    </div>
+    <div class="header-right">
+      <div class="contact-item"><span class="cl">Email</span><span id="cv-email">riley.cross@email.com</span></div>
+      <div class="contact-item"><span class="cl">Phone</span><span id="cv-phone">+1 (312) 555 8901</span></div>
+      <div class="contact-item"><span class="cl">City</span><span id="cv-location">Chicago, IL</span></div>
+      <div class="contact-item"><span class="cl">GitHub</span><span id="cv-github">github.com/rileycross</span></div>
+      <div class="contact-item"><span class="cl">LinkedIn</span><span id="cv-linkedin">in/rileycross</span></div>
+    </div>
+  </div>
+
+  <div class="cv-body">
+    <div class="col-left">
+      <div class="left-block">
+        <div class="sec-label">Skills</div>
+        <ul class="skill-mono" id="cv-skills">
+          <li>Kubernetes<span class="skill-pct">95%</span></li>
+          <li>Terraform<span class="skill-pct">90%</span></li>
+          <li>AWS / GCP<span class="skill-pct">88%</span></li>
+          <li>Golang<span class="skill-pct">82%</span></li>
+          <li>Python<span class="skill-pct">85%</span></li>
+          <li>Prometheus<span class="skill-pct">87%</span></li>
+          <li>Ansible<span class="skill-pct">80%</span></li>
+          <li>ArgoCD<span class="skill-pct">84%</span></li>
+        </ul>
+      </div>
+      <div class="left-block">
+        <div class="sec-label">Tools</div>
+        <div class="tag-row" id="cv-tech-tags">
+          <span class="tag-b">Docker</span><span class="tag-b">Helm</span><span class="tag-b">Grafana</span>
+          <span class="tag-b">Loki</span><span class="tag-b">Vault</span><span class="tag-b">GitHub Actions</span>
+          <span class="tag-b">Jenkins</span><span class="tag-b">PostgreSQL</span><span class="tag-b">Redis</span><span class="tag-b">Linux</span>
+        </div>
+      </div>
+      <div class="left-block">
+        <div class="sec-label">Education</div>
+        <div id="cv-education">
+          <div class="edu-b">
+            <div class="edu-deg">B.Sc. Software Engineering</div>
+            <div class="edu-sch">University of Illinois</div>
+            <div class="edu-yr">2015 – 2019</div>
+          </div>
+        </div>
+      </div>
+      <div class="left-block">
+        <div class="sec-label">Certs</div>
+        <div id="cv-certifications">
+          <div class="cert-b"><div class="cert-n">CKA</div><div class="cert-i">CNCF · 2023</div></div>
+          <div class="cert-b"><div class="cert-n">AWS DevOps Pro</div><div class="cert-i">AWS · 2022</div></div>
+          <div class="cert-b"><div class="cert-n">Terraform Associate</div><div class="cert-i">HashiCorp · 2021</div></div>
+        </div>
+      </div>
+      <div class="left-block">
+        <div class="sec-label">Lang</div>
+        <div id="cv-languages">
+          <div class="lang-b"><span>English</span><span class="lang-l">NATIVE</span></div>
+          <div class="lang-b"><span>German</span><span class="lang-l">B2</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-right">
+      <div class="right-block">
+        <div class="sec-label">Profile</div>
+        <p class="summary-txt" id="cv-summary">Platform engineer with 6 years of experience building and scaling cloud-native infrastructure for high-growth SaaS companies. Specialist in Kubernetes, GitOps workflows, and infrastructure-as-code. I reduce toil, enforce reliability, and help product teams ship faster without waking anyone up at 3am.</p>
+      </div>
+      <div class="right-block">
+        <div class="sec-label">Experience</div>
+        <div id="cv-experience">
+          <div class="exp-item">
+            <div class="exp-num">01</div>
+            <div class="exp-content">
+              <div class="exp-role">Senior Platform Engineer</div>
+              <div class="exp-meta-row"><span class="exp-co">NOVA CLOUD · CHICAGO</span><span class="exp-date">2022 – PRESENT</span></div>
+              <ul class="exp-pts">
+                <li>Migrated 80+ microservices to a multi-tenant Kubernetes platform, cutting infrastructure spend by $420K/yr.</li>
+                <li>Implemented GitOps with ArgoCD across 6 teams; reduced deployment failures by 70%.</li>
+                <li>Built internal developer platform using Backstage, adopted by 120+ engineers within 3 months.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-num">02</div>
+            <div class="exp-content">
+              <div class="exp-role">DevOps Engineer</div>
+              <div class="exp-meta-row"><span class="exp-co">STACKR INC. · REMOTE</span><span class="exp-date">2020 – 2022</span></div>
+              <ul class="exp-pts">
+                <li>Designed Terraform modules managing 300+ AWS resources; achieved 100% IaC coverage across all environments.</li>
+                <li>Set up Prometheus + Grafana + Loki observability stack, reducing MTTR from 90 min to 12 min.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-num">03</div>
+            <div class="exp-content">
+              <div class="exp-role">Systems Administrator</div>
+              <div class="exp-meta-row"><span class="exp-co">IRONGATE SYSTEMS · CHICAGO</span><span class="exp-date">2019 – 2020</span></div>
+              <ul class="exp-pts">
+                <li>Managed on-prem Linux server fleet of 200 nodes; migrated 40% to AWS EC2 within 8 months.</li>
+                <li>Automated patch management with Ansible, reducing manual effort by 15 hrs/week.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-block">
+        <div class="sec-label">Projects</div>
+        <div class="proj-grid" id="cv-projects">
+          <div class="proj-card">
+            <div class="proj-name">K8s Cost Analyzer</div>
+            <div class="proj-tech">GOLANG // PROMETHEUS // CLI</div>
+            <div class="proj-desc">Open-source CLI that surfaces per-namespace Kubernetes cost breakdowns. 2K+ GitHub stars.</div>
+          </div>
+          <div class="proj-card">
+            <div class="proj-name">Vault Auto-Seal</div>
+            <div class="proj-tech">TERRAFORM // AWS KMS // VAULT</div>
+            <div class="proj-desc">Terraform module for zero-downtime Vault auto-seal migration. Published on Terraform Registry.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay no-print" id="modal-overlay">
+<div class="modal">
+  <h2>EDIT CV</h2>
+  <p class="modal-sub">// UPDATE FIELDS → APPLY CHANGES</p>
+  <div class="tabs">
+    <button class="tab active" onclick="st('tp-p',this)">Personal</button>
+    <button class="tab" onclick="st('tp-s',this)">Summary</button>
+    <button class="tab" onclick="st('tp-e',this)">Experience</button>
+    <button class="tab" onclick="st('tp-pr',this)">Projects</button>
+    <button class="tab" onclick="st('tp-ed',this)">Education</button>
+    <button class="tab" onclick="st('tp-sk',this)">Skills</button>
+    <button class="tab" onclick="st('tp-c',this)">Certs</button>
+  </div>
+  <div class="tp active" id="tp-p">
+    <div class="fr">
+      <div class="fg"><label>First Name</label><input id="f-fn" value="RILEY"/></div>
+      <div class="fg"><label>Last Name</label><input id="f-ln" value="CROSS"/></div>
+    </div>
+    <div class="fg"><label>Job Title</label><input id="f-title" value="DevOps &amp; Platform Engineer"/></div>
+    <div class="fr">
+      <div class="fg"><label>Email</label><input id="f-email" value="riley.cross@email.com"/></div>
+      <div class="fg"><label>Phone</label><input id="f-phone" value="+1 (312) 555 8901"/></div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label>Location</label><input id="f-location" value="Chicago, IL"/></div>
+      <div class="fg"><label>GitHub</label><input id="f-github" value="github.com/rileycross"/></div>
+    </div>
+    <div class="fg"><label>LinkedIn</label><input id="f-linkedin" value="in/rileycross"/></div>
+  </div>
+  <div class="tp" id="tp-s">
+    <div class="fg"><label>Profile Summary</label><textarea id="f-summary" rows="6">Platform engineer with 6 years of experience building and scaling cloud-native infrastructure for high-growth SaaS companies. Specialist in Kubernetes, GitOps workflows, and infrastructure-as-code. I reduce toil, enforce reliability, and help product teams ship faster without waking anyone up at 3am.</textarea></div>
+  </div>
+  <div class="tp" id="tp-e"><div id="f-exp-entries"></div><button class="add-b" onclick="addExp()">+ ADD EXPERIENCE</button></div>
+  <div class="tp" id="tp-pr"><div id="f-proj-entries"></div><button class="add-b" onclick="addProj()">+ ADD PROJECT</button></div>
+  <div class="tp" id="tp-ed"><div id="f-edu-entries"></div><button class="add-b" onclick="addEdu()">+ ADD EDUCATION</button></div>
+  <div class="tp" id="tp-sk">
+    <div class="fg"><label>Skills (one per line: Skill Name | Percentage)</label><textarea id="f-skills" rows="8">Kubernetes | 95%
+Terraform | 90%
+AWS / GCP | 88%
+Golang | 82%
+Python | 85%
+Prometheus | 87%
+Ansible | 80%
+ArgoCD | 84%</textarea></div>
+    <div class="fg"><label>Tools / Technologies (comma-separated)</label><textarea id="f-tags" rows="3">Docker, Helm, Grafana, Loki, Vault, GitHub Actions, Jenkins, PostgreSQL, Redis, Linux</textarea></div>
+    <div class="fg"><label>Languages (one per line: Language | Level)</label><textarea id="f-langs" rows="3">English | NATIVE
+German | B2</textarea></div>
+  </div>
+  <div class="tp" id="tp-c"><div id="f-cert-entries"></div><button class="add-b" onclick="addCert()">+ ADD CERTIFICATION</button></div>
+  <div class="ma">
+    <button class="bc" onclick="closeModal()">CANCEL</button>
+    <button class="ba" onclick="apply()">APPLY CHANGES</button>
+  </div>
+</div>
+</div>
+
+<script>
+let exp=[
+  {role:'Senior Platform Engineer',co:'NOVA CLOUD · CHICAGO',from:'2022',to:'PRESENT',pts:'Migrated 80+ microservices to a multi-tenant Kubernetes platform, cutting infrastructure spend by $420K/yr.\nImplemented GitOps with ArgoCD across 6 teams; reduced deployment failures by 70%.\nBuilt internal developer platform using Backstage, adopted by 120+ engineers within 3 months.'},
+  {role:'DevOps Engineer',co:'STACKR INC. · REMOTE',from:'2020',to:'2022',pts:'Designed Terraform modules managing 300+ AWS resources; achieved 100% IaC coverage across all environments.\nSet up Prometheus + Grafana + Loki observability stack, reducing MTTR from 90 min to 12 min.'},
+  {role:'Systems Administrator',co:'IRONGATE SYSTEMS · CHICAGO',from:'2019',to:'2020',pts:'Managed on-prem Linux server fleet of 200 nodes; migrated 40% to AWS EC2 within 8 months.\nAutomated patch management with Ansible, reducing manual effort by 15 hrs/week.'}
+];
+let proj=[
+  {name:'K8s Cost Analyzer',tech:'GOLANG // PROMETHEUS // CLI',desc:'Open-source CLI that surfaces per-namespace Kubernetes cost breakdowns. 2K+ GitHub stars.'},
+  {name:'Vault Auto-Seal',tech:'TERRAFORM // AWS KMS // VAULT',desc:'Terraform module for zero-downtime Vault auto-seal migration. Published on Terraform Registry.'}
+];
+let edu=[{deg:'B.Sc. Software Engineering',sch:'University of Illinois',yr:'2015 – 2019'}];
+let certs=[{name:'CKA',iss:'CNCF · 2023'},{name:'AWS DevOps Pro',iss:'AWS · 2022'},{name:'Terraform Associate',iss:'HashiCorp · 2021'}];
+
+function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function gv(id){const el=document.getElementById(id);return el?el.value:''}
+function st(id,btn){document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active')}
+function openModal(){renderForms();document.getElementById('modal-overlay').classList.add('active')}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('active')}
+document.getElementById('modal-overlay').addEventListener('click',ev=>{if(ev.target===ev.currentTarget)closeModal()})
+
+function renderForms(){
+  document.getElementById('f-exp-entries').innerHTML=exp.map((x,i)=>`
+    <div class="de"><button class="rm" onclick="exp.splice(${i},1);renderForms()">×</button>
+    <div class="fr"><div class="fg"><label>Job Title</label><input id="ex${i}r" value="${e(x.role)}"/></div><div class="fg"><label>Company · Location</label><input id="ex${i}c" value="${e(x.co)}"/></div></div>
+    <div class="fr"><div class="fg"><label>From</label><input id="ex${i}f" value="${e(x.from)}"/></div><div class="fg"><label>To</label><input id="ex${i}t" value="${e(x.to)}"/></div></div>
+    <div class="fg"><label>Bullets (one per line)</label><textarea id="ex${i}p" rows="4">${e(x.pts)}</textarea></div></div>`).join('');
+  document.getElementById('f-proj-entries').innerHTML=proj.map((p,i)=>`
+    <div class="de"><button class="rm" onclick="proj.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Name</label><input id="pj${i}n" value="${e(p.name)}"/></div>
+    <div class="fg"><label>Tech Stack</label><input id="pj${i}t" value="${e(p.tech)}"/></div>
+    <div class="fg"><label>Description</label><textarea id="pj${i}d" rows="3">${e(p.desc)}</textarea></div></div>`).join('');
+  document.getElementById('f-edu-entries').innerHTML=edu.map((x,i)=>`
+    <div class="de"><button class="rm" onclick="edu.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Degree</label><input id="ed${i}d" value="${e(x.deg)}"/></div>
+    <div class="fg"><label>School</label><input id="ed${i}s" value="${e(x.sch)}"/></div>
+    <div class="fg"><label>Year</label><input id="ed${i}y" value="${e(x.yr)}"/></div></div>`).join('');
+  document.getElementById('f-cert-entries').innerHTML=certs.map((c,i)=>`
+    <div class="de"><button class="rm" onclick="certs.splice(${i},1);renderForms()">×</button>
+    <div class="fg"><label>Name</label><input id="ct${i}n" value="${e(c.name)}"/></div>
+    <div class="fg"><label>Issuer & Year</label><input id="ct${i}i" value="${e(c.iss)}"/></div></div>`).join('');
+}
+function addExp(){exp.push({role:'',co:'',from:'',to:'',pts:''});renderForms()}
+function addProj(){proj.push({name:'',tech:'',desc:''});renderForms()}
+function addEdu(){edu.push({deg:'',sch:'',yr:''});renderForms()}
+function addCert(){certs.push({name:'',iss:''});renderForms()}
+
+function apply(){
+  exp.forEach((_,i)=>{exp[i].role=gv(`ex${i}r`);exp[i].co=gv(`ex${i}c`);exp[i].from=gv(`ex${i}f`);exp[i].to=gv(`ex${i}t`);exp[i].pts=gv(`ex${i}p`)});
+  proj.forEach((_,i)=>{proj[i].name=gv(`pj${i}n`);proj[i].tech=gv(`pj${i}t`);proj[i].desc=gv(`pj${i}d`)});
+  edu.forEach((_,i)=>{edu[i].deg=gv(`ed${i}d`);edu[i].sch=gv(`ed${i}s`);edu[i].yr=gv(`ed${i}y`)});
+  certs.forEach((_,i)=>{certs[i].name=gv(`ct${i}n`);certs[i].iss=gv(`ct${i}i`)});
+  const fn=gv('f-fn'),ln=gv('f-ln');
+  document.getElementById('cv-name').innerHTML=`${e(fn)}<br>${e(ln)}`;
+  document.getElementById('cv-title').textContent=gv('f-title');
+  document.getElementById('cv-email').textContent=gv('f-email');
+  document.getElementById('cv-phone').textContent=gv('f-phone');
+  document.getElementById('cv-location').textContent=gv('f-location');
+  document.getElementById('cv-github').textContent=gv('f-github');
+  document.getElementById('cv-linkedin').textContent=gv('f-linkedin');
+  document.getElementById('cv-summary').textContent=gv('f-summary');
+  const skills=gv('f-skills').split('\n').map(l=>l.trim()).filter(Boolean);
+  document.getElementById('cv-skills').innerHTML=skills.map(l=>{const[name,pct]=l.split('|').map(x=>x.trim());return`<li>${e(name)}<span class="skill-pct">${e(pct||'')}</span></li>`}).join('');
+  document.getElementById('cv-tech-tags').innerHTML=gv('f-tags').split(',').map(t=>t.trim()).filter(Boolean).map(t=>`<span class="tag-b">${e(t)}</span>`).join('');
+  const langs=gv('f-langs').split('\n').map(l=>l.trim()).filter(Boolean);
+  document.getElementById('cv-languages').innerHTML=langs.map(l=>{const[lang,lvl]=l.split('|').map(x=>x.trim());return`<div class="lang-b"><span>${e(lang)}</span><span class="lang-l">${e(lvl||'')}</span></div>`}).join('');
+  document.getElementById('cv-experience').innerHTML=exp.map((x,i)=>`
+    <div class="exp-item">
+      <div class="exp-num">0${i+1}</div>
+      <div class="exp-content">
+        <div class="exp-role">${e(x.role)}</div>
+        <div class="exp-meta-row"><span class="exp-co">${e(x.co)}</span><span class="exp-date">${e(x.from)} – ${e(x.to)}</span></div>
+        <ul class="exp-pts">${x.pts.split('\n').filter(Boolean).map(b=>`<li>${e(b.replace(/^[•\-]\s*/,''))}</li>`).join('')}</ul>
+      </div>
+    </div>`).join('');
+  document.getElementById('cv-projects').innerHTML=proj.map(p=>`<div class="proj-card"><div class="proj-name">${e(p.name)}</div><div class="proj-tech">${e(p.tech)}</div><div class="proj-desc">${e(p.desc)}</div></div>`).join('');
+  document.getElementById('cv-education').innerHTML=edu.map(x=>`<div class="edu-b"><div class="edu-deg">${e(x.deg)}</div><div class="edu-sch">${e(x.sch)}</div><div class="edu-yr">${e(x.yr)}</div></div>`).join('');
+  document.getElementById('cv-certifications').innerHTML=certs.map(c=>`<div class="cert-b"><div class="cert-n">${e(c.name)}</div><div class="cert-i">${e(c.iss)}</div></div>`).join('');
+  closeModal();
+}
+</script>
+</body>
+</html>

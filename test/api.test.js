@@ -2,11 +2,13 @@ const { describe, it, before, after } = require('node:test');
 const assert = require('node:assert/strict');
 const {
   setupTestEnv,
+  setupTestEnvWithOptions,
   createAgent,
   teardownTestEnv,
   validUser,
   registerUser,
 } = require('./helpers');
+const { EMPTY_CV } = require('../src/db');
 
 describe('API integration', () => {
   /** @type {import('supertest').SuperTest<import('supertest').Test>} */
@@ -145,6 +147,53 @@ describe('API integration', () => {
       const resB = await agentB.get('/api/cv');
       assert.notEqual(resB.body.data.summary, 'User A secret summary');
       assert.equal(resB.body.data.personal.name, 'User B');
+    });
+  });
+
+  describe('CV AI generation', () => {
+    const sampleGenerated = {
+      ...structuredClone(EMPTY_CV),
+      summary: 'AI generated summary',
+      personal: { ...EMPTY_CV.personal, name: 'AI Name', title: 'Engineer' },
+      experience: [{ role: 'Dev', company: 'Co', location: '', from: 'Jan 2020', to: 'Present', bullets: 'Built apps' }],
+    };
+
+    it('POST /api/cv/generate requires authentication', async () => {
+      const guest = createAgent();
+      const res = await guest.post('/api/cv/generate').send({ prompt: 'x'.repeat(30) });
+      assert.equal(res.status, 401);
+    });
+
+    it('POST /api/cv/generate validates prompt length', async () => {
+      const genAgent = setupTestEnvWithOptions({
+        geminiGenerate: async () => sampleGenerated,
+      });
+      await registerUser(genAgent, { email: 'genbad@example.com' });
+      const res = await genAgent.post('/api/cv/generate').send({ prompt: 'too short' });
+      assert.equal(res.status, 400);
+    });
+
+    it('POST /api/cv/generate saves generated CV', async () => {
+      const genAgent = setupTestEnvWithOptions({
+        geminiGenerate: async (prompt, account) => {
+          assert.ok(prompt.length >= 20);
+          assert.equal(account.email, 'genok@example.com');
+          return sampleGenerated;
+        },
+      });
+      await registerUser(genAgent, { email: 'genok@example.com', name: 'Gen User' });
+      await genAgent.put('/api/cv').send({ data: { template: 'nordic' } });
+
+      const res = await genAgent.post('/api/cv/generate').send({
+        prompt: 'I am a software engineer with five years of experience in web development.',
+      });
+      assert.equal(res.status, 200);
+      assert.equal(res.body.data.summary, 'AI generated summary');
+      assert.equal(res.body.data.template, 'nordic');
+      assert.equal(res.body.data.personal.email, 'genok@example.com');
+
+      const again = await genAgent.get('/api/cv');
+      assert.equal(again.body.data.summary, 'AI generated summary');
     });
   });
 });
