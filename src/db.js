@@ -6,7 +6,7 @@ const analytics = require('./analytics');
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const DEFAULT_DB_PATH = path.join(DATA_DIR, 'cv.db');
 
-const VALID_TEMPLATES = ['classic', 'nordic', 'editorial', 'brutalist', 'artdeco'];
+const VALID_TEMPLATES = ['classic', 'nordic', 'editorial', 'brutalist', 'artdeco', 'blueprint', 'circuit', 'ink'];
 
 const EMPTY_CV = {
   template: 'classic',

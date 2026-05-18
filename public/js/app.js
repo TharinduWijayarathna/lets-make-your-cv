@@ -4,9 +4,21 @@ const TEMPLATES = {
   editorial: { label: 'Editorial Bold', short: 'Editorial', file: '/templates/editorial.html' },
   brutalist: { label: 'Brutalist', short: 'Brutalist', file: '/templates/brutalist.html' },
   artdeco: { label: 'Art Deco', short: 'Art Deco', file: '/templates/artdeco.html' },
+  blueprint: { label: 'Blueprint Draft', short: 'Blueprint', file: '/templates/blueprint.html' },
+  circuit: { label: 'Circuit Tech', short: 'Circuit', file: '/templates/circuit.html' },
+  ink: { label: 'Classic Ink', short: 'Ink', file: '/templates/ink.html' },
 };
 
-const TEMPLATE_BODY_CLASSES = ['tpl-classic', 'tpl-nordic', 'tpl-editorial', 'tpl-brutalist', 'tpl-artdeco'];
+const TEMPLATE_BODY_CLASSES = [
+  'tpl-classic',
+  'tpl-nordic',
+  'tpl-editorial',
+  'tpl-brutalist',
+  'tpl-artdeco',
+  'tpl-blueprint',
+  'tpl-circuit',
+  'tpl-ink',
+];
 
 const templateCache = {};
 let cvData = null;
@@ -264,6 +276,9 @@ function renderCV() {
   else if (activeTemplate === 'editorial') renderEditorial(cvData, root);
   else if (activeTemplate === 'brutalist') renderBrutalist(cvData, root);
   else if (activeTemplate === 'artdeco') renderArtdeco(cvData, root);
+  else if (activeTemplate === 'blueprint') renderDraftGrid(cvData, root);
+  else if (activeTemplate === 'circuit') renderDraftGrid(cvData, root);
+  else if (activeTemplate === 'ink') renderDraftGrid(cvData, root);
 }
 
 function renderClassic(data, root) {
@@ -478,6 +493,91 @@ function renderBrutalist(data, root) {
       .map(
         (c) => `<div class="cert-b"><div class="cert-n">${escapeHtml(c.name)}</div><div class="cert-i">${escapeHtml(c.issuer)}</div></div>`
       )
+      .join(''),
+    root
+  );
+}
+
+function renderDraftGrid(data, root) {
+  const p = data.personal || {};
+  setText('cv-name', p.name, root);
+  setText('cv-title', p.title, root);
+  setText('cv-email', p.email, root);
+  setText('cv-phone', p.phone, root);
+  setText('cv-location', p.location, root);
+  setText('cv-linkedin', p.linkedin, root);
+  setText('cv-github', p.github, root);
+  setText('cv-portfolio', p.portfolio, root);
+  setText('cv-summary', data.summary, root);
+
+  setHtml(
+    'cv-skills',
+    (data.skillBars || [])
+      .map((s) => {
+        const pct = Math.min(100, Math.max(0, s.level || 0));
+        return `<div class="skill"><div class="skill-top"><span>${escapeHtml(s.name)}</span><span>${pct}%</span></div><div class="skill-track"><div class="skill-fill" style="width:${pct}%"></div></div></div>`;
+      })
+      .join(''),
+    root
+  );
+
+  const tags = (data.techTags || '').split(',').map((t) => t.trim()).filter(Boolean);
+  setHtml('cv-tech-tags', tags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join(''), root);
+
+  const langs = (data.languages || '').split('\n').map((l) => l.trim()).filter(Boolean);
+  setHtml(
+    'cv-languages',
+    langs
+      .map((l) => {
+        const parts = l.split('|').map((x) => x.trim());
+        return `<div class="lang"><span>${escapeHtml(parts[0] || '')}</span><strong>${escapeHtml(parts[1] || '')}</strong></div>`;
+      })
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-experience',
+    (data.experience || [])
+      .map((e, i) => {
+        const num = String(i + 1).padStart(2, '0');
+        const bullets = (e.bullets || '')
+          .split('\n')
+          .filter(Boolean)
+          .map((b) => `<li>${escapeHtml(b.replace(/^[–\-•▸]\s*/, ''))}</li>`)
+          .join('');
+        return `<article class="exp"><div class="exp-marker">${num}</div><div class="exp-content"><div class="exp-head"><h3>${escapeHtml(e.role)}</h3><span>${escapeHtml(e.from)} – ${escapeHtml(e.to)}</span></div><div class="exp-company">${escapeHtml(companyLine(e))}</div><ul>${bullets}</ul></div></article>`;
+      })
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-projects',
+    (data.projects || [])
+      .map(
+        (proj) =>
+          `<article class="project"><h3>${escapeHtml(proj.name)}</h3><div class="project-tech">${escapeHtml(proj.tech)}</div><p>${escapeHtml(proj.desc)}</p></article>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-education',
+    (data.education || [])
+      .map(
+        (e) =>
+          `<div class="edu"><div><h3>${escapeHtml(e.degree)}</h3><p>${escapeHtml(e.school)}</p></div><span>${escapeHtml(e.year)}</span></div>`
+      )
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-certifications',
+    (data.certifications || [])
+      .map((c) => `<div class="cert"><span>${escapeHtml(c.name)}</span><small>${escapeHtml(c.issuer)}</small></div>`)
       .join(''),
     root
   );

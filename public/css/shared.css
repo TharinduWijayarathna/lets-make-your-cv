@@ -19,6 +19,9 @@ body.tpl-nordic { background: #dedad4; font-family: 'Barlow', sans-serif; }
 body.tpl-editorial { background: #c8c0b0; font-family: 'Outfit', sans-serif; }
 body.tpl-brutalist { background: #e0e0e0; font-family: 'IBM Plex Sans', sans-serif; }
 body.tpl-artdeco { background: #1a1a2e; font-family: 'Raleway', sans-serif; }
+body.tpl-blueprint { background: #d7e5f3; font-family: 'Sora', sans-serif; }
+body.tpl-circuit { background: #08131f; font-family: 'Inter', sans-serif; }
+body.tpl-ink { background: #e3dacb; font-family: 'Inter', sans-serif; }
 
 .app-workspace {
   display: grid;
@@ -352,6 +355,77 @@ body.tpl-artdeco { background: #1a1a2e; font-family: 'Raleway', sans-serif; }
   background: #c9a84c;
 }
 
+.picker-thumb.blueprint {
+  background: #0c477f;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 8px 8px;
+  border: 1px solid #0a3762;
+}
+
+.picker-thumb.blueprint::before {
+  content: '';
+  display: block;
+  height: 22%;
+  margin: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.picker-thumb.blueprint::after {
+  content: '';
+  display: block;
+  margin: 0 8px 8px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 0 rgba(255, 255, 255, 0.25);
+}
+
+.picker-thumb.circuit {
+  background: linear-gradient(180deg, #071420, #091827);
+  border: 1px solid rgba(73, 244, 255, 0.35);
+}
+
+.picker-thumb.circuit::before {
+  content: '';
+  display: block;
+  height: 26%;
+  background: rgba(73, 244, 255, 0.12);
+  border-bottom: 1px solid #22455f;
+}
+
+.picker-thumb.circuit::after {
+  content: '';
+  display: block;
+  margin: 8px;
+  height: 3px;
+  background: #7cffb2;
+  box-shadow: 0 6px 0 #49f4ff;
+}
+
+.picker-thumb.ink {
+  background: #fbf8f1;
+  border: 1px solid #d8cdbd;
+}
+
+.picker-thumb.ink::before {
+  content: '';
+  display: block;
+  height: 18%;
+  margin: 10px 12px 0;
+  background: #6c5540;
+  opacity: 0.35;
+}
+
+.picker-thumb.ink::after {
+  content: '';
+  display: block;
+  margin: 10px 12px;
+  height: 3px;
+  background: #d8cdbd;
+  box-shadow: 0 6px 0 #e8dece;
+}
+
 .sidebar-actions {
   gap: 10px;
 }
@@ -493,6 +567,91 @@ body.tpl-artdeco .app-sidebar .template-option.is-active {
   box-shadow: 0 0 0 1px #c9a84c;
 }
 
+body.tpl-blueprint .app-sidebar {
+  background: #0b3f74;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #eef7ff;
+}
+body.tpl-blueprint .app-sidebar .app-sidebar-heading,
+body.tpl-blueprint .app-sidebar .sidebar-label,
+body.tpl-blueprint .app-sidebar .sidebar-user {
+  color: #c8def2;
+}
+body.tpl-blueprint .app-sidebar .sidebar-home {
+  color: #eef7ff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+body.tpl-blueprint .app-sidebar .sidebar-home:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+body.tpl-blueprint .app-sidebar .template-select-trigger,
+body.tpl-blueprint .app-sidebar .template-select-panel,
+body.tpl-blueprint .app-sidebar .sidebar-btn-ghost {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #eef7ff;
+}
+body.tpl-blueprint .app-sidebar .template-option {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+body.tpl-blueprint .app-sidebar .template-option-name {
+  color: #eef7ff;
+}
+body.tpl-blueprint .app-sidebar .template-option.is-active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+body.tpl-circuit .app-sidebar {
+  background: #071420;
+  border-color: #22455f;
+  color: #eaf8ff;
+}
+body.tpl-circuit .app-sidebar .app-sidebar-heading,
+body.tpl-circuit .app-sidebar .sidebar-label,
+body.tpl-circuit .app-sidebar .sidebar-user {
+  color: #9fb5c6;
+}
+body.tpl-circuit .app-sidebar .sidebar-home {
+  color: #49f4ff;
+  border-color: #22455f;
+}
+body.tpl-circuit .app-sidebar .sidebar-home:hover {
+  background: rgba(73, 244, 255, 0.08);
+}
+body.tpl-circuit .app-sidebar .template-select-trigger,
+body.tpl-circuit .app-sidebar .template-select-panel,
+body.tpl-circuit .app-sidebar .sidebar-btn-ghost {
+  background: #0c1b2d;
+  border-color: #22455f;
+  color: #eaf8ff;
+}
+body.tpl-circuit .app-sidebar .template-option {
+  background: #0b1b2b;
+  border-color: #22455f;
+}
+body.tpl-circuit .app-sidebar .template-option-name {
+  color: #eaf8ff;
+}
+body.tpl-circuit .app-sidebar .template-option.is-active {
+  border-color: #49f4ff;
+  background: rgba(73, 244, 255, 0.08);
+}
+
+body.tpl-ink .app-sidebar {
+  background: #fbf8f1;
+  border-color: #d8cdbd;
+  color: #17130f;
+}
+body.tpl-ink .app-sidebar .sidebar-home:hover {
+  background: #f1eadf;
+}
+body.tpl-ink .app-sidebar .template-select-trigger,
+body.tpl-ink .app-sidebar .template-select-panel {
+  background: #fffdf9;
+  border-color: #d8cdbd;
+}
+
 .btn-download { background: #1c1c1e; color: #f5f1ea; }
 .btn-download:hover { background: #333; }
 .btn-download:disabled { opacity: 0.65; cursor: wait; }
@@ -516,6 +675,22 @@ body.tpl-artdeco .app-sidebar .btn-edit:hover { background: #e8c96e; }
 body.tpl-artdeco .app-sidebar .btn-download { background: #c9a84c; color: #0b1628; }
 body.tpl-artdeco .app-sidebar .btn-download:hover { background: #e8c96e; }
 body.tpl-artdeco .app-sidebar .btn-generate { background: #1e3259; color: #c9a84c; border: 1px solid #c9a84c; }
+body.tpl-blueprint .app-sidebar .btn-edit,
+body.tpl-blueprint .app-sidebar .btn-download { background: #fff; color: #0b3f74; }
+body.tpl-blueprint .app-sidebar .btn-edit:hover,
+body.tpl-blueprint .app-sidebar .btn-download:hover { background: #dff2ff; }
+body.tpl-blueprint .app-sidebar .btn-generate { background: #0d4f8c; color: #fff; }
+body.tpl-circuit .app-sidebar .btn-edit,
+body.tpl-circuit .app-sidebar .btn-download { background: #49f4ff; color: #03121a; }
+body.tpl-circuit .app-sidebar .btn-edit:hover,
+body.tpl-circuit .app-sidebar .btn-download:hover { background: #7cffb2; }
+body.tpl-circuit .app-sidebar .btn-generate { background: transparent; color: #49f4ff; border: 1px solid #49f4ff; }
+body.tpl-ink .app-sidebar .btn-edit,
+body.tpl-ink .app-sidebar .btn-download,
+body.tpl-ink .app-sidebar .btn-generate { background: #17130f; color: #fff; }
+body.tpl-ink .app-sidebar .btn-edit:hover,
+body.tpl-ink .app-sidebar .btn-download:hover,
+body.tpl-ink .app-sidebar .btn-generate:hover { background: #6c5540; }
 
 .generate-modal { width: 560px; }
 .generate-modal.is-generating {

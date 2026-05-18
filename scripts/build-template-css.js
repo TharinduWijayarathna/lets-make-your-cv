@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Regenerate public/css/{classic,nordic,editorial,brutalist,artdeco}.css from template sources.
+ * Regenerate public/css/{classic,nordic,editorial,brutalist,artdeco,blueprint,circuit,ink}.css from template sources.
  * All CV rules are scoped to #cv-mount so they do not override the app sidebar.
  * Run: node scripts/build-template-css.js
  */
@@ -15,14 +15,16 @@ function extractStyle(html) {
   return m ? m[1] : '';
 }
 
+const CV_STYLE_START = '(?=@media print|:root|\\.cv-page|\\.blueprint-page|\\.circuit-page|\\.ink-page)';
+
 function stripSections(css) {
   let out = css;
   out = out.replace(/\/\*\s*TOOLBAR\s*\*\/[\s\S]*?(?=\/\*\s*A4|\.cv-page)/i, '');
   out = out.replace(/^\.toolbar[\s\S]*?(?=\/\*\s*A4|\.cv-page)/m, '');
   out = out.replace(/\.btn-edit\{[^}]+\}\s*\.btn-print\{[^}]+\}\s*/g, '');
-  out = out.replace(/\/\*\s*MODAL\s*\*\/[\s\S]*?(?=@media print|$)/i, '');
-  out = out.replace(/^\.modal-overlay[\s\S]*?(?=@media print|$)/m, '');
-  out = out.replace(/@media print\s*\{[\s\S]*\}\s*/g, '');
+  out = out.replace(new RegExp(`/\\*\\s*MODAL\\s*\\*/[\\s\\S]*?${CV_STYLE_START}`, 'i'), '');
+  out = out.replace(new RegExp(`^\\.modal-overlay[\\s\\S]*?${CV_STYLE_START}`, 'm'), '');
+  out = out.replace(/@media print\s*\{[\s\S]*?\}\s*/g, '');
   out = out.replace(/\.cv-page\{box-shadow:none\}\.no-print\{display:none\}\}/g, '');
   out = out.replace(/\.no-print\s*\{\s*display\s*:\s*none\s*;?\s*\}/gi, '');
   out = out.replace(/\*,\*::before,\*::after\{[^}]+\}\s*/g, '');
@@ -95,10 +97,13 @@ const outputs = {
   editorial: buildTemplateCss(extractStyle(readSource('cv_template_editorial.html')), 'tpl-editorial'),
   brutalist: buildTemplateCss(extractStyle(readSource('cv_template_brutalist.html')), 'tpl-brutalist'),
   artdeco: buildTemplateCss(extractStyle(readSource('cv_template_artdeco.html')), 'tpl-artdeco'),
+  blueprint: buildTemplateCss(extractStyle(readSource('cv_template_blueprint.html')), 'tpl-blueprint'),
+  circuit: buildTemplateCss(extractStyle(readSource('cv_template_circuit.html')), 'tpl-circuit'),
+  ink: buildTemplateCss(extractStyle(readSource('cv_template_ink.html')), 'tpl-ink'),
 };
 
 for (const [name, css] of Object.entries(outputs)) {
   fs.writeFileSync(path.join(outDir, `${name}.css`), css);
 }
 
-console.log('Wrote scoped classic.css, nordic.css, editorial.css, brutalist.css, artdeco.css');
+console.log('Wrote scoped template CSS for', Object.keys(outputs).join(', '));
