@@ -23,9 +23,6 @@ body.ads-live .site-shell {
 }
 
 .site-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   min-width: 0;
   width: 100%;
 }
@@ -37,7 +34,7 @@ body.ads-live .site-shell {
 body.ads-live .ad-rail {
   display: block;
   position: sticky;
-  top: 72px;
+  top: 20px;
   width: 100%;
   max-width: 160px;
   justify-self: center;
@@ -78,8 +75,8 @@ body.with-side-ads .landing-footer {
   padding: 24px 16px;
 }
 
-body.with-side-ads .site-main .toolbar {
-  max-width: min(100%, 920px);
+body.with-side-ads .site-main.app-workspace {
+  max-width: none;
 }
 
 @media (max-width: 1080px) {
