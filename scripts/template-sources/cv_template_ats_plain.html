@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ATS Friendly CV Template</title>
+<style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --rule: #000000;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #ececec;
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 18px;
+  min-height: 100vh;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.toolbar button {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 18px;
+  border: 1px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  cursor: pointer;
+}
+
+.toolbar button:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.cv-page {
+  width: 210mm;
+  min-height: 297mm;
+  background: var(--white);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  padding: 18mm 18mm 16mm;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.name {
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.contact {
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+.contact span {
+  display: inline;
+}
+
+.contact span:not(:last-child)::after {
+  content: " | ";
+}
+
+.section {
+  margin-top: 17px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+}
+
+.summary {
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.entry {
+  margin-bottom: 12px;
+}
+
+.entry:last-child {
+  margin-bottom: 0;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.entry-title {
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.entry-date {
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.entry-subtitle {
+  font-size: 11px;
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+.bullets {
+  margin-top: 5px;
+  margin-left: 18px;
+}
+
+.bullets li {
+  font-size: 11px;
+  line-height: 1.55;
+  margin-bottom: 3px;
+}
+
+.inline-list {
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.inline-list strong {
+  font-weight: 700;
+}
+
+.project {
+  margin-bottom: 11px;
+}
+
+.project:last-child {
+  margin-bottom: 0;
+}
+
+.project-name {
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.project-meta {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.project-desc {
+  font-size: 11px;
+  line-height: 1.55;
+  margin-top: 4px;
+}
+
+.simple-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.simple-row strong {
+  font-weight: 700;
+}
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  width: 760px;
+  max-width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--white);
+  color: var(--black);
+  border: 1px solid var(--black);
+  padding: 28px;
+}
+
+.modal h2 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.modal-sub {
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid var(--black);
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+}
+
+.tab {
+  border: 1px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  padding: 7px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tab.active,
+.tab:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 13px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  border: 1px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  padding: 9px 10px;
+}
+
+.form-group textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dynamic-entry {
+  border: 1px solid var(--black);
+  padding: 14px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  border: 1px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  font-weight: 700;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+}
+
+.remove-btn:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.add-btn {
+  width: 100%;
+  border: 1px dashed var(--black);
+  background: var(--white);
+  color: var(--black);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  border-style: solid;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid var(--black);
+  padding-top: 16px;
+  margin-top: 18px;
+}
+
+.action-btn {
+  border: 1px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.action-btn.primary,
+.action-btn:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+@media (max-width: 900px) {
+  .cv-page {
+    width: 100%;
+    min-height: auto;
+    padding: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    background: var(--white);
+    padding: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .cv-page {
+    width: 210mm;
+    min-height: 297mm;
+    box-shadow: none;
+    padding: 18mm 18mm 16mm;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button onclick="openModal()">Edit CV</button>
+  <button onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<main class="cv-page">
+  <header class="header">
+    <div class="name" id="cv-name">Alex Morgan</div>
+    <div class="title" id="cv-title">Software Engineer</div>
+    <div class="contact">
+      <span id="cv-email">alex.morgan@email.com</span>
+      <span id="cv-phone">+1 555 123 4567</span>
+      <span id="cv-location">New York, NY</span>
+      <span id="cv-linkedin">linkedin.com/in/alexmorgan</span>
+      <span id="cv-github">github.com/alexmorgan</span>
+      <span id="cv-portfolio">alexmorgan.dev</span>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Professional Summary</h2>
+    <p class="summary" id="cv-summary">Software Engineer with 6+ years of experience building scalable web applications, APIs, and cloud-based systems. Strong background in full-stack development, system design, and delivering maintainable solutions in cross-functional teams.</p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Core Skills</h2>
+    <div class="inline-list" id="cv-skills">
+      <strong>Languages:</strong> JavaScript, TypeScript, Python, PHP, SQL<br>
+      <strong>Frameworks:</strong> React, Next.js, Laravel, Node.js, Express<br>
+      <strong>Databases:</strong> PostgreSQL, MySQL, Redis<br>
+      <strong>Tools:</strong> Docker, Git, AWS, CI/CD, REST APIs, GraphQL
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Professional Experience</h2>
+    <div id="cv-experience">
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">Senior Software Engineer</div>
+          <div class="entry-date">2022 – Present</div>
+        </div>
+        <div class="entry-subtitle">Northbridge Technologies | New York, NY</div>
+        <ul class="bullets">
+          <li>Designed and delivered backend services supporting more than 500,000 monthly users.</li>
+          <li>Reduced API response times by 40% through query optimization, caching, and service refactoring.</li>
+          <li>Led code reviews and mentored junior developers across two product teams.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">Software Engineer</div>
+          <div class="entry-date">2019 – 2022</div>
+        </div>
+        <div class="entry-subtitle">Summit Digital | Remote</div>
+        <ul class="bullets">
+          <li>Built reusable frontend components and internal dashboards using React and TypeScript.</li>
+          <li>Developed REST APIs and database schemas for customer management and reporting workflows.</li>
+          <li>Improved deployment reliability by introducing automated testing and CI/CD pipelines.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Projects</h2>
+    <div id="cv-projects">
+      <div class="project">
+        <div class="project-name">Operations Analytics Platform</div>
+        <div class="project-meta">React, Node.js, PostgreSQL, Docker</div>
+        <div class="project-desc">Developed an internal analytics portal for monitoring business metrics, automating reporting, and reducing manual spreadsheet work.</div>
+      </div>
+
+      <div class="project">
+        <div class="project-name">Multi-Tenant SaaS Billing System</div>
+        <div class="project-meta">Laravel, MySQL, Redis, AWS</div>
+        <div class="project-desc">Implemented subscription billing, tenant isolation, and account administration features for a SaaS platform.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Education</h2>
+    <div id="cv-education">
+      <div class="simple-row">
+        <span><strong>BSc in Computer Science</strong> | University of Example</span>
+        <span>2015 – 2019</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Certifications</h2>
+    <div id="cv-certifications">
+      <div class="simple-row">
+        <span><strong>AWS Certified Solutions Architect – Associate</strong></span>
+        <span>2024</span>
+      </div>
+      <div class="simple-row">
+        <span><strong>Professional Scrum Master I</strong></span>
+        <span>2023</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay no-print" id="modal-overlay">
+  <div class="modal">
+    <h2>Edit ATS CV</h2>
+    <div class="modal-sub">This template stays intentionally simple for ATS compatibility.</div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('personal', this)">Personal</button>
+      <button class="tab" onclick="showTab('summary', this)">Summary & Skills</button>
+      <button class="tab" onclick="showTab('experience', this)">Experience</button>
+      <button class="tab" onclick="showTab('projects', this)">Projects</button>
+      <button class="tab" onclick="showTab('education', this)">Education</button>
+      <button class="tab" onclick="showTab('certifications', this)">Certifications</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-personal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input id="input-name" value="Alex Morgan" />
+        </div>
+        <div class="form-group">
+          <label>Job Title</label>
+          <input id="input-title" value="Software Engineer" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input id="input-email" value="alex.morgan@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input id="input-phone" value="+1 555 123 4567" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Location</label>
+          <input id="input-location" value="New York, NY" />
+        </div>
+        <div class="form-group">
+          <label>LinkedIn</label>
+          <input id="input-linkedin" value="linkedin.com/in/alexmorgan" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>GitHub</label>
+          <input id="input-github" value="github.com/alexmorgan" />
+        </div>
+        <div class="form-group">
+          <label>Portfolio</label>
+          <input id="input-portfolio" value="alexmorgan.dev" />
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-summary">
+      <div class="form-group">
+        <label>Professional Summary</label>
+        <textarea id="input-summary">Software Engineer with 6+ years of experience building scalable web applications, APIs, and cloud-based systems. Strong background in full-stack development, system design, and delivering maintainable solutions in cross-functional teams.</textarea>
+      </div>
+      <div class="form-group">
+        <label>Skills HTML</label>
+        <textarea id="input-skills">&lt;strong&gt;Languages:&lt;/strong&gt; JavaScript, TypeScript, Python, PHP, SQL&lt;br&gt;
+&lt;strong&gt;Frameworks:&lt;/strong&gt; React, Next.js, Laravel, Node.js, Express&lt;br&gt;
+&lt;strong&gt;Databases:&lt;/strong&gt; PostgreSQL, MySQL, Redis&lt;br&gt;
+&lt;strong&gt;Tools:&lt;/strong&gt; Docker, Git, AWS, CI/CD, REST APIs, GraphQL</textarea>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-experience">
+      <div id="experience-editor"></div>
+      <button class="add-btn" onclick="addExperience()">Add Experience</button>
+    </div>
+
+    <div class="tab-panel" id="tab-projects">
+      <div id="projects-editor"></div>
+      <button class="add-btn" onclick="addProject()">Add Project</button>
+    </div>
+
+    <div class="tab-panel" id="tab-education">
+      <div id="education-editor"></div>
+      <button class="add-btn" onclick="addEducation()">Add Education</button>
+    </div>
+
+    <div class="tab-panel" id="tab-certifications">
+      <div id="certifications-editor"></div>
+      <button class="add-btn" onclick="addCertification()">Add Certification</button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="action-btn" onclick="closeModal()">Cancel</button>
+      <button class="action-btn primary" onclick="applyChanges()">Apply Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const defaultData = {
+  experience: [
+    {
+      role: 'Senior Software Engineer',
+      date: '2022 – Present',
+      company: 'Northbridge Technologies | New York, NY',
+      bullets: [
+        'Designed and delivered backend services supporting more than 500,000 monthly users.',
+        'Reduced API response times by 40% through query optimization, caching, and service refactoring.',
+        'Led code reviews and mentored junior developers across two product teams.'
+      ]
+    },
+    {
+      role: 'Software Engineer',
+      date: '2019 – 2022',
+      company: 'Summit Digital | Remote',
+      bullets: [
+        'Built reusable frontend components and internal dashboards using React and TypeScript.',
+        'Developed REST APIs and database schemas for customer management and reporting workflows.',
+        'Improved deployment reliability by introducing automated testing and CI/CD pipelines.'
+      ]
+    }
+  ],
+  projects: [
+    {
+      name: 'Operations Analytics Platform',
+      meta: 'React, Node.js, PostgreSQL, Docker',
+      description: 'Developed an internal analytics portal for monitoring business metrics, automating reporting, and reducing manual spreadsheet work.'
+    },
+    {
+      name: 'Multi-Tenant SaaS Billing System',
+      meta: 'Laravel, MySQL, Redis, AWS',
+      description: 'Implemented subscription billing, tenant isolation, and account administration features for a SaaS platform.'
+    }
+  ],
+  education: [
+    {
+      degree: 'BSc in Computer Science',
+      school: 'University of Example',
+      year: '2015 – 2019'
+    }
+  ],
+  certifications: [
+    {
+      name: 'AWS Certified Solutions Architect – Associate',
+      year: '2024'
+    },
+    {
+      name: 'Professional Scrum Master I',
+      year: '2023'
+    }
+  ]
+};
+
+let cvData = JSON.parse(JSON.stringify(defaultData));
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('active');
+  renderEditors();
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('active');
+}
+
+function showTab(name, button) {
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+  button.classList.add('active');
+  document.getElementById(`tab-${name}`).classList.add('active');
+}
+
+function renderEditors() {
+  renderExperienceEditor();
+  renderProjectsEditor();
+  renderEducationEditor();
+  renderCertificationsEditor();
+}
+
+function renderExperienceEditor() {
+  const wrapper = document.getElementById('experience-editor');
+  wrapper.innerHTML = cvData.experience.map((item, index) => `
+    <div class="dynamic-entry">
+      <button class="remove-btn" onclick="removeExperience(${index})">×</button>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Role</label>
+          <input value="${escapeHtml(item.role)}" onchange="cvData.experience[${index}].role=this.value" />
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input value="${escapeHtml(item.date)}" onchange="cvData.experience[${index}].date=this.value" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Company / Location</label>
+        <input value="${escapeHtml(item.company)}" onchange="cvData.experience[${index}].company=this.value" />
+      </div>
+      <div class="form-group">
+        <label>Bullet Points - one per line</label>
+        <textarea onchange="cvData.experience[${index}].bullets=this.value.split('\\n').map(v=>v.trim()).filter(Boolean)">${escapeHtml(item.bullets.join('\n'))}</textarea>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addExperience() {
+  cvData.experience.push({
+    role: 'Job Title',
+    date: 'Year – Year',
+    company: 'Company | Location',
+    bullets: ['Achievement or responsibility']
+  });
+  renderExperienceEditor();
+}
+
+function removeExperience(index) {
+  cvData.experience.splice(index, 1);
+  renderExperienceEditor();
+}
+
+function renderProjectsEditor() {
+  const wrapper = document.getElementById('projects-editor');
+  wrapper.innerHTML = cvData.projects.map((item, index) => `
+    <div class="dynamic-entry">
+      <button class="remove-btn" onclick="removeProject(${index})">×</button>
+      <div class="form-group">
+        <label>Project Name</label>
+        <input value="${escapeHtml(item.name)}" onchange="cvData.projects[${index}].name=this.value" />
+      </div>
+      <div class="form-group">
+        <label>Technologies / Meta</label>
+        <input value="${escapeHtml(item.meta)}" onchange="cvData.projects[${index}].meta=this.value" />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea onchange="cvData.projects[${index}].description=this.value">${escapeHtml(item.description)}</textarea>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addProject() {
+  cvData.projects.push({
+    name: 'Project Name',
+    meta: 'Technologies used',
+    description: 'Short project description.'
+  });
+  renderProjectsEditor();
+}
+
+function removeProject(index) {
+  cvData.projects.splice(index, 1);
+  renderProjectsEditor();
+}
+
+function renderEducationEditor() {
+  const wrapper = document.getElementById('education-editor');
+  wrapper.innerHTML = cvData.education.map((item, index) => `
+    <div class="dynamic-entry">
+      <button class="remove-btn" onclick="removeEducation(${index})">×</button>
+      <div class="form-group">
+        <label>Degree</label>
+        <input value="${escapeHtml(item.degree)}" onchange="cvData.education[${index}].degree=this.value" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>School</label>
+          <input value="${escapeHtml(item.school)}" onchange="cvData.education[${index}].school=this.value" />
+        </div>
+        <div class="form-group">
+          <label>Years</label>
+          <input value="${escapeHtml(item.year)}" onchange="cvData.education[${index}].year=this.value" />
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addEducation() {
+  cvData.education.push({
+    degree: 'Degree',
+    school: 'Institution',
+    year: 'Year – Year'
+  });
+  renderEducationEditor();
+}
+
+function removeEducation(index) {
+  cvData.education.splice(index, 1);
+  renderEducationEditor();
+}
+
+function renderCertificationsEditor() {
+  const wrapper = document.getElementById('certifications-editor');
+  wrapper.innerHTML = cvData.certifications.map((item, index) => `
+    <div class="dynamic-entry">
+      <button class="remove-btn" onclick="removeCertification(${index})">×</button>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Certification</label>
+          <input value="${escapeHtml(item.name)}" onchange="cvData.certifications[${index}].name=this.value" />
+        </div>
+        <div class="form-group">
+          <label>Year</label>
+          <input value="${escapeHtml(item.year)}" onchange="cvData.certifications[${index}].year=this.value" />
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addCertification() {
+  cvData.certifications.push({
+    name: 'Certification Name',
+    year: 'Year'
+  });
+  renderCertificationsEditor();
+}
+
+function removeCertification(index) {
+  cvData.certifications.splice(index, 1);
+  renderCertificationsEditor();
+}
+
+function applyChanges() {
+  document.getElementById('cv-name').textContent = document.getElementById('input-name').value;
+  document.getElementById('cv-title').textContent = document.getElementById('input-title').value;
+  document.getElementById('cv-email').textContent = document.getElementById('input-email').value;
+  document.getElementById('cv-phone').textContent = document.getElementById('input-phone').value;
+  document.getElementById('cv-location').textContent = document.getElementById('input-location').value;
+  document.getElementById('cv-linkedin').textContent = document.getElementById('input-linkedin').value;
+  document.getElementById('cv-github').textContent = document.getElementById('input-github').value;
+  document.getElementById('cv-portfolio').textContent = document.getElementById('input-portfolio').value;
+  document.getElementById('cv-summary').textContent = document.getElementById('input-summary').value;
+  document.getElementById('cv-skills').innerHTML = document.getElementById('input-skills').value;
+
+  document.getElementById('cv-experience').innerHTML = cvData.experience.map(item => `
+    <div class="entry">
+      <div class="entry-header">
+        <div class="entry-title">${escapeHtml(item.role)}</div>
+        <div class="entry-date">${escapeHtml(item.date)}</div>
+      </div>
+      <div class="entry-subtitle">${escapeHtml(item.company)}</div>
+      <ul class="bullets">
+        ${item.bullets.map(bullet => `<li>${escapeHtml(bullet)}</li>`).join('')}
+      </ul>
+    </div>
+  `).join('');
+
+  document.getElementById('cv-projects').innerHTML = cvData.projects.map(item => `
+    <div class="project">
+      <div class="project-name">${escapeHtml(item.name)}</div>
+      <div class="project-meta">${escapeHtml(item.meta)}</div>
+      <div class="project-desc">${escapeHtml(item.description)}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('cv-education').innerHTML = cvData.education.map(item => `
+    <div class="simple-row">
+      <span><strong>${escapeHtml(item.degree)}</strong> | ${escapeHtml(item.school)}</span>
+      <span>${escapeHtml(item.year)}</span>
+    </div>
+  `).join('');
+
+  document.getElementById('cv-certifications').innerHTML = cvData.certifications.map(item => `
+    <div class="simple-row">
+      <span><strong>${escapeHtml(item.name)}</strong></span>
+      <span>${escapeHtml(item.year)}</span>
+    </div>
+  `).join('');
+
+  closeModal();
+}
+</script>
+</body>
+</html>

@@ -540,6 +540,71 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 10px 0 #e8dece, 0 20px 0 #e8dece;
 }
 
+.template-thumb.ats {
+  background: #fff;
+  border: 2px solid #000;
+}
+
+.template-thumb.ats::before {
+  content: '';
+  display: block;
+  height: 22%;
+  margin: 12px;
+  background: #000;
+}
+
+.template-thumb.ats::after {
+  content: '';
+  display: block;
+  margin: 0 12px 12px;
+  height: 5px;
+  background: #ccc;
+  box-shadow: 0 10px 0 #ddd;
+}
+
+.template-thumb.newspaper {
+  background: #f5eedf;
+  border: 2px solid #2a2118;
+}
+
+.template-thumb.newspaper::before {
+  content: '';
+  display: block;
+  height: 24%;
+  margin: 10px;
+  border-bottom: 3px double #2a2118;
+}
+
+.template-thumb.newspaper::after {
+  content: '';
+  display: block;
+  margin: 12px;
+  height: 5px;
+  background: #9a3714;
+}
+
+.template-thumb.origami {
+  display: grid;
+  grid-template-columns: 32% 1fr;
+  background: #fffaf4;
+  border: 1px solid #e5d8ce;
+}
+
+.template-thumb.origami::before {
+  content: '';
+  display: block;
+  height: 100%;
+  background: linear-gradient(160deg, #fbede4, #eef2e8);
+}
+
+.template-thumb.origami::after {
+  content: '';
+  display: block;
+  margin: 14px 12px;
+  height: 5px;
+  background: #e96d5b;
+}
+
 .template-card-body {
   padding: 18px 20px 22px;
 }

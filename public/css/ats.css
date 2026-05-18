@@ -1,0 +1,150 @@
+#cv-mount *, #cv-mount *::before, #cv-mount *::after {
+  #cv-mount box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+:root {
+  #cv-mount --black: #000000;
+  --white: #ffffff;
+  --rule: #000000;
+
+.cv-page {
+  #cv-mount width: 210mm;
+  min-height: 297mm;
+  background: var(--white);
+  box-shadow: 0 8px 30px rgba(0, #cv-mount 0, #cv-mount 0, #cv-mount 0.15);
+  padding: 18mm 18mm 16mm;
+
+.header {
+  #cv-mount text-align: center;
+  margin-bottom: 18px;
+
+.name {
+  #cv-mount font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+
+.title {
+  #cv-mount font-size: 14px;
+  font-weight: 700;
+  margin-top: 5px;
+
+.contact {
+  #cv-mount font-size: 11px;
+  line-height: 1.6;
+  margin-top: 8px;
+
+.contact span {
+  #cv-mount display: inline;
+
+.contact span:not(:last-child)::after {
+  #cv-mount content: " | ";
+
+.section {
+  #cv-mount margin-top: 17px;
+
+.section-title {
+  #cv-mount font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+
+.summary {
+  #cv-mount font-size: 11px;
+  line-height: 1.55;
+
+.entry {
+  #cv-mount margin-bottom: 12px;
+
+.entry:last-child {
+  #cv-mount margin-bottom: 0;
+
+.entry-header {
+  #cv-mount display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+
+.entry-title {
+  #cv-mount font-size: 11.5px;
+  font-weight: 700;
+
+.entry-date {
+  #cv-mount font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+
+.entry-subtitle {
+  #cv-mount font-size: 11px;
+  margin-top: 2px;
+  font-weight: 400;
+
+.bullets {
+  #cv-mount margin-top: 5px;
+  margin-left: 18px;
+
+.bullets li {
+  #cv-mount font-size: 11px;
+  line-height: 1.55;
+  margin-bottom: 3px;
+
+.inline-list {
+  #cv-mount font-size: 11px;
+  line-height: 1.65;
+
+.inline-list strong {
+  #cv-mount font-weight: 700;
+
+.project {
+  #cv-mount margin-bottom: 11px;
+
+.project:last-child {
+  #cv-mount margin-bottom: 0;
+
+.project-name {
+  #cv-mount font-size: 11.5px;
+  font-weight: 700;
+
+.project-meta {
+  #cv-mount font-size: 11px;
+  margin-top: 2px;
+
+.project-desc {
+  #cv-mount font-size: 11px;
+  line-height: 1.55;
+  margin-top: 4px;
+
+.simple-row {
+  #cv-mount display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  line-height: 1.55;
+
+.simple-row strong {
+  #cv-mount font-weight: 700;
+
+.cv-page {
+    #cv-mount width: 100%;
+    min-height: auto;
+    padding: 24px;
+
+  .form-row {
+    #cv-mount grid-template-columns: 1fr;
+
+
+.no-print {
+    #cv-mount display: none !important;
+
+  .cv-page {
+    width: 210mm;
+    min-height: 297mm;
+    box-shadow: none;
+    padding: 18mm 18mm 16mm;

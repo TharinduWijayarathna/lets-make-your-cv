@@ -15,7 +15,8 @@ function extractStyle(html) {
   return m ? m[1] : '';
 }
 
-const CV_STYLE_START = '(?=@media print|:root|\\.cv-page|\\.blueprint-page|\\.circuit-page|\\.ink-page)';
+const CV_STYLE_START =
+  '(?=@media print|:root|\\.cv-page|\\.blueprint-page|\\.circuit-page|\\.ink-page|\\.ats-page|\\.newspaper-page|\\.origami-page)';
 
 function stripSections(css) {
   let out = css;
@@ -31,7 +32,10 @@ function stripSections(css) {
   out = out.replace(/\*, \*::before, \*::after \{[\s\S]*?\}\s*/m, '');
   out = out.replace(/\bbody\s*\{[^}]+\}\s*/g, '');
   out = out.replace(/\.cv-page\{box-shadow:none\s*!important\}\s*/g, '');
-  out = out.replace(/\.modal[\s\S]*?(?=:root|\.cv-page|\.blueprint-page|\.circuit-page|\.ink-page)/i, '');
+  out = out.replace(
+    /\.modal[\s\S]*?(?=:root|\.cv-page|\.blueprint-page|\.circuit-page|\.ink-page|\.ats-page|\.newspaper-page|\.origami-page)/i,
+    ''
+  );
   out = out.replace(/^h1,h2,h3,p\{[^}]+\}\s*/m, '');
   out = out.replace(/^ul\{[^}]+\}\s*/m, '');
   out = out.replace(/^\s*\}\s*$/gm, '');
@@ -112,6 +116,9 @@ const outputs = {
   blueprint: buildTemplateCss(extractStyle(readSource('cv_template_blueprint.html')), 'tpl-blueprint'),
   circuit: buildTemplateCss(extractStyle(readSource('cv_template_circuit.html')), 'tpl-circuit'),
   ink: buildTemplateCss(extractStyle(readSource('cv_template_ink.html')), 'tpl-ink'),
+  ats: buildTemplateCss(extractStyle(readSource('cv_template_ats_plain.html')), 'tpl-ats'),
+  newspaper: buildTemplateCss(extractStyle(readSource('cv_template_newspaper.html')), 'tpl-newspaper'),
+  origami: buildTemplateCss(extractStyle(readSource('cv_template_origami.html')), 'tpl-origami'),
 };
 
 for (const [name, css] of Object.entries(outputs)) {

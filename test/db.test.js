@@ -77,5 +77,8 @@ describe('database layer', () => {
     assert.ok(VALID_TEMPLATES.includes('blueprint'));
     assert.ok(VALID_TEMPLATES.includes('circuit'));
     assert.ok(VALID_TEMPLATES.includes('ink'));
+    assert.ok(VALID_TEMPLATES.includes('ats'));
+    assert.ok(VALID_TEMPLATES.includes('newspaper'));
+    assert.ok(VALID_TEMPLATES.includes('origami'));
   });
 });

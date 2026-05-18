@@ -22,6 +22,9 @@ body.tpl-artdeco { background: #1a1a2e; font-family: 'Raleway', sans-serif; }
 body.tpl-blueprint { background: #d7e5f3; font-family: 'Sora', sans-serif; }
 body.tpl-circuit { background: #08131f; font-family: 'Inter', sans-serif; }
 body.tpl-ink { background: #e3dacb; font-family: 'Inter', sans-serif; }
+body.tpl-ats { background: #ececec; font-family: Arial, Helvetica, sans-serif; }
+body.tpl-newspaper { background: #cfc4ad; font-family: 'Source Serif 4', serif; }
+body.tpl-origami { background: #e6d7ca; font-family: 'DM Sans', sans-serif; }
 
 .app-workspace {
   display: grid;
@@ -436,6 +439,72 @@ body.tpl-ink { background: #e3dacb; font-family: 'Inter', sans-serif; }
   box-shadow: 0 6px 0 #e8dece;
 }
 
+.picker-thumb.ats {
+  background: #fff;
+  border: 1px solid #000;
+}
+
+.picker-thumb.ats::before {
+  content: '';
+  display: block;
+  height: 20%;
+  margin: 8px;
+  background: #000;
+  opacity: 0.85;
+}
+
+.picker-thumb.ats::after {
+  content: '';
+  display: block;
+  margin: 0 8px 8px;
+  height: 3px;
+  background: #ccc;
+  box-shadow: 0 6px 0 #ddd;
+}
+
+.picker-thumb.newspaper {
+  background: #f5eedf;
+  border: 1px solid #2a2118;
+}
+
+.picker-thumb.newspaper::before {
+  content: '';
+  display: block;
+  height: 22%;
+  border-bottom: 2px double #2a2118;
+  margin: 6px;
+}
+
+.picker-thumb.newspaper::after {
+  content: '';
+  display: block;
+  margin: 8px;
+  height: 3px;
+  background: #9a3714;
+}
+
+.picker-thumb.origami {
+  display: grid;
+  grid-template-columns: 32% 1fr;
+  background: #fffaf4;
+  border: 1px solid #e5d8ce;
+}
+
+.picker-thumb.origami::before {
+  content: '';
+  display: block;
+  height: 100%;
+  background: linear-gradient(160deg, #fbede4, #eef2e8);
+}
+
+.picker-thumb.origami::after {
+  content: '';
+  display: block;
+  margin: 10px 8px;
+  height: 3px;
+  background: #e96d5b;
+}
+
 .sidebar-actions {
   gap: 10px;
   position: relative;
@@ -703,6 +772,56 @@ body.tpl-ink .app-sidebar .template-select-panel {
   border-color: #d8cdbd;
 }
 
+body.tpl-ats .app-sidebar {
+  background: #fff;
+  border-color: #ccc;
+  color: #000;
+}
+body.tpl-ats .app-sidebar .template-select-trigger,
+body.tpl-ats .app-sidebar .template-select-panel {
+  background: #fff;
+  border-color: #ccc;
+}
+
+body.tpl-newspaper .app-sidebar {
+  background: #f5eedf;
+  border-color: #2a2118;
+  color: #16120d;
+}
+body.tpl-newspaper .app-sidebar .app-sidebar-heading,
+body.tpl-newspaper .app-sidebar .sidebar-label,
+body.tpl-newspaper .app-sidebar .sidebar-user {
+  color: #5d544b;
+}
+body.tpl-newspaper .app-sidebar .template-select-trigger,
+body.tpl-newspaper .app-sidebar .template-select-panel {
+  background: #fffaf0;
+  border-color: #b09c80;
+}
+body.tpl-newspaper .app-sidebar .template-option {
+  background: #fffaf0;
+  border-color: #cbb590;
+}
+body.tpl-newspaper .app-sidebar .template-option.is-active {
+  border-color: #9a3714;
+  box-shadow: 0 0 0 1px #9a3714;
+}
+
+body.tpl-origami .app-sidebar {
+  background: #fbf8f1;
+  border-color: #e5d8ce;
+  color: #252020;
+}
+body.tpl-origami .app-sidebar .template-select-trigger,
+body.tpl-origami .app-sidebar .template-select-panel {
+  background: #fffdf9;
+  border-color: #e5d8ce;
+}
+body.tpl-origami .app-sidebar .template-option.is-active {
+  border-color: #6f4f73;
+  box-shadow: 0 0 0 1px #e96d5b;
+}
+
 .btn-download { background: #1c1c1e; color: #f5f1ea; }
 .btn-download:hover { background: #333; }
 .btn-download:disabled { opacity: 0.65; cursor: wait; }
@@ -742,6 +861,15 @@ body.tpl-ink .app-sidebar .btn-generate { background: #17130f; color: #fff; }
 body.tpl-ink .app-sidebar .btn-edit:hover,
 body.tpl-ink .app-sidebar .btn-download:hover,
 body.tpl-ink .app-sidebar .btn-generate:hover { background: #6c5540; }
+body.tpl-ats .app-sidebar .btn-edit,
+body.tpl-ats .app-sidebar .btn-download,
+body.tpl-ats .app-sidebar .btn-generate { background: #000; color: #fff; border: 1px solid #000; }
+body.tpl-newspaper .app-sidebar .btn-edit { background: #2a2118; color: #f5eedf; }
+body.tpl-newspaper .app-sidebar .btn-download,
+body.tpl-newspaper .app-sidebar .btn-generate { background: #9a3714; color: #f5eedf; }
+body.tpl-origami .app-sidebar .btn-edit { background: #6f4f73; color: #fff; }
+body.tpl-origami .app-sidebar .btn-download,
+body.tpl-origami .app-sidebar .btn-generate { background: #e96d5b; color: #fff; }
 
 .generate-modal { width: 560px; }
 .generate-modal.is-generating {
