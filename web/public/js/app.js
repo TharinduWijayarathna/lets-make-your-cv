@@ -149,6 +149,53 @@ function setBodyTemplateClass(name) {
   }
 }
 
+function setTemplateLoading(active) {
+  const loading = $('template-loading');
+  const mount = $('cv-mount');
+  const trigger = $('template-select-trigger');
+  if (loading) {
+    loading.hidden = !active;
+    loading.setAttribute('aria-busy', active ? 'true' : 'false');
+  }
+  if (mount) mount.classList.toggle('is-switching', active);
+  if (trigger) trigger.disabled = active;
+}
+
+function waitForTemplateStylesheet(name) {
+  const sheet = $('template-css');
+  if (!sheet) return Promise.resolve();
+
+  const hrefPath = `/css/${name}.css`;
+  if (!sheet.getAttribute('href')?.includes(hrefPath)) return Promise.resolve();
+
+  const isReady = () => {
+    try {
+      return Boolean(sheet.sheet);
+    } catch {
+      return false;
+    }
+  };
+
+  if (isReady()) return Promise.resolve();
+
+  return new Promise((resolve) => {
+    const done = () => {
+      sheet.removeEventListener('load', done);
+      sheet.removeEventListener('error', done);
+      resolve();
+    };
+    sheet.addEventListener('load', done);
+    sheet.addEventListener('error', done);
+    setTimeout(done, 2500);
+  });
+}
+
+function waitForNextPaint() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
+}
+
 async function mountTemplate(name) {
   if (!templateCache[name]) throw new Error(`Unknown template: ${name}`);
   activeTemplate = name;
@@ -253,15 +300,24 @@ function setTemplatePickerActive(name) {
 async function changeTemplate(name) {
   if (!cvData || name === activeTemplate) return;
   if (!TEMPLATES[name]) return;
-  cvData.template = name;
-  await mountTemplate(name);
-  renderCV();
-  syncModalPhotoPreview();
+
+  closeTemplatePanel();
+  setTemplateLoading(true);
+  await waitForNextPaint();
+
   try {
+    cvData.template = name;
+    await mountTemplate(name);
+    renderCV();
+    syncModalPhotoPreview();
+    await waitForTemplateStylesheet(name);
+    await waitForNextPaint();
     await saveCV();
   } catch (err) {
     console.error(err);
     setSaveStatus('Template changed; save failed — try again', true);
+  } finally {
+    setTemplateLoading(false);
   }
 }
 
