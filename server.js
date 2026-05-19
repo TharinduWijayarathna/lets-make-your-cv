@@ -8,6 +8,6 @@ const PORT = process.env.PORT || 3000;
 initDb();
 
 const app = createApp();
-app.listen(PORT, () => {
-  console.log(`Let's Make Your CV running at http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Let's Make Your CV running on port ${PORT}`);
 });

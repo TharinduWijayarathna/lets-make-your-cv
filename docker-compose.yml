@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 80
+    expose:
+      - "80"
+    volumes:
+      - cv-data:/app/data
+
+volumes:
+  cv-data:
