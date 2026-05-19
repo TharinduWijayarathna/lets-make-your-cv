@@ -11,6 +11,14 @@ const TEMPLATES = {
   newspaper: { label: 'Newspaper Bureau', short: 'Newspaper', file: '/templates/newspaper.html' },
   origami: { label: 'Folded Origami', short: 'Origami', file: '/templates/origami.html' },
   executiveslate: { label: 'Executive Slate', short: 'Slate', file: '/templates/executiveslate.html' },
+  aurora: { label: 'Aurora Ledger', short: 'Aurora', file: '/templates/aurora.html' },
+  gallery: { label: 'Gallery Column', short: 'Gallery', file: '/templates/gallery.html' },
+  meridian: { label: 'Meridian Editorial', short: 'Meridian', file: '/templates/meridian.html' },
+  monolith: { label: 'Monolith Executive', short: 'Monolith', file: '/templates/monolith.html' },
+  neoclassic: { label: 'Neo Classic', short: 'Neo', file: '/templates/neoclassic.html' },
+  pulse: { label: 'Pulse Grid', short: 'Pulse', file: '/templates/pulse.html' },
+  signal: { label: 'Signal Resume', short: 'Signal', file: '/templates/signal.html' },
+  slatepanels: { label: 'Slate Panels', short: 'Panels', file: '/templates/slatepanels.html' },
 };
 
 const TEMPLATE_BODY_CLASSES = [
@@ -26,7 +34,21 @@ const TEMPLATE_BODY_CLASSES = [
   'tpl-newspaper',
   'tpl-origami',
   'tpl-executiveslate',
+  'tpl-aurora',
+  'tpl-gallery',
+  'tpl-meridian',
+  'tpl-monolith',
+  'tpl-neoclassic',
+  'tpl-pulse',
+  'tpl-signal',
+  'tpl-slatepanels',
 ];
+
+/** Templates with a profile photo area in the CV layout. */
+const TEMPLATE_PHOTO_SLOTS = {
+  classic: { shape: 'circle', uploadLabel: 'Upload photo', changeLabel: 'Change photo' },
+  origami: { shape: 'hexagon', uploadLabel: 'Upload photo', changeLabel: 'Change photo' },
+};
 
 const templateCache = {};
 let cvData = null;
@@ -234,6 +256,7 @@ async function changeTemplate(name) {
   cvData.template = name;
   await mountTemplate(name);
   renderCV();
+  syncModalPhotoPreview();
   try {
     await saveCV();
   } catch (err) {
@@ -291,6 +314,13 @@ function renderCV() {
   else if (activeTemplate === 'newspaper') renderNewspaper(cvData, root);
   else if (activeTemplate === 'origami') renderOrigami(cvData, root);
   else if (activeTemplate === 'executiveslate') renderExecutiveSlate(cvData, root);
+  else if (['aurora', 'meridian', 'monolith'].includes(activeTemplate)) renderModernCv(cvData, root, 'hook');
+  else if (['gallery', 'neoclassic', 'pulse', 'signal', 'slatepanels'].includes(activeTemplate)) {
+    renderModernCv(cvData, root, 'render');
+  }
+
+  applyProfilePhoto(cvData, root);
+  setupCvPhotoUpload(root);
 }
 
 function renderClassic(data, root) {
@@ -1009,6 +1039,238 @@ function buildExecutiveAchievements(data) {
   return lines;
 }
 
+function templateSupportsPhoto(templateId) {
+  return Boolean(TEMPLATE_PHOTO_SLOTS[templateId]);
+}
+
+function applyProfilePhoto(data, root) {
+  const slot = root?.querySelector?.('#cv-photo') || $('cv-photo', root);
+  if (!slot) return;
+
+  const photo = data?.personal?.photo || '';
+  let img = slot.querySelector('img.cv-photo-img');
+
+  if (photo) {
+    if (!img) {
+      img = document.createElement('img');
+      img.className = 'cv-photo-img';
+      img.alt = '';
+      slot.appendChild(img);
+    }
+    img.src = photo;
+    slot.classList.add('has-photo');
+  } else {
+    img?.remove();
+    slot.classList.remove('has-photo');
+  }
+}
+
+function updatePhotoUploadLabel(slot, config) {
+  const label = slot.querySelector('.cv-photo-upload-label');
+  if (!label) return;
+  label.textContent = cvData?.personal?.photo
+    ? config.changeLabel || 'Change photo'
+    : config.uploadLabel || 'Upload photo';
+}
+
+function setupCvPhotoUpload(root) {
+  const config = TEMPLATE_PHOTO_SLOTS[activeTemplate];
+  const slot = root?.querySelector?.('#cv-photo');
+  if (!slot || !config) return;
+
+  slot.classList.add('cv-photo-slot', `cv-photo-shape-${config.shape}`);
+  if (!slot.hasAttribute('tabindex')) slot.setAttribute('tabindex', '0');
+
+  if (slot.dataset.photoBound === '1') {
+    updatePhotoUploadLabel(slot, config);
+    return;
+  }
+  slot.dataset.photoBound = '1';
+
+  const overlay = document.createElement('label');
+  overlay.className = 'cv-photo-upload';
+  overlay.innerHTML = `<span class="cv-photo-upload-label">${escapeHtml(config.uploadLabel)}</span>`;
+
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/jpeg,image/png,image/webp';
+  input.className = 'cv-photo-input';
+  overlay.appendChild(input);
+  slot.appendChild(overlay);
+
+  input.addEventListener('change', () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Please choose an image under 2 MB.');
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = async () => {
+      cvData.personal = { ...cvData.personal, photo: reader.result };
+      applyProfilePhoto(cvData, root);
+      updatePhotoUploadLabel(slot, config);
+      syncModalPhotoPreview();
+      try {
+        await saveCV();
+      } catch {
+        setSaveStatus('Photo updated; save failed — try again', true);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  slot.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      input.click();
+    }
+  });
+
+  const removeBtn = document.createElement('button');
+  removeBtn.type = 'button';
+  removeBtn.className = 'cv-photo-remove';
+  removeBtn.textContent = 'Remove';
+  removeBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cvData.personal = { ...cvData.personal, photo: '' };
+    input.value = '';
+    applyProfilePhoto(cvData, root);
+    updatePhotoUploadLabel(slot, config);
+    syncModalPhotoPreview();
+    try {
+      await saveCV();
+    } catch {
+      setSaveStatus('Photo removed; save failed — try again', true);
+    }
+  });
+  overlay.appendChild(removeBtn);
+
+  updatePhotoUploadLabel(slot, config);
+}
+
+function syncModalPhotoPreview() {
+  const group = $('f-photo-group');
+  const preview = $('f-photo-preview');
+  const removeBtn = $('btn-photo-remove');
+  if (!group || !preview) return;
+
+  const supports = templateSupportsPhoto(activeTemplate);
+  group.hidden = !supports;
+  if (!supports) return;
+
+  const photo = cvData?.personal?.photo || '';
+  if (photo) {
+    preview.innerHTML = `<img src="${photo}" alt="" />`;
+    if (removeBtn) removeBtn.hidden = false;
+  } else {
+    preview.innerHTML = '<span class="modal-photo-empty">No photo yet — hover the photo area on your CV to upload.</span>';
+    if (removeBtn) removeBtn.hidden = true;
+  }
+}
+
+function skillTagNames(data) {
+  const fromBars = (data.skillBars || []).map((s) => s.name).filter(Boolean);
+  if (fromBars.length) return fromBars;
+  return (data.techTags || '').split(',').map((t) => t.trim()).filter(Boolean);
+}
+
+function renderModernCv(data, root, variant) {
+  const hook = variant === 'hook';
+  const p = data.personal || {};
+  setText('cv-name', p.name, root);
+  setText('cv-title', p.title, root);
+  setText('cv-email', p.email, root);
+  setText('cv-phone', p.phone, root);
+  setText('cv-location', p.location, root);
+  setText('cv-linkedin', p.linkedin, root);
+  setText('cv-github', p.github, root);
+  setText('cv-portfolio', p.portfolio, root);
+  setText('cv-summary', data.summary, root);
+
+  setHtml(
+    'cv-skills',
+    skillTagNames(data)
+      .map((s) => `<span class="skill">${escapeHtml(s)}</span>`)
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-experience',
+    (data.experience || [])
+      .map((e) => {
+        const bullets = (e.bullets || '')
+          .split('\n')
+          .filter(Boolean)
+          .map((b) => `<li>${escapeHtml(b.replace(/^[–\-•▸]\s*/, ''))}</li>`)
+          .join('');
+        if (hook) {
+          return `<article class="exp"><div class="exp-top"><strong>${escapeHtml(e.role)}</strong><span>${escapeHtml(e.from)} – ${escapeHtml(e.to)}</span></div><div class="exp-company">${escapeHtml(companyLine(e))}</div><ul>${bullets}</ul></article>`;
+        }
+        return `<article class="exp"><div class="exp-head"><strong>${escapeHtml(e.role)}</strong><span>${escapeHtml(e.from)} – ${escapeHtml(e.to)}</span></div><div class="exp-company">${escapeHtml(companyLine(e))}</div><ul>${bullets}</ul></article>`;
+      })
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-projects',
+    (data.projects || [])
+      .map((proj) => {
+        if (hook) {
+          return `<article class="project"><strong>${escapeHtml(proj.name)}</strong><div class="project-meta">${escapeHtml(proj.tech)}</div><p>${escapeHtml(proj.desc)}</p></article>`;
+        }
+        return `<article class="project"><strong>${escapeHtml(proj.name)}</strong><div class="project-stack">${escapeHtml(proj.tech)}</div><p>${escapeHtml(proj.desc)}</p></article>`;
+      })
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-education',
+    (data.education || [])
+      .map((e) => {
+        if (hook) {
+          return `<div class="info-row"><strong>${escapeHtml(e.degree)}</strong><span>${escapeHtml(e.year)}</span></div><div class="info-sub">${escapeHtml(e.school)}</div>`;
+        }
+        return `<div class="mini-row"><strong>${escapeHtml(e.degree)}</strong><span>${escapeHtml(e.year)}</span></div><div class="mini-sub">${escapeHtml(e.school)}</div>`;
+      })
+      .join(''),
+    root
+  );
+
+  setHtml(
+    'cv-certifications',
+    (data.certifications || [])
+      .map((c) => {
+        if (hook) {
+          return `<div class="info-item"><strong>${escapeHtml(c.name)}</strong><span>${escapeHtml(c.issuer)}</span></div>`;
+        }
+        return `<div class="mini-item"><strong>${escapeHtml(c.name)}</strong><span>${escapeHtml(c.issuer)}</span></div>`;
+      })
+      .join(''),
+    root
+  );
+
+  const langs = (data.languages || '').split('\n').map((l) => l.trim()).filter(Boolean);
+  setHtml(
+    'cv-languages',
+    langs
+      .map((l) => {
+        const parts = l.split('|').map((x) => x.trim());
+        if (hook) {
+          return `<div class="language-row"><strong>${escapeHtml(parts[0] || '')}</strong><span>${escapeHtml(parts[1] || '')}</span></div>`;
+        }
+        return `<div class="lang"><strong>${escapeHtml(parts[0] || '')}</strong><span>${escapeHtml(parts[1] || '')}</span></div>`;
+      })
+      .join(''),
+    root
+  );
+}
+
 function renderExecutiveSlate(data, root) {
   const p = data.personal || {};
   setHtml('cv-name', executiveSlateNameHtml(p.name), root);
@@ -1181,6 +1443,7 @@ function renderEditorial(data, root) {
 function populateFormFields() {
   if (!cvData) return;
   const p = cvData.personal || {};
+  syncModalPhotoPreview();
   setFieldValue('f-name', p.name);
   setFieldValue('f-title', p.title);
   setFieldValue('f-email', p.email);
@@ -1465,6 +1728,7 @@ function switchToTab(id) {
 
 async function applyChanges() {
   cvData.personal = {
+    ...cvData.personal,
     name: $('f-name').value,
     title: $('f-title').value,
     email: $('f-email').value,
@@ -1541,10 +1805,50 @@ async function initAppUser() {
   return true;
 }
 
+function bindModalPhotoControls() {
+  const fileInput = $('f-photo-file');
+  const removeBtn = $('btn-photo-remove');
+
+  fileInput?.addEventListener('change', () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Please choose an image under 2 MB.');
+      fileInput.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = async () => {
+      cvData.personal = { ...cvData.personal, photo: reader.result };
+      renderCV();
+      syncModalPhotoPreview();
+      try {
+        await saveCV();
+      } catch {
+        setSaveStatus('Photo updated; save failed — try again', true);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  removeBtn?.addEventListener('click', async () => {
+    cvData.personal = { ...cvData.personal, photo: '' };
+    if (fileInput) fileInput.value = '';
+    renderCV();
+    syncModalPhotoPreview();
+    try {
+      await saveCV();
+    } catch {
+      setSaveStatus('Photo removed; save failed — try again', true);
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const logoutBtn = $('btn-logout');
   if (logoutBtn) logoutBtn.addEventListener('click', () => logout());
 
+  bindModalPhotoControls();
   initTemplatePicker();
   try {
     const authed = await initAppUser();

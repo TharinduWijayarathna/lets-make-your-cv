@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CV – Slate Panels</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;600&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:38px 18px}
+.toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.toolbar button{padding:10px 18px;border:none;cursor:pointer;font-weight:700;letter-spacing:.05em}
+.cv-page{width:210mm;min-height:297mm;box-shadow:0 18px 55px rgba(0,0,0,.18);overflow:hidden}
+.section-title{text-transform:uppercase;letter-spacing:.22em;font-weight:800;font-size:9px;margin-bottom:12px}
+.summary{font-size:10.5px;line-height:1.8}
+.skill-wrap{display:flex;flex-wrap:wrap;gap:6px}
+.skill{display:inline-block;padding:4px 8px;font-size:8.5px;font-weight:700}
+.exp{margin-bottom:16px}
+.exp:last-child{margin-bottom:0}
+.exp-head{display:flex;justify-content:space-between;gap:12px;font-size:11.5px;align-items:flex-start}
+.exp-head span{font-size:8.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.exp-company{font-size:9.5px;margin-top:2px;margin-bottom:7px;font-weight:700}
+.exp ul{padding-left:16px}
+.exp li{font-size:10px;line-height:1.65;margin-bottom:4px}
+.project strong{display:block;font-size:10.5px}
+.project-stack{font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin:4px 0}
+.project p{font-size:9.5px;line-height:1.6}
+.mini-row{display:flex;justify-content:space-between;gap:10px;font-size:10px}
+.mini-sub,.mini-item span{display:block;font-size:9px;line-height:1.55;margin-top:2px}
+.mini-item{margin-bottom:10px}
+.lang{display:flex;justify-content:space-between;font-size:10px;padding:5px 0}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:100;align-items:center;justify-content:center;padding:18px}
+.modal-overlay.active{display:flex}
+.modal-card{width:760px;max-width:100%;max-height:92vh;overflow:auto;padding:28px}
+.modal-title{font-size:28px;font-weight:800;margin-bottom:14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid}
+.tab{padding:8px 11px;border:1px solid;background:none;cursor:pointer;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+.tab.active{font-weight:900}
+.tp{display:none}.tp.active{display:block}
+label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+input,textarea{display:block;width:100%;margin-top:5px;padding:10px 11px;font:inherit;font-size:12px;border:1px solid}
+textarea{min-height:76px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.editor-card{position:relative;border:1px solid;padding:14px;margin-bottom:12px}
+.remove{position:absolute;right:10px;top:10px;width:26px;height:26px;cursor:pointer}
+.add{width:100%;padding:10px;border:1px dashed;cursor:pointer;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:none}
+.editor-section-title{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.14em;margin:18px 0 10px}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid}
+.modal-actions button{padding:10px 18px;cursor:pointer;font-weight:800}
+@media(max-width:900px){.cv-page{width:100%;min-height:auto}.form-row{grid-template-columns:1fr}}
+@media print{@page{size:A4;margin:0}body{padding:0;background:none}.cv-page{width:210mm;min-height:297mm;box-shadow:none}.no-print{display:none!important}}
+
+
+:root{--paper:#f4f5f7;--ink:#1c2430;--navy:#27374a;--teal:#1d7b78;--line:#d4dbe3;--white:#fff}
+body{font-family:'Sora',sans-serif;background:#dce1e7;color:var(--ink)}.toolbar button:first-child{background:var(--navy);color:white}.toolbar button:last-child{background:white;color:var(--navy);border:1px solid var(--navy)}.cv-page{background:var(--paper);padding:12mm;display:grid;grid-template-rows:auto 1fr;gap:10mm}.header{background:var(--navy);color:white;padding:15mm 14mm;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end}#cv-name{font-family:'Source Serif 4',serif;font-size:42px;line-height:1}#cv-title{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#9fd7d4;margin-top:11px}.contact{font-size:9.5px;line-height:1.9;text-align:right;color:#e3ebf4}.body{display:grid;grid-template-columns:1fr 62mm;gap:10mm}.panel{background:var(--white);border:1px solid var(--line);padding:12px}.section{margin-bottom:16px}.section-title{color:var(--teal)}.exp{padding:12px;background:white;border:1px solid var(--line)}.exp-head span,.project-stack{color:var(--teal)}.exp-company,.mini-sub,.mini-item span{color:#5d6979}.projects{display:grid;grid-template-columns:1fr 1fr;gap:10px}.project{border:1px solid var(--line);padding:11px;background:white}.skill{border:1px solid var(--line);background:#f0f6f6;color:var(--teal)}.modal-card{background:var(--paper);color:var(--ink)}.tabs,.modal-actions{border-color:var(--line)}.tab,input,textarea,.editor-card,.remove,.add{border-color:var(--line)}.tab.active,.modal-actions .primary{background:var(--navy);color:white;border-color:var(--navy)}
+
+</style></head><body>
+
+<div class="toolbar no-print"><button onclick="openModal()">Edit CV</button><button onclick="window.print()">Print / PDF</button></div><div class="cv-page"><header class="header"><div><h1 id="cv-name">Amelia Rhodes</h1><div id="cv-title">Senior Digital Product Specialist</div></div><div class="contact"><div id="cv-email">amelia.rhodes@email.com</div><div id="cv-phone">+1 415 555 0198</div><div id="cv-location">San Francisco, CA</div><div id="cv-linkedin">linkedin.com/in/ameliarhodes</div></div></header><div class="body"><main><section class="panel section"><div class="section-title">Professional Summary</div><p class="summary" id="cv-summary">Senior digital product specialist with experience delivering thoughtful software products, coordinating teams, and turning business priorities into clear execution plans. Combines product judgment with technical fluency and a strong focus on usability, clarity, and measurable outcomes.</p></section><section class="section"><div class="section-title">Experience</div><div data-render="experience"><article class="exp"><div class="exp-head"><strong>Senior Product Engineer</strong><span>2022 – Present</span></div><div class="exp-company">Aster Labs · London</div><ul><li>Led cross-functional delivery of customer-facing product features used by enterprise accounts.</li></ul></article></div></section><section class="section"><div class="section-title">Projects</div><div class="projects" data-render="projects"><article class="project"><strong>Client Intelligence Portal</strong><div class="project-stack">Analytics · SaaS · Workflow</div><p>Unified reporting and account visibility interface for commercial and operations teams.</p></article></div></section></main><aside><div class="panel section"><div class="section-title">Core Skills</div><div class="skill-wrap" data-render="skills"><span class="skill">Product Strategy</span><span class="skill">Leadership</span><span class="skill">Delivery Planning</span></div></div><div class="panel section"><div class="section-title">Education</div><div data-render="education"><div class="mini-row"><strong>BSc in Computer Science</strong><span>2015 – 2019</span></div><div class="mini-sub">University of Example</div></div></div><div class="panel section"><div class="section-title">Certifications</div><div data-render="certifications"><div class="mini-item"><strong>Cloud Architecture Certificate</strong><span>Professional Academy · 2024</span></div></div></div><div class="panel section"><div class="section-title">Languages</div><div data-render="languages"><div class="lang"><strong>English</strong><span>Fluent</span></div></div></div></aside></div></div>
+
+
+<div class="modal-overlay no-print" id="modal">
+  <div class="modal-card">
+    <div class="modal-title">Edit CV Template</div>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('personal',this)">Personal</button>
+      <button class="tab" onclick="showTab('summary',this)">Summary</button>
+      <button class="tab" onclick="showTab('experience',this)">Experience</button>
+      <button class="tab" onclick="showTab('projects',this)">Projects</button>
+      <button class="tab" onclick="showTab('extras',this)">Extras</button>
+    </div>
+
+    <div class="tp active" id="tab-personal">
+      <div class="form-row">
+        <label>Name<input id="in-name" value="Amelia Rhodes"></label>
+        <label>Title<input id="in-title" value="Senior Digital Product Specialist"></label>
+      </div>
+      <div class="form-row">
+        <label>Email<input id="in-email" value="amelia.rhodes@email.com"></label>
+        <label>Phone<input id="in-phone" value="+1 415 555 0198"></label>
+      </div>
+      <div class="form-row">
+        <label>Location<input id="in-location" value="San Francisco, CA"></label>
+        <label>LinkedIn<input id="in-linkedin" value="linkedin.com/in/ameliarhodes"></label>
+      </div>
+    </div>
+
+    <div class="tp" id="tab-summary">
+      <label>Professional Summary<textarea id="in-summary">Senior digital product specialist with experience delivering thoughtful software products, coordinating teams, and turning business priorities into clear execution plans. Combines product judgment with technical fluency and a strong focus on usability, clarity, and measurable outcomes.</textarea></label>
+      <label>Skills, comma separated<textarea id="skills-editor"></textarea></label>
+    </div>
+
+    <div class="tp" id="tab-experience">
+      <div id="experience-editor"></div>
+      <button class="add" onclick="addExperience()">Add Experience</button>
+    </div>
+
+    <div class="tp" id="tab-projects">
+      <div id="projects-editor"></div>
+      <button class="add" onclick="addProject()">Add Project</button>
+    </div>
+
+    <div class="tp" id="tab-extras">
+      <div class="editor-section-title">Education</div>
+      <div id="education-editor"></div>
+      <button class="add" onclick="addEducation()">Add Education</button>
+      <div class="editor-section-title">Certifications</div>
+      <div id="certs-editor"></div>
+      <button class="add" onclick="addCert()">Add Certification</button>
+      <div class="editor-section-title">Languages</div>
+      <div id="languages-editor"></div>
+      <button class="add" onclick="addLanguage()">Add Language</button>
+    </div>
+
+    <div class="modal-actions">
+      <button onclick="closeModal()">Cancel</button>
+      <button class="primary" onclick="applyChanges()">Apply Changes</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const CV = {
+  skills: ["Product Strategy", "Team Leadership", "System Design", "Stakeholder Communication", "Data Analysis", "Delivery Planning"],
+  experience: [
+    {
+      role: "Senior Product Engineer",
+      company: "Aster Labs · London",
+      date: "2022 – Present",
+      points: [
+        "Led cross-functional delivery of customer-facing product features used by enterprise accounts.",
+        "Improved release confidence through stronger review processes, reusable components, and clearer product specifications.",
+        "Partnered with stakeholders to prioritize high-impact initiatives and reduce delivery risk."
+      ]
+    },
+    {
+      role: "Software Engineer",
+      company: "Northline Digital · Remote",
+      date: "2019 – 2022",
+      points: [
+        "Built performant web applications and internal tools across product, operations, and reporting workflows.",
+        "Designed maintainable backend services and contributed to architecture decisions for scaling systems."
+      ]
+    }
+  ],
+  projects: [
+    {
+      name: "Client Intelligence Portal",
+      stack: "Analytics · SaaS · Workflow",
+      desc: "Unified reporting and account visibility interface for commercial and operations teams."
+    },
+    {
+      name: "Operations Automation Suite",
+      stack: "Automation · APIs · Dashboards",
+      desc: "Reduced repetitive manual work by consolidating multi-step internal processes into one workflow."
+    }
+  ],
+  education: [
+    { degree: "BSc in Computer Science", school: "University of Example", year: "2015 – 2019" }
+  ],
+  certifications: [
+    { name: "Cloud Architecture Certificate", issuer: "Professional Academy · 2024" },
+    { name: "Agile Product Leadership", issuer: "Industry Institute · 2023" }
+  ],
+  languages: [
+    { name: "English", level: "Fluent" },
+    { name: "Sinhala", level: "Native" }
+  ]
+};
+
+function esc(v){
+  return String(v ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function openModal(){
+  document.getElementById("modal").classList.add("active");
+  renderEditors();
+}
+function closeModal(){ document.getElementById("modal").classList.remove("active"); }
+function showTab(id, btn){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tp").forEach(t=>t.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("tab-"+id).classList.add("active");
+}
+function renderEditors(){
+  document.getElementById("skills-editor").value = CV.skills.join(", ");
+  document.getElementById("experience-editor").innerHTML = CV.experience.map((e,i)=>`
+    <div class="editor-card">
+      <button class="remove" onclick="removeExperience(${i})">×</button>
+      <div class="form-row">
+        <label>Role<input value="${esc(e.role)}" onchange="CV.experience[${i}].role=this.value"></label>
+        <label>Date<input value="${esc(e.date)}" onchange="CV.experience[${i}].date=this.value"></label>
+      </div>
+      <label>Company<input value="${esc(e.company)}" onchange="CV.experience[${i}].company=this.value"></label>
+      <label>Bullets, one per line<textarea onchange="CV.experience[${i}].points=this.value.split('\\n').map(v=>v.trim()).filter(Boolean)">${esc(e.points.join("\n"))}</textarea></label>
+    </div>
+  `).join("");
+  document.getElementById("projects-editor").innerHTML = CV.projects.map((p,i)=>`
+    <div class="editor-card">
+      <button class="remove" onclick="removeProject(${i})">×</button>
+      <label>Name<input value="${esc(p.name)}" onchange="CV.projects[${i}].name=this.value"></label>
+      <label>Stack / Tags<input value="${esc(p.stack)}" onchange="CV.projects[${i}].stack=this.value"></label>
+      <label>Description<textarea onchange="CV.projects[${i}].desc=this.value">${esc(p.desc)}</textarea></label>
+    </div>
+  `).join("");
+  document.getElementById("education-editor").innerHTML = CV.education.map((e,i)=>`
+    <div class="editor-card">
+      <button class="remove" onclick="removeEducation(${i})">×</button>
+      <label>Degree<input value="${esc(e.degree)}" onchange="CV.education[${i}].degree=this.value"></label>
+      <div class="form-row">
+        <label>School<input value="${esc(e.school)}" onchange="CV.education[${i}].school=this.value"></label>
+        <label>Year<input value="${esc(e.year)}" onchange="CV.education[${i}].year=this.value"></label>
+      </div>
+    </div>
+  `).join("");
+  document.getElementById("certs-editor").innerHTML = CV.certifications.map((c,i)=>`
+    <div class="editor-card">
+      <button class="remove" onclick="removeCert(${i})">×</button>
+      <label>Certification<input value="${esc(c.name)}" onchange="CV.certifications[${i}].name=this.value"></label>
+      <label>Issuer / Year<input value="${esc(c.issuer)}" onchange="CV.certifications[${i}].issuer=this.value"></label>
+    </div>
+  `).join("");
+  document.getElementById("languages-editor").innerHTML = CV.languages.map((l,i)=>`
+    <div class="editor-card">
+      <button class="remove" onclick="removeLanguage(${i})">×</button>
+      <div class="form-row">
+        <label>Language<input value="${esc(l.name)}" onchange="CV.languages[${i}].name=this.value"></label>
+        <label>Level<input value="${esc(l.level)}" onchange="CV.languages[${i}].level=this.value"></label>
+      </div>
+    </div>
+  `).join("");
+}
+function addExperience(){ CV.experience.push({role:"Role",company:"Company · Location",date:"Year – Year",points:["Key achievement"]}); renderEditors(); }
+function removeExperience(i){ CV.experience.splice(i,1); renderEditors(); }
+function addProject(){ CV.projects.push({name:"Project Name",stack:"Tags",desc:"Project description."}); renderEditors(); }
+function removeProject(i){ CV.projects.splice(i,1); renderEditors(); }
+function addEducation(){ CV.education.push({degree:"Degree",school:"Institution",year:"Year"}); renderEditors(); }
+function removeEducation(i){ CV.education.splice(i,1); renderEditors(); }
+function addCert(){ CV.certifications.push({name:"Certification",issuer:"Issuer · Year"}); renderEditors(); }
+function removeCert(i){ CV.certifications.splice(i,1); renderEditors(); }
+function addLanguage(){ CV.languages.push({name:"Language",level:"Level"}); renderEditors(); }
+function removeLanguage(i){ CV.languages.splice(i,1); renderEditors(); }
+function applyChanges(){
+  document.getElementById("cv-name").textContent = document.getElementById("in-name").value;
+  document.getElementById("cv-title").textContent = document.getElementById("in-title").value;
+  document.getElementById("cv-email").textContent = document.getElementById("in-email").value;
+  document.getElementById("cv-phone").textContent = document.getElementById("in-phone").value;
+  document.getElementById("cv-location").textContent = document.getElementById("in-location").value;
+  document.getElementById("cv-linkedin").textContent = document.getElementById("in-linkedin").value;
+  document.getElementById("cv-summary").textContent = document.getElementById("in-summary").value;
+  CV.skills = document.getElementById("skills-editor").value.split(",").map(v=>v.trim()).filter(Boolean);
+
+  document.querySelectorAll("[data-render='skills']").forEach(el=>{
+    el.innerHTML = CV.skills.map(s=>`<span class="skill">${esc(s)}</span>`).join("");
+  });
+  document.querySelectorAll("[data-render='experience']").forEach(el=>{
+    el.innerHTML = CV.experience.map(e=>`
+      <article class="exp">
+        <div class="exp-head"><strong>${esc(e.role)}</strong><span>${esc(e.date)}</span></div>
+        <div class="exp-company">${esc(e.company)}</div>
+        <ul>${e.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
+      </article>
+    `).join("");
+  });
+  document.querySelectorAll("[data-render='projects']").forEach(el=>{
+    el.innerHTML = CV.projects.map(p=>`
+      <article class="project">
+        <strong>${esc(p.name)}</strong>
+        <div class="project-stack">${esc(p.stack)}</div>
+        <p>${esc(p.desc)}</p>
+      </article>
+    `).join("");
+  });
+  document.querySelectorAll("[data-render='education']").forEach(el=>{
+    el.innerHTML = CV.education.map(e=>`
+      <div class="mini-row"><strong>${esc(e.degree)}</strong><span>${esc(e.year)}</span></div>
+      <div class="mini-sub">${esc(e.school)}</div>
+    `).join("");
+  });
+  document.querySelectorAll("[data-render='certifications']").forEach(el=>{
+    el.innerHTML = CV.certifications.map(c=>`
+      <div class="mini-item"><strong>${esc(c.name)}</strong><span>${esc(c.issuer)}</span></div>
+    `).join("");
+  });
+  document.querySelectorAll("[data-render='languages']").forEach(el=>{
+    el.innerHTML = CV.languages.map(l=>`
+      <div class="lang"><strong>${esc(l.name)}</strong><span>${esc(l.level)}</span></div>
+    `).join("");
+  });
+  closeModal();
+}
+</script>
+
+</body></html>

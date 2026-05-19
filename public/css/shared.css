@@ -511,26 +511,60 @@ body.tpl-executiveslate { background: #d9d4cb; font-family: 'Manrope', sans-seri
   border: 1px solid #d8d1c6;
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .picker-thumb.executiveslate::before {
   content: '';
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
-  width: 55%;
-  height: 45%;
-  background: linear-gradient(135deg, rgba(138, 90, 43, 0.22), transparent 65%);
+  height: 38%;
+  background: linear-gradient(180deg, rgba(138, 90, 43, 0.14) 0%, rgba(138, 90, 43, 0.03) 100%);
+  pointer-events: none;
 }
 
 .picker-thumb.executiveslate::after {
   content: '';
-  display: block;
-  margin: 10px 8px;
+  position: absolute;
+  left: 8px;
+  bottom: 10px;
+  width: 38%;
+  max-width: calc(100% - 16px);
   height: 3px;
-  width: 42%;
   background: #8a5a2b;
+  pointer-events: none;
 }
+
+.picker-thumb.aurora { background: linear-gradient(135deg, #13253f 40%, #f7f8fb 40%); }
+.picker-thumb.gallery { background: #f6f0e7; border: 1px solid #dbc9ba; }
+.picker-thumb.gallery::before { content: ''; display: block; height: 28%; background: #b46136; opacity: 0.35; }
+.picker-thumb.meridian { background: #fbf7f0; border-bottom: 3px solid #b0602d; }
+.picker-thumb.monolith { background: #f6f4ef; border-left: 4px solid #927048; }
+.picker-thumb.neoclassic { background: #fff; border: 1px solid #ddd; }
+.picker-thumb.neoclassic::after { content: ''; display: block; margin: 8px; height: 3px; background: #c8a96e; width: 35%; }
+.picker-thumb.pulse { background: linear-gradient(90deg, #0f1115 38%, #f7f7f5 38%); }
+.picker-thumb.signal { background: #fff; border-top: 4px solid #c0392b; }
+.picker-thumb.slatepanels { background: linear-gradient(180deg, #1a2f4d 32%, #f7f8fb 32%); }
+
+body.tpl-aurora { background: #dfe6f0; font-family: 'Plus Jakarta Sans', sans-serif; }
+body.tpl-gallery { background: #d7c9bb; font-family: 'DM Sans', sans-serif; }
+body.tpl-meridian { background: #e0d3c3; font-family: 'Work Sans', sans-serif; }
+body.tpl-monolith { background: #d9d4cb; font-family: 'Archivo', sans-serif; }
+body.tpl-neoclassic { background: #ececec; font-family: 'Inter', sans-serif; }
+body.tpl-pulse { background: #20242c; font-family: 'IBM Plex Sans', sans-serif; }
+body.tpl-signal { background: #e3ddd4; font-family: 'Urbanist', sans-serif; }
+body.tpl-slatepanels { background: #dce1e7; font-family: 'Sora', sans-serif; }
+
+body.tpl-aurora .app-sidebar .btn-edit { background: #2f6fed; color: #fff; }
+body.tpl-gallery .app-sidebar .btn-edit { background: #b46136; color: #fff; }
+body.tpl-meridian .app-sidebar .btn-edit { background: #314c47; color: #fff; }
+body.tpl-monolith .app-sidebar .btn-edit { background: #171717; color: #fff; }
+body.tpl-neoclassic .app-sidebar .btn-edit { background: #1a1a1a; color: #fff; }
+body.tpl-pulse .app-sidebar .btn-edit { background: #2f6bff; color: #fff; }
+body.tpl-signal .app-sidebar .btn-edit { background: #c0392b; color: #fff; }
+body.tpl-slatepanels .app-sidebar .btn-edit { background: #1a2f4d; color: #fff; }
 
 .sidebar-actions {
   gap: 10px;
@@ -1260,8 +1294,168 @@ body.tpl-origami .app-sidebar .btn-generate { background: #e96d5b; color: #fff; 
   cursor: pointer;
 }
 
+/* Profile photo upload (Classic circle, Origami hexagon, etc.) */
+#cv-mount .cv-photo-slot {
+  position: relative;
+  cursor: pointer;
+}
+
+#cv-mount .cv-photo-slot .cv-photo-img {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#cv-mount .cv-photo-slot.has-photo .cv-photo-img {
+  display: block;
+}
+
+#cv-mount .cv-photo-slot.has-photo .photo-placeholder {
+  display: none;
+}
+
+#cv-mount .cv-photo-shape-circle .cv-photo-img,
+#cv-mount .cv-photo-shape-circle.has-photo {
+  border-radius: 50%;
+}
+
+#cv-mount .cv-photo-shape-hexagon .cv-photo-img {
+  clip-path: polygon(50% 0, 100% 28%, 84% 82%, 50% 100%, 16% 82%, 0 28%);
+}
+
+#cv-mount .cv-photo-upload {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  text-align: center;
+  background: rgba(12, 18, 28, 0.62);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  border: none;
+  margin: 0;
+}
+
+#cv-mount .cv-photo-slot:hover .cv-photo-upload,
+#cv-mount .cv-photo-slot:focus-within .cv-photo-upload {
+  opacity: 1;
+}
+
+#cv-mount .cv-photo-upload-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+#cv-mount .cv-photo-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#cv-mount .cv-photo-remove {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 3px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+#cv-mount .cv-photo-remove:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+#cv-mount .cv-photo-slot.has-photo .cv-photo-remove {
+  display: inline-block;
+}
+
+#cv-mount .cv-photo-slot:not(.has-photo) .cv-photo-remove {
+  display: none;
+}
+
+.photo-field-group .field-hint {
+  font-size: 11px;
+  color: #777;
+  margin: -4px 0 10px;
+  line-height: 1.45;
+}
+
+.modal-photo-preview {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f0eeea;
+  border: 1px solid #d4cfc7;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-photo-empty {
+  font-size: 10px;
+  color: #999;
+  text-align: center;
+  padding: 8px;
+  line-height: 1.35;
+}
+
+.modal-photo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-photo-upload {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border: 1px solid #c8b99a;
+  border-radius: 4px;
+  background: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.btn-photo-upload:hover {
+  background: #faf8f5;
+}
+
 #cv-mount .cv-page.pdf-export {
   box-shadow: none !important;
+}
+
+#cv-mount .cv-page.pdf-export .cv-photo-upload {
+  display: none !important;
 }
 
 @media print {
@@ -1271,5 +1465,8 @@ body.tpl-origami .app-sidebar .btn-generate { background: #e96d5b; color: #fff; 
     box-shadow: none !important;
     width: 210mm;
     min-height: 297mm;
+  }
+  #cv-mount .cv-photo-upload {
+    display: none !important;
   }
 }

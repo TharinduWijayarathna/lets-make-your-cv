@@ -81,5 +81,13 @@ describe('database layer', () => {
     assert.ok(VALID_TEMPLATES.includes('newspaper'));
     assert.ok(VALID_TEMPLATES.includes('origami'));
     assert.ok(VALID_TEMPLATES.includes('executiveslate'));
+    assert.ok(VALID_TEMPLATES.includes('aurora'));
+    assert.ok(VALID_TEMPLATES.includes('gallery'));
+    assert.ok(VALID_TEMPLATES.includes('meridian'));
+    assert.ok(VALID_TEMPLATES.includes('monolith'));
+    assert.ok(VALID_TEMPLATES.includes('neoclassic'));
+    assert.ok(VALID_TEMPLATES.includes('pulse'));
+    assert.ok(VALID_TEMPLATES.includes('signal'));
+    assert.ok(VALID_TEMPLATES.includes('slatepanels'));
   });
 });

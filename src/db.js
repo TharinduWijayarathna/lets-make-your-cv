@@ -19,6 +19,14 @@ const VALID_TEMPLATES = [
   'newspaper',
   'origami',
   'executiveslate',
+  'aurora',
+  'gallery',
+  'meridian',
+  'monolith',
+  'neoclassic',
+  'pulse',
+  'signal',
+  'slatepanels',
 ];
 
 const EMPTY_CV = {
@@ -32,6 +40,7 @@ const EMPTY_CV = {
     linkedin: '',
     github: '',
     portfolio: '',
+    photo: '',
   },
   summary: '',
   techTags: '',

@@ -1,4 +1,35 @@
 /**
+ * html2canvas clones only .cv-page, but template CSS is scoped to #cv-mount.
+ * Restore that ancestor (and template class) on the clone so rules apply in the PDF.
+ */
+function preparePdfClone(clonedDoc) {
+  const page =
+    clonedDoc.querySelector('#cv-mount .cv-page') || clonedDoc.querySelector('.cv-page');
+  if (!page) return;
+
+  let mount = clonedDoc.getElementById('cv-mount');
+  if (!mount) {
+    mount = clonedDoc.createElement('div');
+    mount.id = 'cv-mount';
+    const parent = page.parentNode;
+    if (parent) {
+      parent.insertBefore(mount, page);
+      mount.appendChild(page);
+    }
+  }
+
+  const tplClass = [...document.body.classList].find((c) => c.startsWith('tpl-'));
+  if (tplClass) {
+    clonedDoc.body.classList.add(tplClass);
+    mount.classList.add(tplClass);
+  }
+
+  clonedDoc.querySelectorAll('.no-print, .app-sidebar, .site-shell, .ad-rail').forEach((el) => {
+    el.style.setProperty('display', 'none', 'important');
+  });
+}
+
+/**
  * Export #cv-mount .cv-page to a PDF sized for A4 (210 × 297 mm).
  */
 async function downloadCvPdf() {
@@ -48,6 +79,7 @@ async function downloadCvPdf() {
           scrollY: -scrollY,
           width: page.scrollWidth,
           height: page.scrollHeight,
+          onclone: preparePdfClone,
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         pagebreak: { mode: ['css', 'legacy'] },

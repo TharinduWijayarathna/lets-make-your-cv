@@ -213,6 +213,14 @@ const outputs = {
   newspaper: buildTemplateCss(extractStyle(readSource('cv_template_newspaper.html')), 'tpl-newspaper'),
   origami: buildTemplateCss(extractStyle(readSource('cv_template_origami.html')), 'tpl-origami'),
   executiveslate: buildTemplateCss(extractStyle(readSource('cv_template_executiveslate.html')), 'tpl-executiveslate'),
+  aurora: buildTemplateCss(extractStyle(readSource('cv_template_aurora.html')), 'tpl-aurora'),
+  gallery: buildTemplateCss(extractStyle(readSource('cv_template_gallery.html')), 'tpl-gallery'),
+  meridian: buildTemplateCss(extractStyle(readSource('cv_template_meridian.html')), 'tpl-meridian'),
+  monolith: buildTemplateCss(extractStyle(readSource('cv_template_monolith.html')), 'tpl-monolith'),
+  neoclassic: buildTemplateCss(extractStyle(readSource('cv_template_neoclassic.html')), 'tpl-neoclassic'),
+  pulse: buildTemplateCss(extractStyle(readSource('cv_template_pulse.html')), 'tpl-pulse'),
+  signal: buildTemplateCss(extractStyle(readSource('cv_template_signal.html')), 'tpl-signal'),
+  slatepanels: buildTemplateCss(extractStyle(readSource('cv_template_slatepanels.html')), 'tpl-slatepanels'),
 };
 
 for (const [name, css] of Object.entries(outputs)) {
