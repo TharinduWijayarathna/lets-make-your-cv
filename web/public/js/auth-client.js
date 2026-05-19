@@ -19,7 +19,7 @@ async function apiFetch(url, options = {}) {
     const next = encodeURIComponent(
       `${location.pathname}${location.search}${location.hash}`
     );
-    location.href = `/login.html?next=${next}`;
+    location.href = `/login?next=${next}`;
     throw new Error('Unauthorized');
   }
   return res;
@@ -49,20 +49,20 @@ async function initLandingNav() {
     if (user) {
       nav.innerHTML = `
         <span class="nav-user">Hi, <strong>${escapeAuthHtml(user.name || user.email)}</strong></span>
-        <a href="/app.html" class="btn btn-primary">My CV</a>
+        <a href="/app" class="btn btn-primary">My CV</a>
         <button type="button" class="btn btn-ghost" id="nav-logout">Sign out</button>
       `;
       document.getElementById('nav-logout')?.addEventListener('click', logout);
     } else {
       nav.innerHTML = `
-        <a href="/login.html">Sign in</a>
-        <a href="/register.html" class="btn btn-primary">Get started free</a>
+        <a href="/login">Sign in</a>
+        <a href="/register" class="btn btn-primary">Get started free</a>
       `;
     }
   } catch {
     nav.innerHTML = `
-      <a href="/login.html">Sign in</a>
-      <a href="/register.html" class="btn btn-primary">Get started free</a>
+      <a href="/login">Sign in</a>
+      <a href="/register" class="btn btn-primary">Get started free</a>
     `;
   }
 }

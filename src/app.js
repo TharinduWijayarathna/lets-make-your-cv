@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const session = require('express-session');
 const {
@@ -270,7 +271,37 @@ function createApp(options = {}) {
   });
 
   if (options.serveStatic !== false) {
-    app.use(express.static(path.join(__dirname, '..', 'public')));
+    const rootDir = path.join(__dirname, '..');
+    const astroDist = path.join(rootDir, 'dist', 'web');
+
+    const redirectWithQuery = (target) => (req, res) => {
+      const q = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+      res.redirect(301, `${target}${q}`);
+    };
+
+    app.get('/index.html', redirectWithQuery('/'));
+    app.get('/login.html', redirectWithQuery('/login'));
+    app.get('/register.html', redirectWithQuery('/register'));
+    app.get('/app.html', redirectWithQuery('/app'));
+
+    if (fs.existsSync(astroDist)) {
+      const sendPage = (file) => (req, res, next) => {
+        const filePath = path.join(astroDist, file);
+        if (!fs.existsSync(filePath)) return next();
+        res.sendFile(filePath, (err) => (err ? next() : undefined));
+      };
+
+      app.get('/', sendPage('index.html'));
+      app.get('/login', sendPage('login/index.html'));
+      app.get('/register', sendPage('register/index.html'));
+      app.get('/app', sendPage('app/index.html'));
+      app.get('/admin', sendPage('admin/index.html'));
+      app.get('/login/', (_req, res) => res.redirect(301, '/login'));
+      app.get('/register/', (_req, res) => res.redirect(301, '/register'));
+      app.get('/app/', (_req, res) => res.redirect(301, '/app'));
+      app.get('/admin/', (_req, res) => res.redirect(301, '/admin'));
+      app.use(express.static(astroDist));
+    }
   }
 
   return app;

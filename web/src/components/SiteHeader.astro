@@ -1,0 +1,16 @@
+---
+interface Props {
+  registerNext?: string;
+}
+
+const { registerNext = '/app' } = Astro.props;
+const registerHref = `/register?next=${encodeURIComponent(registerNext)}`;
+---
+
+<header class="landing-header">
+  <a href="/" class="landing-logo">Let's Make Your CV</a>
+  <nav class="landing-nav" id="landing-nav-auth" aria-label="Account">
+    <a href="/login">Sign in</a>
+    <a href={registerHref} class="btn btn-primary">Get started free</a>
+  </nav>
+</header>

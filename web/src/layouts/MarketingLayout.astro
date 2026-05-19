@@ -1,0 +1,46 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import AdShell from '../components/AdShell.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  withAds?: boolean;
+  registerNext?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  withAds = true,
+  registerNext = '/app',
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  styles={withAds ? ['/css/ads.css'] : []}
+  bodyClass={withAds ? 'with-side-ads' : ''}
+>
+  <SiteHeader registerNext={registerNext} />
+  <AdShell withAds={withAds}>
+    <main>
+      <slot />
+    </main>
+  </AdShell>
+  <SiteFooter />
+  {withAds && (
+    <>
+      <script is:inline src="/js/ads-config.js" />
+      <script is:inline src="/js/ads.js" defer />
+    </>
+  )}
+  <script is:inline src="/js/auth-client.js" />
+  <script is:inline>document.addEventListener('DOMContentLoaded', initLandingNav);</script>
+</BaseLayout>

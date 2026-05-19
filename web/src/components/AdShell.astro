@@ -1,0 +1,41 @@
+---
+interface Props {
+  withAds?: boolean;
+}
+
+const { withAds = false } = Astro.props;
+---
+
+{
+  withAds ? (
+    <div class="site-shell">
+      <aside class="ad-rail ad-rail-left no-print" aria-label="Advertisement">
+        <div class="ad-rail-inner">
+          <span class="ad-label">Advertisement</span>
+          <ins
+            class="adsbygoogle ad-unit"
+            style="display:inline-block;width:160px;height:600px"
+            data-ad-format="vertical"
+          />
+        </div>
+      </aside>
+      <div class="site-main">
+        <slot />
+      </div>
+      <aside class="ad-rail ad-rail-right no-print" aria-label="Advertisement">
+        <div class="ad-rail-inner">
+          <span class="ad-label">Advertisement</span>
+          <ins
+            class="adsbygoogle ad-unit"
+            style="display:inline-block;width:160px;height:600px"
+            data-ad-format="vertical"
+          />
+        </div>
+      </aside>
+    </div>
+  ) : (
+    <div class="site-main">
+      <slot />
+    </div>
+  )
+}

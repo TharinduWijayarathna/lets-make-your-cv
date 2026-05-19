@@ -4,7 +4,7 @@ function getNextUrl() {
   if (next && next.startsWith('/') && !next.startsWith('//')) {
     return next;
   }
-  return '/app.html';
+  return '/app';
 }
 
 async function submitAuthForm(form, endpoint) {

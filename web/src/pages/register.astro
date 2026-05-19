@@ -1,0 +1,48 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+
+const title = "Create account — Let's Make Your CV";
+const description =
+  'Create a free account to build a professional CV online. Save your resume and download as PDF.';
+---
+
+<AuthLayout title={title} description={description} canonicalPath="/register">
+  <div class="auth-card">
+    <h1>Create your free account</h1>
+    <p class="auth-subtitle">
+      Make a professional CV in minutes. Your data is saved securely to your account.
+    </p>
+    <div id="auth-error" class="auth-error" role="alert"></div>
+    <form id="auth-form" class="auth-form" data-endpoint="/api/auth/register" novalidate>
+      <div class="field-group">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="name" autocomplete="name" required />
+      </div>
+      <div class="field-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email" required />
+      </div>
+      <div class="field-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autocomplete="new-password"
+          required
+          minlength="8"
+        />
+        <p style="font-size:0.75rem;color:#888;margin-top:6px">At least 8 characters</p>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary auth-submit"
+        data-label="Create account"
+        data-loading="Creating account…"
+      >
+        Create account
+      </button>
+    </form>
+    <p class="auth-footer">Already have an account? <a href="/login">Sign in</a></p>
+  </div>
+</AuthLayout>

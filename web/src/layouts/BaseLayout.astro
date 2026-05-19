@@ -1,0 +1,64 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  styles?: string[];
+  bodyClass?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  styles = [],
+  bodyClass = '',
+  noindex = false,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('http://localhost:3000');
+const canonical = new URL(canonicalPath, site).href;
+const ogImage = new URL('/favicon.svg', site).href;
+const defaultStyles = ['/css/landing.css'];
+const sheetHrefs = [...new Set([...defaultStyles, ...styles])];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Let's Make Your CV" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    {sheetHrefs.map((href) => <link rel="stylesheet" href={href} />)}
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: "Let's Make Your CV",
+      description,
+      url: site.href,
+      applicationCategory: 'BusinessApplication',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    })} />
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>

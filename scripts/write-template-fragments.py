@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent / "public" / "templates"
+ROOT = Path(__file__).resolve().parent.parent / "web" / "public" / "templates"
 o = chr(60) + "motion"
 c = chr(60) + "/motion" + chr(62)
 # use div not motion

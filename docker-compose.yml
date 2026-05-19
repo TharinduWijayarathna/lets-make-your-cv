@@ -7,8 +7,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 80
-    expose:
-      - "80"
+    ports:
+      - "3000:80"
     volumes:
       - cv-data:/app/data
 

@@ -1,0 +1,24 @@
+---
+import type { TemplatePreview } from '../data/templates';
+
+interface Props {
+  template: TemplatePreview;
+}
+
+const { template } = Astro.props;
+---
+
+<article class="template-card">
+  <div class={`template-thumb ${template.id}`} aria-hidden="true">
+    {template.id === 'classic' && (
+      <>
+        <div class="t-side" />
+        <div class="t-main" />
+      </>
+    )}
+  </div>
+  <div class="template-card-body">
+    <h3>{template.name}</h3>
+    <p>{template.description}</p>
+  </div>
+</article>

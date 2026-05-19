@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Regenerate public/css/{classic,nordic,editorial,brutalist,artdeco,blueprint,circuit,ink}.css from template sources.
+ * Regenerate web/public/css/{classic,nordic,...}.css from template sources.
  * All CV rules are scoped to #cv-mount so they do not override the app sidebar.
  * Run: node scripts/build-template-css.js
  */
@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
-const outDir = path.join(root, 'public', 'css');
+const outDir = path.join(root, 'web', 'public', 'css');
 
 function extractStyle(html) {
   const m = html.match(/<style>([\s\S]*?)<\/style>/);

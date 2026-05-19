@@ -45,7 +45,7 @@ describe('admin & analytics', () => {
       referrer: null,
     });
     recordPageView({
-      path: '/app.html',
+      path: '/app',
       ip: '5.6.7.8',
       userAgent: 'Other',
       referrer: null,
@@ -61,7 +61,7 @@ describe('admin & analytics', () => {
     assert.equal(stats.status, 200);
     assert.ok(stats.body.today.pageViews >= 2);
     assert.ok(stats.body.period.pageViews >= 2);
-    assert.ok(stats.body.topPages.some((p) => p.path === '/app.html'));
+    assert.ok(stats.body.topPages.some((p) => p.path === '/app'));
     assert.ok(stats.body.topPages.length >= 1);
     assert.equal(typeof stats.body.adsense.configured, 'boolean');
   });
@@ -70,7 +70,7 @@ describe('admin & analytics', () => {
     const trackApp = createApp({ serveStatic: false, trackPages: true });
     const a = request.agent(trackApp);
     await a.get('/');
-    await a.get('/app.html');
+    await a.get('/app');
     const stats = getAdminStats(7);
     assert.ok(stats.period.pageViews >= 2);
   });

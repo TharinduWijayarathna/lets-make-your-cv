@@ -1,0 +1,28 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+}
+
+const { title, description, canonicalPath } = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  styles={['/css/auth.css']}
+  bodyClass="auth-page"
+  noindex
+>
+  <SiteHeader />
+  <main class="auth-main">
+    <slot />
+  </main>
+  <script is:inline src="/js/auth-client.js" />
+  <script is:inline src="/js/auth-page.js" />
+</BaseLayout>

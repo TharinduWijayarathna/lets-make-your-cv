@@ -1796,8 +1796,8 @@ if (generateOverlay) {
 async function initAppUser() {
   const user = await fetchCurrentUser();
   if (!user) {
-    const next = encodeURIComponent('/app.html');
-    location.href = `/login.html?next=${next}`;
+    const next = encodeURIComponent('/app');
+    location.href = `/login?next=${next}`;
     return false;
   }
   const label = $('toolbar-user');

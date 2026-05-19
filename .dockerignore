@@ -8,5 +8,5 @@ data
 .DS_Store
 test
 *.md
-cv_template_*.html
-scripts/template-sources
+web/node_modules
+dist

@@ -1,0 +1,41 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+
+const title = "Sign in — Let's Make Your CV";
+const description =
+  'Sign in to your free account to edit, save, and download your CV online.';
+---
+
+<AuthLayout title={title} description={description} canonicalPath="/login">
+  <div class="auth-card">
+    <h1>Welcome back</h1>
+    <p class="auth-subtitle">Sign in to edit and save your CV online — free, anytime.</p>
+    <div id="auth-error" class="auth-error" role="alert"></div>
+    <form id="auth-form" class="auth-form" data-endpoint="/api/auth/login" novalidate>
+      <div class="field-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email" required />
+      </div>
+      <div class="field-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autocomplete="current-password"
+          required
+          minlength="8"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary auth-submit"
+        data-label="Sign in"
+        data-loading="Signing in…"
+      >
+        Sign in
+      </button>
+    </form>
+    <p class="auth-footer">No account? <a href="/register">Create one free</a></p>
+  </div>
+</AuthLayout>
